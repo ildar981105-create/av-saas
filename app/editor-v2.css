@@ -83,6 +83,28 @@
     transform: translateY(-1px);
     box-shadow: 0 0 30px rgba(168,85,247,0.35);
 }
+.ev2-btn-result {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 16px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(135deg, #10b981, #059669);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    text-decoration: none;
+    box-shadow: 0 0 20px rgba(16,185,129,0.2);
+}
+.ev2-btn-result:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 30px rgba(16,185,129,0.35);
+    color: #fff;
+}
 .ev2-topbar-btn {
     width: 32px; height: 32px;
     border-radius: 8px;

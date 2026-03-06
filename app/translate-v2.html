@@ -319,7 +319,14 @@
         display: flex; align-items: center; justify-content: center;
         overflow: hidden; cursor: pointer; transition: all 0.15s;
     }
-    .tv2-tl-segment:hover { filter: brightness(1.2); }
+    .tv2-tl-segment:hover { filter: brightness(1.2); transform: scaleY(1.15); }
+    .tv2-tl-segment.seg-active { filter: brightness(1.4); transform: scaleY(1.25); z-index: 5; }
+    @keyframes segPulse {
+        0% { box-shadow: 0 0 0 0 currentColor; }
+        50% { box-shadow: 0 0 6px 2px currentColor; }
+        100% { box-shadow: 0 0 0 0 currentColor; }
+    }
+    .tv2-tl-segment.seg-active { animation: segPulse 0.5s ease-out; }
     .tv2-tl-seg-label {
         font-size: 0.52rem; font-family: 'JetBrains Mono', monospace;
         white-space: nowrap; opacity: 0.7;
@@ -613,13 +620,17 @@
     /* Step action buttons */
     .chat-step-actions {
         display: flex;
-        gap: 8px;
+        flex-wrap: wrap;
+        gap: 6px;
         margin-top: 8px;
     }
+    .chat-step-actions button {
+        white-space: nowrap;
+    }
     .chat-step-confirm {
-        flex: 1;
-        padding: 8px 16px;
-        font-size: 0.78rem;
+        flex: 1 1 auto;
+        padding: 7px 12px;
+        font-size: 0.72rem;
         font-weight: 600;
         color: #fff;
         background: linear-gradient(135deg, #a855f7, #6366f1);
@@ -628,11 +639,12 @@
         cursor: pointer;
         font-family: inherit;
         transition: all 0.2s;
+        order: 3;
     }
     .chat-step-confirm:hover { transform: translateY(-1px); box-shadow: 0 0 16px rgba(168,85,247,0.3); }
     .chat-step-skip {
-        padding: 8px 14px;
-        font-size: 0.78rem;
+        padding: 7px 10px;
+        font-size: 0.72rem;
         font-weight: 500;
         color: #64748b;
         background: rgba(255,255,255,0.04);
@@ -641,19 +653,76 @@
         cursor: pointer;
         font-family: inherit;
         transition: all 0.2s;
+        order: 1;
     }
     .chat-step-skip:hover { color: #94a3b8; border-color: rgba(255,255,255,0.15); }
 
-    /* Start button */
+    /* "先精调" entry button in step actions */
+    .chat-step-ft-entry {
+        flex: 1 1 auto;
+        padding: 7px 12px;
+        font-size: 0.72rem;
+        font-weight: 500;
+        color: #a78bfa;
+        background: rgba(168,85,247,0.06);
+        border: 1px solid rgba(168,85,247,0.25);
+        border-radius: 8px;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        order: 2;
+    }
+    .chat-step-ft-entry:hover {
+        background: rgba(168,85,247,0.12);
+        border-color: rgba(168,85,247,0.4);
+        transform: translateY(-1px);
+        box-shadow: 0 0 12px rgba(168,85,247,0.2);
+    }
+    .chat-step-ft-entry svg { flex-shrink: 0; }
+
+    /* Start button area */
     .chat-start-wrap {
         padding: 4px 0 8px;
     }
+    .chat-start-actions {
+        display: flex;
+        gap: 8px;
+        align-items: stretch;
+    }
+    .chat-start-ft {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 11px 16px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: #a78bfa;
+        background: rgba(168,85,247,0.06);
+        border: 1px solid rgba(168,85,247,0.25);
+        border-radius: 12px;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.3s;
+        white-space: nowrap;
+    }
+    .chat-start-ft:hover {
+        background: rgba(168,85,247,0.12);
+        border-color: rgba(168,85,247,0.4);
+        transform: translateY(-1px);
+        box-shadow: 0 0 16px rgba(168,85,247,0.2);
+    }
+    .chat-start-ft svg { flex-shrink: 0; }
     .chat-start-btn {
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 8px;
-        width: 100%;
+        flex: 1;
         padding: 11px 20px;
         font-size: 0.88rem;
         font-weight: 700;
@@ -739,6 +808,455 @@
     }
     .tv2-phase-dot.live { background: #22c55e; animation: pulse-step 1.5s infinite; }
     .tv2-phase-dot.processing { background: #a855f7; animation: pulse-step 1.2s infinite; }
+
+    /* ===== Progress Tabs (Persistent Navigation) ===== */
+    .tv2-progress-tabs {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        padding: 8px 12px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        flex-shrink: 0;
+        background: rgba(8,8,14,0.6);
+    }
+    .tv2-tab-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 14px;
+        border-radius: 8px;
+        font-size: 0.74rem;
+        font-weight: 500;
+        color: #334155;
+        background: transparent;
+        border: 1px solid transparent;
+        cursor: default;
+        transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+        position: relative;
+        user-select: none;
+        flex: 1;
+        justify-content: center;
+    }
+    .tv2-tab-item .tab-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 22px; height: 22px;
+        border-radius: 6px;
+        background: rgba(255,255,255,0.03);
+        transition: all 0.3s;
+        flex-shrink: 0;
+    }
+    .tv2-tab-item .tab-status {
+        position: absolute;
+        top: 3px; right: 6px;
+        width: 6px; height: 6px;
+        border-radius: 50%;
+        opacity: 0;
+        transform: scale(0);
+        transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    /* Locked state (default) */
+    .tv2-tab-item.locked {
+        opacity: 0.45;
+    }
+    .tv2-tab-item.locked .tab-icon {
+        background: rgba(255,255,255,0.03);
+    }
+    /* Unlock animation */
+    @keyframes tabUnlock {
+        0% { transform: scale(0.85); opacity: 0.5; }
+        50% { transform: scale(1.08); }
+        100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes tabGlow {
+        0% { box-shadow: 0 0 0 0 rgba(168,85,247,0.4); }
+        70% { box-shadow: 0 0 0 8px rgba(168,85,247,0); }
+        100% { box-shadow: 0 0 0 0 rgba(168,85,247,0); }
+    }
+    @keyframes tabCheckPop {
+        0% { transform: scale(0); opacity: 0; }
+        60% { transform: scale(1.3); }
+        100% { transform: scale(1); opacity: 1; }
+    }
+    /* Unlocked/done state */
+    .tv2-tab-item.unlocked {
+        color: #94a3b8;
+        cursor: pointer;
+        animation: tabUnlock 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;
+    }
+    .tv2-tab-item.unlocked .tab-icon {
+        background: rgba(255,255,255,0.06);
+    }
+    .tv2-tab-item.unlocked .tab-status {
+        opacity: 1;
+        transform: scale(1);
+        background: #22c55e;
+        animation: tabCheckPop 0.4s cubic-bezier(0.34,1.56,0.64,1) 0.2s both;
+    }
+    .tv2-tab-item.unlocked:hover {
+        color: #e2e8f0;
+        background: rgba(255,255,255,0.04);
+        border-color: rgba(255,255,255,0.08);
+    }
+    /* Active tab (currently viewing finetune) */
+    .tv2-tab-item.active {
+        color: #a78bfa;
+        background: rgba(168,85,247,0.08);
+        border-color: rgba(168,85,247,0.25);
+        cursor: pointer;
+        animation: tabGlow 0.6s ease-out;
+    }
+    .tv2-tab-item.active .tab-icon {
+        background: rgba(168,85,247,0.15);
+        color: #a855f7;
+    }
+    .tv2-tab-item.active .tab-status {
+        opacity: 1;
+        transform: scale(1);
+        background: #a855f7;
+        animation: none;
+    }
+    /* Tab color variants for icons */
+    .tv2-tab-item[data-tab="erase"].unlocked .tab-icon,
+    .tv2-tab-item[data-tab="erase"].active .tab-icon { color: #ef4444; }
+    .tv2-tab-item[data-tab="erase"].active { color: #f87171; border-color: rgba(239,68,68,0.25); background: rgba(239,68,68,0.08); }
+    .tv2-tab-item[data-tab="erase"].active .tab-icon { background: rgba(239,68,68,0.15); }
+    .tv2-tab-item[data-tab="erase"].active .tab-status { background: #ef4444; }
+
+    .tv2-tab-item[data-tab="subtitle"].unlocked .tab-icon,
+    .tv2-tab-item[data-tab="subtitle"].active .tab-icon { color: #3b82f6; }
+    .tv2-tab-item[data-tab="subtitle"].active { color: #60a5fa; border-color: rgba(59,130,246,0.25); background: rgba(59,130,246,0.08); }
+    .tv2-tab-item[data-tab="subtitle"].active .tab-icon { background: rgba(59,130,246,0.15); }
+    .tv2-tab-item[data-tab="subtitle"].active .tab-status { background: #3b82f6; }
+
+    .tv2-tab-item[data-tab="voice"].unlocked .tab-icon,
+    .tv2-tab-item[data-tab="voice"].active .tab-icon { color: #a855f7; }
+    .tv2-tab-item[data-tab="voice"].active .tab-icon { background: rgba(168,85,247,0.15); }
+    .tv2-tab-item[data-tab="voice"].active .tab-status { background: #a855f7; }
+
+    /* Separator between tabs */
+    .tv2-tab-separator {
+        width: 16px;
+        height: 1px;
+        background: rgba(255,255,255,0.06);
+        flex-shrink: 0;
+    }
+
+    /* Chat label tab (for returning to chat from finetune) */
+    .tv2-tab-chat-return {
+        display: none;
+        align-items: center;
+        gap: 5px;
+        padding: 5px 10px;
+        border-radius: 6px;
+        font-size: 0.68rem;
+        font-weight: 500;
+        color: #64748b;
+        cursor: pointer;
+        transition: all 0.2s;
+        margin-left: auto;
+        flex-shrink: 0;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.06);
+    }
+    .tv2-tab-chat-return:hover {
+        color: #e2e8f0;
+        background: rgba(255,255,255,0.06);
+        border-color: rgba(255,255,255,0.12);
+    }
+    .tv2-tab-chat-return.visible {
+        display: flex;
+    }
+
+    /* ===== Fine-tune Tabs in Chat Panel ===== */
+    .tv2-finetune-section {
+        display: none;
+        flex-direction: column;
+        flex: 1;
+        min-height: 0;
+        overflow: hidden;
+    }
+    .tv2-finetune-section.active {
+        display: flex;
+    }
+    /* Fine-tune panel content */
+    .tv2-ft-panel {
+        display: none;
+        flex: 1;
+        overflow-y: auto;
+        padding: 14px;
+        min-height: 0;
+        animation: bubbleIn 0.3s ease-out;
+    }
+    .tv2-ft-panel.active { display: block; }
+    .tv2-ft-panel::-webkit-scrollbar { width: 4px; }
+    .tv2-ft-panel::-webkit-scrollbar-track { background: transparent; }
+    .tv2-ft-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
+
+    /* Shared fine-tune styles */
+    .ft-section-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 14px;
+    }
+    .ft-section-icon {
+        width: 28px; height: 28px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    .ft-section-icon--red { background: rgba(239,68,68,0.12); color: #ef4444; }
+    .ft-section-icon--blue { background: rgba(59,130,246,0.12); color: #3b82f6; }
+    .ft-section-icon--purple { background: rgba(168,85,247,0.12); color: #a855f7; }
+    .ft-section-header h3 { font-size: 0.85rem; font-weight: 600; }
+    .ft-section-header p { font-size: 0.68rem; color: #64748b; }
+
+    .ft-config-group { margin-bottom: 14px; }
+    .ft-config-label {
+        display: block;
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 8px;
+    }
+    .ft-config-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+    .ft-config-field label {
+        display: block;
+        font-size: 0.68rem;
+        font-weight: 500;
+        color: #94a3b8;
+        margin-bottom: 4px;
+    }
+    .ft-config-field select {
+        width: 100%;
+        padding: 7px 10px;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.07);
+        border-radius: 8px;
+        color: #e2e8f0;
+        font-size: 0.76rem;
+        outline: none;
+        -webkit-appearance: none;
+        font-family: inherit;
+        transition: border-color 0.2s;
+        background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%2364748b' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        padding-right: 28px;
+    }
+    .ft-config-field select:focus { border-color: rgba(168,85,247,0.4); }
+    .ft-config-field select option { background: #16162a; color: #e2e8f0; }
+
+    /* Erase region card in finetune */
+    .ft-region-card {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        background: rgba(255,255,255,0.025);
+        border: 1px solid rgba(239,68,68,0.2);
+        border-radius: 10px;
+        margin-bottom: 10px;
+    }
+    .ft-region-card .ft-region-icon { color: #ef4444; flex-shrink: 0; display: flex; }
+    .ft-region-card .ft-region-info { flex: 1; min-width: 0; }
+    .ft-region-card .ft-region-title { display: block; font-size: 0.78rem; font-weight: 600; }
+    .ft-region-card .ft-region-meta { display: block; font-size: 0.64rem; color: #64748b; font-family: 'JetBrains Mono', monospace; }
+
+    /* Mode chips */
+    .ft-mode-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 12px;
+    }
+    .ft-mode-row label {
+        font-size: 0.73rem;
+        font-weight: 500;
+        color: #94a3b8;
+        flex-shrink: 0;
+    }
+    .ft-mode-chips { display: flex; gap: 6px; }
+    .ft-mode-chip {
+        padding: 5px 12px;
+        font-size: 0.7rem;
+        font-weight: 500;
+        color: #64748b;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 100px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+    }
+    .ft-mode-chip:hover { color: #e2e8f0; border-color: rgba(168,85,247,0.3); }
+    .ft-mode-chip.active {
+        color: #a78bfa;
+        background: rgba(168,85,247,0.1);
+        border-color: rgba(168,85,247,0.35);
+    }
+
+    /* Subtitle list in finetune */
+    .ft-sub-list {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+    .ft-sub-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 7px 8px;
+        border-radius: 8px;
+        transition: background 0.2s;
+        cursor: pointer;
+    }
+    .ft-sub-item:hover { background: rgba(255,255,255,0.03); }
+    .ft-sub-item.active { background: rgba(59,130,246,0.06); }
+    .ft-sub-time {
+        font-size: 0.64rem;
+        font-family: 'JetBrains Mono', monospace;
+        color: #475569;
+        flex-shrink: 0;
+        margin-top: 2px;
+        min-width: 32px;
+    }
+    .ft-sub-texts { min-width: 0; flex: 1; }
+    .ft-sub-orig { display: block; font-size: 0.74rem; color: #94a3b8; margin-bottom: 1px; line-height: 1.4; }
+    .ft-sub-trans { display: block; font-size: 0.74rem; color: #a78bfa; line-height: 1.4; }
+    .ft-sub-edit-btn {
+        width: 22px; height: 22px;
+        border-radius: 5px;
+        border: none;
+        background: transparent;
+        color: #475569;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+        opacity: 0;
+        transition: all 0.2s;
+    }
+    .ft-sub-item:hover .ft-sub-edit-btn { opacity: 1; }
+    .ft-sub-edit-btn:hover { color: #3b82f6; background: rgba(59,130,246,0.1); }
+
+    /* Voice list in finetune */
+    .ft-voice-list { display: flex; flex-direction: column; gap: 2px; }
+    .ft-voice-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 8px;
+        border-radius: 8px;
+        transition: background 0.2s;
+    }
+    .ft-voice-item:hover { background: rgba(255,255,255,0.03); }
+    .ft-voice-item.active { background: rgba(168,85,247,0.06); }
+    .ft-voice-time {
+        font-size: 0.64rem;
+        font-family: 'JetBrains Mono', monospace;
+        color: #475569;
+        flex-shrink: 0;
+        min-width: 32px;
+    }
+    .ft-voice-text {
+        flex: 1;
+        font-size: 0.74rem;
+        color: #e2e8f0;
+        min-width: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .ft-voice-play {
+        width: 24px; height: 24px;
+        border-radius: 50%;
+        border: 1px solid rgba(255,255,255,0.08);
+        background: rgba(255,255,255,0.03);
+        color: #94a3b8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: all 0.2s;
+    }
+    .ft-voice-play:hover {
+        color: #a855f7;
+        border-color: rgba(168,85,247,0.35);
+        background: rgba(168,85,247,0.1);
+    }
+
+    /* "进入精调" button inside chat step */
+    .chat-step-finetune {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 6px 14px;
+        font-size: 0.74rem;
+        font-weight: 600;
+        color: #a78bfa;
+        background: rgba(168,85,247,0.08);
+        border: 1px solid rgba(168,85,247,0.2);
+        border-radius: 8px;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.2s;
+        margin-top: 6px;
+    }
+    .chat-step-finetune:hover {
+        background: rgba(168,85,247,0.15);
+        border-color: rgba(168,85,247,0.4);
+        transform: translateY(-1px);
+    }
+    .chat-step-finetune.done {
+        color: #22c55e;
+        background: rgba(34,197,94,0.08);
+        border-color: rgba(34,197,94,0.2);
+        pointer-events: none;
+    }
+
+    /* Fine-tune bottom bar */
+    .tv2-ft-bottom {
+        flex-shrink: 0;
+        padding: 10px 12px;
+        border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .tv2-ft-done-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        padding: 10px 16px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: #fff;
+        background: linear-gradient(135deg, #10b981, #059669);
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        box-shadow: 0 0 20px rgba(16,185,129,0.2);
+        transition: all 0.2s;
+        font-family: inherit;
+        text-decoration: none;
+    }
+    .tv2-ft-done-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 0 30px rgba(16,185,129,0.35);
+        color: #fff;
+    }
 
     /* Responsive */
     @media (max-width: 800px) {
@@ -933,6 +1451,39 @@
                         <p>上传视频开始配置</p>
                     </div>
                 </div>
+
+                <!-- Progress Tabs (Persistent Navigation) -->
+                <div class="tv2-progress-tabs" id="progressTabs">
+                    <div class="tv2-tab-item locked" data-tab="erase" id="tabErase">
+                        <div class="tab-icon">
+                            <svg width="13" height="13" viewBox="0 0 20 20" fill="none"><path d="M16 4L8 12L4 16H10L18 8L16 4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M2 18H18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        </div>
+                        <span>擦除</span>
+                        <span class="tab-status"></span>
+                    </div>
+                    <div class="tv2-tab-separator"></div>
+                    <div class="tv2-tab-item locked" data-tab="subtitle" id="tabSubtitle">
+                        <div class="tab-icon">
+                            <svg width="13" height="13" viewBox="0 0 20 20" fill="none"><rect x="3" y="5" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M6 11H14M6 13H11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                        </div>
+                        <span>字幕</span>
+                        <span class="tab-status"></span>
+                    </div>
+                    <div class="tv2-tab-separator"></div>
+                    <div class="tv2-tab-item locked" data-tab="voice" id="tabVoice">
+                        <div class="tab-icon">
+                            <svg width="13" height="13" viewBox="0 0 20 20" fill="none"><path d="M10 3V13M7 7V9M13 5V11M4 9V7M16 8V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        </div>
+                        <span>配音</span>
+                        <span class="tab-status"></span>
+                    </div>
+                    <button class="tv2-tab-chat-return" id="tabChatReturn">
+                        <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        返回对话
+                    </button>
+                </div>
+
+                <!-- Chat area (shown during config/processing) -->
                 <div class="tv2-chat-body" id="chatFlow">
                     <!-- Initial welcome bubble -->
                     <div class="chat-bubble chat-bubble--ai" style="animation-delay:0.1s;">
@@ -941,6 +1492,214 @@
                             FrameX AI
                         </div>
                         你好！请在左侧上传视频文件，我会自动分析并帮你配置译制参数。
+                    </div>
+                </div>
+
+                <!-- Fine-tune section (shown when entering finetune for a single step) -->
+                <div class="tv2-finetune-section" id="finetuneSection">
+
+                    <!-- Erase Panel -->
+                    <div class="tv2-ft-panel" data-ft-panel="erase" id="ftPanelErase">
+                        <div class="ft-section-header">
+                            <div class="ft-section-icon ft-section-icon--red">
+                                <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M16 4L8 12L4 16H10L18 8L16 4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M2 18H18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                            </div>
+                            <div><h3>擦除字幕</h3><p>AI 检测到 1 个字幕区域</p></div>
+                        </div>
+                        <div class="ft-region-card">
+                            <span class="ft-region-icon">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.2" stroke-dasharray="2.5 2"/></svg>
+                            </span>
+                            <div class="ft-region-info">
+                                <span class="ft-region-title">底部字幕</span>
+                                <span class="ft-region-meta">x:8% y:82% w:84% h:12%</span>
+                            </div>
+                        </div>
+                        <div class="ft-mode-row">
+                            <label>擦除模式</label>
+                            <div class="ft-mode-chips">
+                                <button class="ft-mode-chip active">AI 自动</button>
+                                <button class="ft-mode-chip">手动调整</button>
+                            </div>
+                        </div>
+                        <div class="ft-config-group">
+                            <span class="ft-config-label">擦除质量</span>
+                            <div class="ft-config-grid">
+                                <div class="ft-config-field">
+                                    <label>质量</label>
+                                    <select><option>高质量</option><option>标准</option><option>快速</option></select>
+                                </div>
+                                <div class="ft-config-field">
+                                    <label>填充模式</label>
+                                    <select><option>AI 修复</option><option>纯色填充</option><option>模糊</option></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Subtitle Panel -->
+                    <div class="tv2-ft-panel" data-ft-panel="subtitle" id="ftPanelSubtitle">
+                        <div class="ft-section-header">
+                            <div class="ft-section-icon ft-section-icon--blue">
+                                <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><rect x="3" y="5" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M6 11H14M6 13H11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                            </div>
+                            <div><h3>字幕编辑</h3><p>点击字幕可编辑内容</p></div>
+                        </div>
+                        <div class="ft-config-group">
+                            <div class="ft-config-grid">
+                                <div class="ft-config-field">
+                                    <label>字幕语言</label>
+                                    <select><option>英语</option><option>中文</option><option>日语</option><option>韩语</option></select>
+                                </div>
+                                <div class="ft-config-field">
+                                    <label>显示样式</label>
+                                    <select><option>双语对照</option><option>仅译文</option><option>仅原文</option></select>
+                                </div>
+                                <div class="ft-config-field">
+                                    <label>字体大小</label>
+                                    <select><option>中</option><option>小</option><option>大</option></select>
+                                </div>
+                                <div class="ft-config-field">
+                                    <label>位置</label>
+                                    <select><option>底部居中</option><option>顶部居中</option></select>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="ft-config-label">字幕列表</span>
+                        <div class="ft-sub-list">
+                            <div class="ft-sub-item active">
+                                <span class="ft-sub-time">00:03</span>
+                                <div class="ft-sub-texts">
+                                    <span class="ft-sub-orig">大家好，欢迎来到今天的分享</span>
+                                    <span class="ft-sub-trans">Hello everyone, welcome to today's sharing</span>
+                                </div>
+                                <button class="ft-sub-edit-btn"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M10 2L12 4L5 11H3V9L10 2Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg></button>
+                            </div>
+                            <div class="ft-sub-item">
+                                <span class="ft-sub-time">00:09</span>
+                                <div class="ft-sub-texts">
+                                    <span class="ft-sub-orig">今天我们来聊一聊 AI 视频翻译</span>
+                                    <span class="ft-sub-trans">Today let's talk about AI video translation</span>
+                                </div>
+                                <button class="ft-sub-edit-btn"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M10 2L12 4L5 11H3V9L10 2Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg></button>
+                            </div>
+                            <div class="ft-sub-item">
+                                <span class="ft-sub-time">00:16</span>
+                                <div class="ft-sub-texts">
+                                    <span class="ft-sub-orig">这项技术可以自动擦除原有字幕</span>
+                                    <span class="ft-sub-trans">This technology can automatically erase subtitles</span>
+                                </div>
+                                <button class="ft-sub-edit-btn"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M10 2L12 4L5 11H3V9L10 2Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg></button>
+                            </div>
+                            <div class="ft-sub-item">
+                                <span class="ft-sub-time">00:24</span>
+                                <div class="ft-sub-texts">
+                                    <span class="ft-sub-orig">并且重新生成目标语言的配音</span>
+                                    <span class="ft-sub-trans">And regenerate dubbing in the target language</span>
+                                </div>
+                                <button class="ft-sub-edit-btn"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M10 2L12 4L5 11H3V9L10 2Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg></button>
+                            </div>
+                            <div class="ft-sub-item">
+                                <span class="ft-sub-time">00:38</span>
+                                <div class="ft-sub-texts">
+                                    <span class="ft-sub-orig">整个流程完全自动化</span>
+                                    <span class="ft-sub-trans">The entire process is fully automated</span>
+                                </div>
+                                <button class="ft-sub-edit-btn"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M10 2L12 4L5 11H3V9L10 2Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg></button>
+                            </div>
+                            <div class="ft-sub-item">
+                                <span class="ft-sub-time">00:55</span>
+                                <div class="ft-sub-texts">
+                                    <span class="ft-sub-orig">声音克隆让配音听起来非常自然</span>
+                                    <span class="ft-sub-trans">Voice cloning makes dubbing sound very natural</span>
+                                </div>
+                                <button class="ft-sub-edit-btn"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M10 2L12 4L5 11H3V9L10 2Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg></button>
+                            </div>
+                            <div class="ft-sub-item">
+                                <span class="ft-sub-time">01:15</span>
+                                <div class="ft-sub-texts">
+                                    <span class="ft-sub-orig">希望这个功能对大家有帮助</span>
+                                    <span class="ft-sub-trans">Hope this feature is helpful to everyone</span>
+                                </div>
+                                <button class="ft-sub-edit-btn"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M10 2L12 4L5 11H3V9L10 2Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Voice Panel -->
+                    <div class="tv2-ft-panel" data-ft-panel="voice" id="ftPanelVoice">
+                        <div class="ft-section-header">
+                            <div class="ft-section-icon ft-section-icon--purple">
+                                <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 3V13M7 7V9M13 5V11M4 9V7M16 8V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                            </div>
+                            <div><h3>配音调整</h3><p>AI 声音克隆配音</p></div>
+                        </div>
+                        <div class="ft-config-group">
+                            <div class="ft-config-grid">
+                                <div class="ft-config-field">
+                                    <label>声音风格</label>
+                                    <select><option>克隆原声</option><option>自然男声 A</option><option>自然女声 A</option></select>
+                                </div>
+                                <div class="ft-config-field">
+                                    <label>语速</label>
+                                    <select><option>自动匹配</option><option>稍快</option><option>稍慢</option></select>
+                                </div>
+                                <div class="ft-config-field">
+                                    <label>音调偏移</label>
+                                    <select><option>0 (原始)</option><option>+1</option><option>+2</option><option>-1</option></select>
+                                </div>
+                                <div class="ft-config-field">
+                                    <label>背景音保留</label>
+                                    <select><option>保留原声背景</option><option>静音</option><option>降低 50%</option></select>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="ft-config-label">配音片段</span>
+                        <div class="ft-voice-list">
+                            <div class="ft-voice-item active">
+                                <span class="ft-voice-time">00:03</span>
+                                <span class="ft-voice-text">Hello everyone, welcome to today's sharing</span>
+                                <button class="ft-voice-play"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M3 1.5L10 6L3 10.5V1.5Z" fill="currentColor"/></svg></button>
+                            </div>
+                            <div class="ft-voice-item">
+                                <span class="ft-voice-time">00:09</span>
+                                <span class="ft-voice-text">Today let's talk about AI video translation</span>
+                                <button class="ft-voice-play"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M3 1.5L10 6L3 10.5V1.5Z" fill="currentColor"/></svg></button>
+                            </div>
+                            <div class="ft-voice-item">
+                                <span class="ft-voice-time">00:16</span>
+                                <span class="ft-voice-text">This technology can automatically erase subtitles</span>
+                                <button class="ft-voice-play"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M3 1.5L10 6L3 10.5V1.5Z" fill="currentColor"/></svg></button>
+                            </div>
+                            <div class="ft-voice-item">
+                                <span class="ft-voice-time">00:24</span>
+                                <span class="ft-voice-text">And regenerate dubbing in the target language</span>
+                                <button class="ft-voice-play"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M3 1.5L10 6L3 10.5V1.5Z" fill="currentColor"/></svg></button>
+                            </div>
+                            <div class="ft-voice-item">
+                                <span class="ft-voice-time">00:38</span>
+                                <span class="ft-voice-text">The entire process is fully automated</span>
+                                <button class="ft-voice-play"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M3 1.5L10 6L3 10.5V1.5Z" fill="currentColor"/></svg></button>
+                            </div>
+                            <div class="ft-voice-item">
+                                <span class="ft-voice-time">00:55</span>
+                                <span class="ft-voice-text">Voice cloning makes dubbing sound very natural</span>
+                                <button class="ft-voice-play"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M3 1.5L10 6L3 10.5V1.5Z" fill="currentColor"/></svg></button>
+                            </div>
+                            <div class="ft-voice-item">
+                                <span class="ft-voice-time">01:15</span>
+                                <span class="ft-voice-text">Hope this feature is helpful to everyone</span>
+                                <button class="ft-voice-play"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M3 1.5L10 6L3 10.5V1.5Z" fill="currentColor"/></svg></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom: Complete button -->
+                    <div class="tv2-ft-bottom">
+                        <button class="tv2-ft-done-btn" id="ftDoneBtn">
+                            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M5.5 8L7 9.5L10.5 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            完成精调，返回配置
+                        </button>
                     </div>
                 </div>
             </aside>
@@ -973,6 +1732,17 @@
         const fileInput = document.getElementById('videoFileInput');
         const tlPlayhead = document.getElementById('tlPlayhead');
         const tlTracks = document.getElementById('tlTracks');
+
+        /* ===== Progress Tabs Elements ===== */
+        const tabItems = {
+            erase: document.getElementById('tabErase'),
+            subtitle: document.getElementById('tabSubtitle'),
+            voice: document.getElementById('tabVoice')
+        };
+        const tabChatReturn = document.getElementById('tabChatReturn');
+
+        /* Track which tabs are unlocked (persist across navigation) */
+        let unlockedTabs = { erase: false, subtitle: false, voice: false };
 
         /* ===== Canvas ===== */
         function resizeCanvas() {
@@ -1081,6 +1851,21 @@
             features = { erase: false, subtitle: false, voice: false };
             // Hide all tracks
             document.querySelectorAll('.tv2-tl-track').forEach(t => t.classList.remove('track-visible'));
+            // Reset fine-tune section
+            chatFlow.style.display = '';
+            document.getElementById('finetuneSection').classList.remove('active');
+            document.querySelectorAll('.tv2-ft-panel').forEach(p => p.classList.remove('active'));
+            inFinetune = false;
+            currentFinetuneStep = null;
+            pendingAdvanceStep = null;
+            // Reset tabs to locked
+            unlockedTabs = { erase: false, subtitle: false, voice: false };
+            Object.values(tabItems).forEach(tab => {
+                tab.className = 'tv2-tab-item locked';
+            });
+            tabChatReturn.classList.remove('visible');
+            document.querySelector('.tv2-chat-header h3').textContent = 'FrameX AI 助手';
+            document.querySelector('.tv2-chat-header p').textContent = '上传视频开始配置';
             phase = 'config';
             playing = false;
             buildConfigChat();
@@ -1153,7 +1938,7 @@
                             <select><option>高质量</option><option>标准</option><option>快速</option></select>
                         </div>
                     </div>`,
-                    confirmText: '确认擦除设置'
+                    confirmText: '确认擦除'
                 },
                 subtitle: {
                     icon: `<svg width="16" height="16" viewBox="0 0 20 20" fill="none"><rect x="3" y="5" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M6 11H14M6 13H11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>`,
@@ -1191,13 +1976,13 @@
                             <select><option>自动匹配</option><option>稍快</option><option>稍慢</option></select>
                         </div>
                     </div>`,
-                    confirmText: '确认配音设置'
+                    confirmText: '确认配音'
                 }
             };
 
             const cfg = stepConfigs[step];
 
-            // AI bubble with feature card + config
+            // AI bubble with feature card + config + finetune entry
             const bubbleHtml = `
                 <div class="chat-features">
                     <div class="chat-feature-card selected" style="pointer-events:none;">
@@ -1208,6 +1993,10 @@
                 ${cfg.configHtml}
                 <div class="chat-step-actions">
                     <button class="chat-step-skip" data-step="${step}">跳过</button>
+                    <button class="chat-step-ft-entry" data-step="${step}">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M2 4H14M2 8H10M2 12H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        先去精调
+                    </button>
                     <button class="chat-step-confirm" data-step="${step}">${cfg.confirmText}</button>
                 </div>`;
             appendBubble('ai', bubbleHtml, 0);
@@ -1217,8 +2006,10 @@
             setTimeout(() => {
                 const confirmBtn = chatFlow.querySelector(`.chat-step-confirm[data-step="${step}"]`);
                 const skipBtn = chatFlow.querySelector(`.chat-step-skip[data-step="${step}"]`);
+                const ftEntryBtn = chatFlow.querySelector(`.chat-step-ft-entry[data-step="${step}"]`);
                 if (confirmBtn) confirmBtn.addEventListener('click', () => confirmStep(step, true));
                 if (skipBtn) skipBtn.addEventListener('click', () => confirmStep(step, false));
+                if (ftEntryBtn) ftEntryBtn.addEventListener('click', () => confirmAndFinetune(step));
             }, 50);
         }
 
@@ -1226,7 +2017,7 @@
             features[step] = enabled;
 
             // Disable the step buttons
-            const btns = chatFlow.querySelectorAll(`.chat-step-confirm[data-step="${step}"], .chat-step-skip[data-step="${step}"]`);
+            const btns = chatFlow.querySelectorAll(`.chat-step-confirm[data-step="${step}"], .chat-step-skip[data-step="${step}"], .chat-step-ft-entry[data-step="${step}"]`);
             btns.forEach(b => { b.disabled = true; b.style.opacity = '0.4'; b.style.pointerEvents = 'none'; });
 
             if (enabled) {
@@ -1234,22 +2025,227 @@
                 const labelMap = { erase: '擦除', subtitle: '字幕', voice: '配音' };
                 appendBubble('user', `已确认${labelMap[step]}设置 ✓`, 0);
 
+                // ===== Unlock the corresponding Tab =====
+                unlockTab(step);
+
                 // Show corresponding timeline track with animation
                 const track = document.querySelector(`.tv2-tl-track[data-track="${step}"]`);
                 if (track) {
                     setTimeout(() => track.classList.add('track-visible'), 200);
                 }
+
+                // AI confirms and mentions tab navigation
+                appendBubble('ai', `${labelMap[step]}设置已确认！顶部标签已解锁，你可以随时点击回来精调。`, 0);
+                scrollChat();
+
+                // Auto-advance after delay
+                pendingAdvanceStep = step;
+                setTimeout(() => {
+                    if (!inFinetune) {
+                        advanceStep();
+                        pendingAdvanceStep = null;
+                    }
+                }, 1500);
             } else {
                 appendBubble('user', `跳过此步骤`, 0);
                 // Hide track
                 const track = document.querySelector(`.tv2-tl-track[data-track="${step}"]`);
                 if (track) track.classList.remove('track-visible');
+                scrollChat();
+                // Next step after brief delay
+                setTimeout(() => advanceStep(), 600);
+            }
+        }
+
+        /* ===== Confirm + Immediately Enter Finetune ===== */
+        function confirmAndFinetune(step) {
+            features[step] = true;
+
+            // Disable all step buttons
+            const btns = chatFlow.querySelectorAll(`.chat-step-confirm[data-step="${step}"], .chat-step-skip[data-step="${step}"], .chat-step-ft-entry[data-step="${step}"]`);
+            btns.forEach(b => { b.disabled = true; b.style.opacity = '0.4'; b.style.pointerEvents = 'none'; });
+
+            const labelMap = { erase: '擦除', subtitle: '字幕', voice: '配音' };
+            appendBubble('user', `进入${labelMap[step]}精调 →`, 0);
+
+            // Unlock tab + show track
+            unlockTab(step);
+            const track = document.querySelector(`.tv2-tl-track[data-track="${step}"]`);
+            if (track) {
+                setTimeout(() => track.classList.add('track-visible'), 200);
             }
 
-            scrollChat();
-            // Next step after brief delay
-            setTimeout(() => advanceStep(), 600);
+            // Set pending so exiting finetune will advance
+            pendingAdvanceStep = step;
+
+            // Enter finetune after brief delay
+            setTimeout(() => enterFinetune(step), 300);
         }
+
+        /* ===== Tab Unlock/Activate Logic ===== */
+        function unlockTab(step) {
+            unlockedTabs[step] = true;
+            const tab = tabItems[step];
+            if (!tab) return;
+            // Remove locked, add unlocked with animation
+            tab.classList.remove('locked');
+            tab.classList.add('unlocked');
+            // Re-trigger animation
+            tab.style.animation = 'none';
+            tab.offsetHeight; // force reflow
+            tab.style.animation = '';
+        }
+
+        function setActiveTab(step) {
+            // Reset all tabs to their base state
+            Object.keys(tabItems).forEach(key => {
+                const tab = tabItems[key];
+                tab.classList.remove('active');
+                if (unlockedTabs[key]) {
+                    tab.classList.add('unlocked');
+                }
+            });
+            // Set active
+            if (step && tabItems[step]) {
+                tabItems[step].classList.remove('unlocked');
+                tabItems[step].classList.add('active');
+            }
+        }
+
+        function clearActiveTab() {
+            Object.keys(tabItems).forEach(key => {
+                const tab = tabItems[key];
+                tab.classList.remove('active');
+                if (unlockedTabs[key]) {
+                    tab.classList.add('unlocked');
+                }
+            });
+        }
+
+        /* ===== Enter / Exit Finetune ===== */
+        let inFinetune = false;
+        let currentFinetuneStep = null;
+        let pendingAdvanceStep = null;
+
+        const headerTitleMap = { erase: '擦除精调', subtitle: '字幕精调', voice: '配音精调' };
+        const headerDescMap = { erase: '调整擦除区域和参数', subtitle: '编辑字幕内容和样式', voice: '调整配音音色和语速' };
+
+        function enterFinetune(step) {
+            inFinetune = true;
+            currentFinetuneStep = step;
+
+            // Activate the tab
+            setActiveTab(step);
+            tabChatReturn.classList.add('visible');
+
+            // Hide chat, show finetune section
+            chatFlow.style.display = 'none';
+            const ftSection = document.getElementById('finetuneSection');
+            ftSection.classList.add('active');
+
+            // Show only the relevant panel
+            document.querySelectorAll('.tv2-ft-panel').forEach(p => p.classList.remove('active'));
+            const panel = document.querySelector(`.tv2-ft-panel[data-ft-panel="${step}"]`);
+            if (panel) panel.classList.add('active');
+
+            // Update header
+            document.querySelector('.tv2-chat-header h3').textContent = headerTitleMap[step];
+            document.querySelector('.tv2-chat-header p').textContent = headerDescMap[step];
+
+            // Highlight corresponding timeline track
+            document.querySelectorAll('.tv2-tl-track').forEach(track => {
+                if (track.classList.contains('track-visible')) {
+                    track.style.opacity = track.dataset.track === step ? '1' : '0.4';
+                }
+            });
+
+            // Update done button text
+            document.getElementById('ftDoneBtn').innerHTML = `
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M5.5 8L7 9.5L10.5 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                完成精调，返回对话`;
+        }
+
+        function exitFinetune() {
+            const wasStep = currentFinetuneStep;
+            inFinetune = false;
+            currentFinetuneStep = null;
+
+            // Deactivate tab, restore to unlocked
+            clearActiveTab();
+            tabChatReturn.classList.remove('visible');
+
+            // Hide finetune, show chat
+            document.getElementById('finetuneSection').classList.remove('active');
+            document.querySelectorAll('.tv2-ft-panel').forEach(p => p.classList.remove('active'));
+            chatFlow.style.display = '';
+
+            // Restore header
+            document.querySelector('.tv2-chat-header h3').textContent = 'FrameX AI 助手';
+            document.querySelector('.tv2-chat-header p').textContent = '逐步配置译制参数';
+
+            // Reset timeline track opacity
+            document.querySelectorAll('.tv2-tl-track').forEach(track => {
+                track.style.opacity = '';
+            });
+
+            // AI confirms finetune done in chat
+            const labelMap = { erase: '擦除', subtitle: '字幕', voice: '配音' };
+            appendBubble('ai', `${labelMap[wasStep]}精调已完成 ✓ 你可以随时通过顶部标签再次修改。`, 0);
+            scrollChat();
+
+            // Advance to next step if pending
+            if (pendingAdvanceStep === wasStep) {
+                pendingAdvanceStep = null;
+                setTimeout(() => advanceStep(), 600);
+            }
+        }
+
+        // Bind done button
+        document.getElementById('ftDoneBtn').addEventListener('click', () => {
+            if (inFinetune) {
+                exitFinetune();
+            }
+        });
+
+        // Bind "返回对话" button
+        tabChatReturn.addEventListener('click', () => {
+            if (inFinetune) {
+                exitFinetune();
+            }
+        });
+
+        // Bind Tab clicks — only unlocked tabs are clickable
+        Object.keys(tabItems).forEach(key => {
+            tabItems[key].addEventListener('click', () => {
+                // Only respond if tab is unlocked (not locked)
+                if (!unlockedTabs[key]) return;
+                // If already in finetune for this step, do nothing
+                if (inFinetune && currentFinetuneStep === key) return;
+                // If in finetune for another step, switch directly
+                if (inFinetune) {
+                    // Save current finetune state implicitly
+                    currentFinetuneStep = key;
+                    // Switch panel
+                    document.querySelectorAll('.tv2-ft-panel').forEach(p => p.classList.remove('active'));
+                    const panel = document.querySelector(`.tv2-ft-panel[data-ft-panel="${key}"]`);
+                    if (panel) panel.classList.add('active');
+                    // Update tab visual
+                    setActiveTab(key);
+                    // Update header
+                    document.querySelector('.tv2-chat-header h3').textContent = headerTitleMap[key];
+                    document.querySelector('.tv2-chat-header p').textContent = headerDescMap[key];
+                    // Update timeline highlight
+                    document.querySelectorAll('.tv2-tl-track').forEach(track => {
+                        if (track.classList.contains('track-visible')) {
+                            track.style.opacity = track.dataset.track === key ? '1' : '0.4';
+                        }
+                    });
+                } else {
+                    // Enter finetune from chat
+                    enterFinetune(key);
+                }
+            });
+        });
 
         function showStartButton() {
             // AI summary
@@ -1265,22 +2261,36 @@
                 return;
             }
 
-            appendBubble('ai', `配置完成！已选择：<strong>${enabledFeats.join('、')}</strong>。准备好就开始处理吧 🚀`, 0);
+            appendBubble('ai', `配置完成！已选择：<strong>${enabledFeats.join('、')}</strong>。可以直接开始，也可以先精调细节。`, 0);
 
             const startEl = document.createElement('div');
             startEl.className = 'chat-start-wrap';
             startEl.style.opacity = '0';
             startEl.style.animation = 'bubbleIn 0.35s ease-out 0.2s forwards';
-            startEl.innerHTML = `<button class="chat-start-btn" id="chatStartBtn">
-                <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M6 4L16 10L6 16V4Z" fill="currentColor"/></svg>
-                开始处理
-            </button>`;
+
+            // Build finetune button — only show for enabled features
+            const firstEnabledStep = configSteps.find(s => features[s]);
+            startEl.innerHTML = `
+                <div class="chat-start-actions">
+                    <button class="chat-start-ft" id="chatFinetuneBtn">
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 4H14M2 8H10M2 12H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        去精调
+                    </button>
+                    <button class="chat-start-btn" id="chatStartBtn">
+                        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M6 4L16 10L6 16V4Z" fill="currentColor"/></svg>
+                        开始处理
+                    </button>
+                </div>`;
             chatFlow.appendChild(startEl);
             scrollChat();
 
             setTimeout(() => {
                 const btn = document.getElementById('chatStartBtn');
                 if (btn) btn.addEventListener('click', startProcessing);
+                const ftBtn = document.getElementById('chatFinetuneBtn');
+                if (ftBtn && firstEnabledStep) {
+                    ftBtn.addEventListener('click', () => enterFinetune(firstEnabledStep));
+                }
             }, 100);
         }
 
@@ -1370,26 +2380,31 @@
             document.getElementById('tlPlay').classList.add('playing');
             document.getElementById('globalExportBtn').style.display = '';
 
-            // Chat: done bubble + actions
-            appendBubble('ai', '译制完成！字幕已翻译为英语，配音使用了声音克隆。看看效果如何？', 0);
-
-            const actions = document.createElement('div');
-            actions.className = 'chat-result-actions';
-            actions.style.opacity = '0';
-            actions.style.animation = 'bubbleIn 0.35s ease-out 0.3s forwards';
-            actions.innerHTML = `
-                <button class="ra-btn-export" id="resultExportBtn">
-                    <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M9 3V11M9 11L13 7M9 11L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 13V15C3 15.5523 3.44772 16 4 16H14C14.5523 16 15 15.5523 15 15V13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                    导出
-                </button>
-                <a href="editor-v2.html" class="ra-btn-finetune">
-                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M12 2L14 4L6 12H4V10L12 2Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
-                    精调
-                </a>`;
-            chatFlow.appendChild(actions);
-
-            setTimeout(scrollChat, 100);
+            // Chat: done bubble with export actions
+            const resultHtml = `
+                译制完成！视频已准备就绪 🎬<br>
+                <span style="font-size:0.72rem;color:#64748b;">你之前的精调设置都已应用。</span>
+                <div class="chat-result-actions">
+                    <button class="ra-btn-export" onclick="alert('导出中...')">
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2V9M8 9L11 6M8 9L5 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 11V13C3 13.5523 3.44772 14 4 14H12C12.5523 14 13 13.5523 13 13V11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                        导出视频
+                    </button>
+                    <a href="result.html" class="ra-btn-finetune">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><rect x="3" y="3" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.2"/><path d="M6 8L7.2 9.2L10 6.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        任务记录
+                    </a>
+                </div>`;
+            appendBubble('ai', resultHtml, 0);
+            scrollChat();
         }
+
+        // Bind mode chips
+        document.querySelectorAll('.ft-mode-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                chip.parentElement.querySelectorAll('.ft-mode-chip').forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+            });
+        });
 
         /* ===== Timeline controls ===== */
         document.getElementById('tlPlay').addEventListener('click', () => {
@@ -1400,6 +2415,50 @@
 
         tlTracks.addEventListener('click', e => {
             if (phase === 'upload') return;
+
+            // Check if a segment was clicked
+            const segment = e.target.closest('.tv2-tl-segment');
+            if (segment) {
+                // Determine which track this segment belongs to
+                const track = segment.closest('.tv2-tl-track');
+                const trackType = track ? track.dataset.track : null;
+
+                if (trackType && unlockedTabs[trackType]) {
+                    // Visual feedback: briefly highlight the clicked segment
+                    document.querySelectorAll('.tv2-tl-segment.seg-active').forEach(s => s.classList.remove('seg-active'));
+                    segment.classList.add('seg-active');
+                    setTimeout(() => segment.classList.remove('seg-active'), 600);
+
+                    // Navigate to the corresponding finetune panel
+                    if (inFinetune && currentFinetuneStep === trackType) {
+                        // Already viewing this panel — just seek
+                    } else if (inFinetune) {
+                        // Switch finetune panel
+                        currentFinetuneStep = trackType;
+                        document.querySelectorAll('.tv2-ft-panel').forEach(p => p.classList.remove('active'));
+                        const panel = document.querySelector(`.tv2-ft-panel[data-ft-panel="${trackType}"]`);
+                        if (panel) panel.classList.add('active');
+                        setActiveTab(trackType);
+                        document.querySelector('.tv2-chat-header h3').textContent = headerTitleMap[trackType];
+                        document.querySelector('.tv2-chat-header p').textContent = headerDescMap[trackType];
+                        document.querySelectorAll('.tv2-tl-track').forEach(t => {
+                            if (t.classList.contains('track-visible')) {
+                                t.style.opacity = t.dataset.track === trackType ? '1' : '0.4';
+                            }
+                        });
+                    } else {
+                        // Enter finetune from chat
+                        enterFinetune(trackType);
+                    }
+
+                    // Also seek to the segment's position
+                    const segLeft = parseFloat(segment.style.left) / 100;
+                    videoTime = segLeft * videoDuration;
+                    return;
+                }
+            }
+
+            // Default: click-to-seek on timeline
             const rect = tlTracks.getBoundingClientRect();
             const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
             videoTime = pct * videoDuration;
