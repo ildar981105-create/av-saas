@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 生成视频 — FrameX</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <aside class="sidebar">
+        <a href="index.html" class="sidebar-logo"><svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#sLogo)" stroke-width="2.5"/><path d="M12 10L22 16L12 22V10Z" fill="url(#sLogo)"/><defs><linearGradient id="sLogo" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#a855f7"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs></svg><span>FrameX</span></a>
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10L10 3L17 10V17H12V13H8V17H3V10Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span>工作台</span></a>
+            <a href="translate.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 9H13M7 12H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>视频译制</span></a>
+            <a href="livestream.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="4" cy="5" r="2" fill="#ef4444"/></svg><span>直播剪辑</span></a>
+            <a href="generate.html" class="nav-item active"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L12 8H18L13 12L15 18L10 14L5 18L7 12L2 8H8L10 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span>AI 生成</span></a>
+            <div class="nav-divider"></div>
+            <a href="result.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 10L9 12L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>任务记录</span></a>
+        </nav>
+        <div class="sidebar-bottom"><div class="user-card"><div class="avatar">U</div><div class="user-info"><span class="user-name">用户</span><span class="user-plan">专业版</span></div></div></div>
+    </aside>
+
+    <!-- 全屏模式返回按钮 -->
+    <button class="back-to-nav">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        返回工作台
+    </button>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div class="topbar-left"><h1 class="page-title">AI 生成视频</h1></div>
+            <div class="topbar-right">
+                <div class="credits-badge"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 5V8L10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>剩余 47 次</span></div>
+            </div>
+        </header>
+
+        <div class="task-page-header">
+            <h1>描述你的想象，AI 帮你<span class="gradient-text">生成视频</span></h1>
+            <p>文生视频、图生视频，从想法到成片只需几分钟</p>
+        </div>
+
+        <!-- 模式切换 -->
+        <div class="gen-mode-tabs">
+            <button class="gen-tab active" data-mode="text">文生视频</button>
+            <button class="gen-tab" data-mode="image">图生视频</button>
+        </div>
+
+        <!-- 文字描述 -->
+        <div class="prompt-area">
+            <textarea class="prompt-input" placeholder="描述你想要生成的视频画面...&#10;&#10;例如：一只金色柴犬在樱花飘落的公园中奔跑，阳光透过树叶洒下斑驳光影，电影级画质，慢动作，浅景深"></textarea>
+        </div>
+
+        <!-- 图片上传 -->
+        <div class="img-upload-grid" style="display:none;">
+            <div class="img-upload-slot">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 6V18M6 12H18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <div class="img-upload-slot">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 6V18M6 12H18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <div class="img-upload-slot">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 6V18M6 12H18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+        </div>
+
+        <!-- 生成配置 -->
+        <div class="config-panel">
+            <div class="config-title">生成配置</div>
+            <div class="config-row">
+                <div class="config-field">
+                    <label>视频时长</label>
+                    <select>
+                        <option>5 秒</option>
+                        <option>10 秒</option>
+                        <option selected>15 秒</option>
+                        <option>30 秒</option>
+                        <option>60 秒</option>
+                    </select>
+                </div>
+                <div class="config-field">
+                    <label>画面比例</label>
+                    <select>
+                        <option>16:9 横屏</option>
+                        <option>9:16 竖屏</option>
+                        <option>1:1 方形</option>
+                    </select>
+                </div>
+                <div class="config-field">
+                    <label>风格</label>
+                    <select>
+                        <option>写实</option>
+                        <option>电影感</option>
+                        <option>动画</option>
+                        <option>赛博朋克</option>
+                        <option>水彩画</option>
+                        <option>油画</option>
+                    </select>
+                </div>
+                <div class="config-field">
+                    <label>画质</label>
+                    <select>
+                        <option>标准 720p</option>
+                        <option selected>高清 1080p</option>
+                        <option>超清 4K</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="start-btn-wrap">
+            <button class="btn-start" id="generateBtn">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L12 8H18L13 12L15 18L10 14L5 18L7 12L2 8H8L10 2Z" fill="currentColor"/></svg>
+                <span>开始生成</span>
+            </button>
+        </div>
+
+        <!-- 视频预览 -->
+        <section class="video-preview-section" style="display:none;">
+            <div class="video-container">
+                <div class="video-loading">
+                    <div class="loading-orb">
+                        <div class="ring"></div>
+                        <div class="ring"></div>
+                        <div class="ring"></div>
+                        <div class="core"></div>
+                    </div>
+                    <div class="loading-text">AI 正在生成你的视频...</div>
+                    <div class="loading-progress"><div class="loading-progress-bar"></div></div>
+                </div>
+                <div class="video-player-placeholder" style="display:none;">
+                    <button class="big-play-btn">
+                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M10 6L22 14L10 22V6Z" fill="white"/></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="pipeline-steps">
+                <div class="pipe-step"><span class="pipe-step-dot"></span>理解描述</div>
+                <div class="pipe-step"><span class="pipe-step-dot"></span>生成画面</div>
+                <div class="pipe-step"><span class="pipe-step-dot"></span>渲染输出</div>
+            </div>
+        </section>
+
+        <!-- 浮窗 -->
+        <div class="float-actions" style="display:none;">
+            <button class="fab" data-panel="panelStyle" title="风格调整">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M8 8L12 12M12 8L8 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <span class="fab-tooltip">风格调整</span>
+            </button>
+            <button class="fab" data-panel="panelRegen" title="重新生成">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10C4 6.68629 6.68629 4 10 4C12.3727 4 14.4088 5.36093 15.3569 7.33333" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M16 10C16 13.3137 13.3137 16 10 16C7.62731 16 5.59123 14.6391 4.64307 12.6667" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M15 4V7.5H11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 16V12.5H8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span class="fab-tooltip">重新生成</span>
+            </button>
+            <button class="fab" data-panel="panelExport3" title="导出">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3V12M10 12L14 8M10 12L6 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 14V16C3 16.5523 3.44772 17 4 17H16C16.5523 17 17 16.5523 17 16V14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <span class="fab-tooltip">导出下载</span>
+            </button>
+        </div>
+
+        <div class="float-panel" id="panelStyle">
+            <div class="float-panel-header"><h3>风格调整</h3><button class="panel-close">×</button></div>
+            <div class="float-panel-body">
+                <div class="config-field" style="margin-bottom:16px;"><label>整体风格</label><select><option>写实</option><option>电影感</option><option>动画</option><option>赛博朋克</option></select></div>
+                <div class="config-field" style="margin-bottom:16px;"><label>色调</label><select><option>自然</option><option>暖色调</option><option>冷色调</option><option>高对比</option></select></div>
+                <div class="config-field"><label>镜头运动</label><select><option>静止</option><option>缓慢推进</option><option>环绕</option><option>随机</option></select></div>
+            </div>
+        </div>
+        <div class="float-panel" id="panelRegen">
+            <div class="float-panel-header"><h3>重新生成</h3><button class="panel-close">×</button></div>
+            <div class="float-panel-body">
+                <div class="config-field" style="margin-bottom:16px;">
+                    <label>调整描述（可选）</label>
+                    <textarea class="prompt-input" style="min-height:80px;" placeholder="在这里补充或修改描述..."></textarea>
+                </div>
+                <button class="btn-start" style="width:100%;padding:12px;">重新生成</button>
+            </div>
+        </div>
+        <div class="float-panel" id="panelExport3">
+            <div class="float-panel-header"><h3>导出设置</h3><button class="panel-close">×</button></div>
+            <div class="float-panel-body">
+                <div class="config-field" style="margin-bottom:16px;"><label>格式</label><select><option>MP4</option><option>GIF</option><option>WebM</option></select></div>
+                <div class="config-field" style="margin-bottom:20px;"><label>分辨率</label><select><option>1080p</option><option>4K</option><option>720p</option></select></div>
+                <button class="btn-start" style="width:100%;padding:12px;">下载视频</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+    <script>
+        // AI 生成页特殊逻辑
+        (function() {
+            const genBtn = document.getElementById('generateBtn');
+            if (!genBtn) return;
+            genBtn.addEventListener('click', function() {
+                showProcessing();
+            });
+        })();
+    </script>
+</body>
+</html>

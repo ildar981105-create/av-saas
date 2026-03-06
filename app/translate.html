@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频译制 — FrameX</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <a href="index.html" class="sidebar-logo">
+            <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#sLogo)" stroke-width="2.5"/><path d="M12 10L22 16L12 22V10Z" fill="url(#sLogo)"/><defs><linearGradient id="sLogo" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#a855f7"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs></svg>
+            <span>FrameX</span>
+        </a>
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10L10 3L17 10V17H12V13H8V17H3V10Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span>工作台</span></a>
+            <a href="translate.html" class="nav-item active"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 9H13M7 12H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>视频译制</span></a>
+            <a href="livestream.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="4" cy="5" r="2" fill="#ef4444"/></svg><span>直播剪辑</span></a>
+            <a href="generate.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L12 8H18L13 12L15 18L10 14L5 18L7 12L2 8H8L10 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span>AI 生成</span></a>
+            <div class="nav-divider"></div>
+            <a href="result.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 10L9 12L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>任务记录</span></a>
+        </nav>
+        <div class="sidebar-bottom">
+            <div class="user-card"><div class="avatar">U</div><div class="user-info"><span class="user-name">用户</span><span class="user-plan">专业版</span></div></div>
+        </div>
+    </aside>
+
+    <!-- 全屏模式返回按钮 -->
+    <button class="back-to-nav">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        返回工作台
+    </button>
+
+    <main class="main-content">
+
+
+        <div class="task-page-header">
+            <h1>上传视频，AI 帮你<span class="gradient-text">翻译全世界</span></h1>
+            <p>支持 120+ 语言互译，自动擦除原字幕、添加翻译字幕、克隆声音配音</p>
+        </div>
+
+        <!-- 上传区 -->
+        <div class="upload-zone" id="uploadZone">
+            <div class="upload-zone-icon">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 4V16M14 4L20 10M14 4L8 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 18V22C4 23.1046 4.89543 24 6 24H22C23.1046 24 24 23.1046 24 22V18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <h3>拖入视频文件，或点击选择</h3>
+            <p>支持 MP4、MOV、AVI、MKV 等格式，最大 2GB</p>
+            <button class="btn-select">选择视频</button>
+            <input type="file" id="videoFileInput" accept="video/*" hidden>
+        </div>
+
+        <!-- 译制步骤配置 -->
+        <div class="step-cards">
+            <div class="step-cards__header">
+                <div class="step-cards__title">译制步骤配置</div>
+                <div class="step-cards__hint">开启你需要的步骤，AI 将按顺序执行</div>
+            </div>
+
+            <!-- 基础语言配置 -->
+            <div class="lang-config">
+                <div class="config-field">
+                    <label>源语言</label>
+                    <select>
+                        <option>自动检测</option>
+                        <option>中文</option>
+                        <option>英语</option>
+                        <option>日语</option>
+                        <option>韩语</option>
+                        <option>法语</option>
+                        <option>德语</option>
+                        <option>西班牙语</option>
+                    </select>
+                </div>
+                <div class="lang-config__arrow">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 10h10M12 6l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="config-field">
+                    <label>目标语言</label>
+                    <select>
+                        <option>英语</option>
+                        <option>中文</option>
+                        <option>日语</option>
+                        <option>韩语</option>
+                        <option>法语</option>
+                        <option>德语</option>
+                        <option>西班牙语</option>
+                        <option>阿拉伯语</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 步骤卡片列表 -->
+            <div class="step-cards__list">
+                <!-- 步骤 1：擦除原字幕 -->
+                <div class="step-card step-card--active" data-step="erase">
+                    <div class="step-card__head">
+                        <div class="step-card__left">
+                            <span class="step-card__num">01</span>
+                            <div class="step-card__icon step-card__icon--red">
+                                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M16 4L8 12L4 16H10L18 8L16 4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M2 18H18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                            </div>
+                            <div class="step-card__info">
+                                <h4>擦除原字幕</h4>
+                                <p>AI 自动检测并擦除视频中的原有字幕区域</p>
+                            </div>
+                        </div>
+                        <label class="step-toggle">
+                            <input type="checkbox" checked data-step-toggle="erase">
+                            <span class="step-toggle__slider"></span>
+                        </label>
+                    </div>
+                    <div class="step-card__body">
+                        <div class="step-card__config">
+                            <div class="config-field">
+                                <label>擦除模式</label>
+                                <select id="eraseModeSelect">
+                                    <option value="auto">AI 自动检测</option>
+                                    <option value="manual">手动指定区域</option>
+                                    <option value="full">全帧修复</option>
+                                </select>
+                            </div>
+                            <div class="config-field">
+                                <label>修复质量</label>
+                                <select>
+                                    <option>高质量（推荐）</option>
+                                    <option>标准</option>
+                                    <option>快速</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- 手动擦除区域编辑器 -->
+                        <div class="erase-region-editor" id="eraseRegionEditor" style="display:none;">
+                            <div class="erase-region-editor__title">
+                                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="1.5" stroke="currentColor" stroke-width="1.2" stroke-dasharray="2.5 2"/></svg>
+                                擦除区域（百分比坐标）
+                            </div>
+                            <div id="eraseRegionList">
+                                <div class="erase-region-row" data-region="0">
+                                    <span class="erase-region-row__label">1</span>
+                                    <div class="config-field"><label>X</label><input type="text" value="8%"></div>
+                                    <div class="config-field"><label>Y</label><input type="text" value="82%"></div>
+                                    <div class="config-field"><label>宽</label><input type="text" value="84%"></div>
+                                    <div class="config-field"><label>高</label><input type="text" value="12%"></div>
+                                    <button class="erase-region-row__delete" title="删除">
+                                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 3L9 9M9 3L3 9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <button class="erase-region-add" id="addEraseRegion">
+                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2V10M2 6H10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                                添加擦除区域
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 步骤 2：添加新字幕 -->
+                <div class="step-card step-card--active" data-step="subtitle">
+                    <div class="step-card__head">
+                        <div class="step-card__left">
+                            <span class="step-card__num">02</span>
+                            <div class="step-card__icon step-card__icon--blue">
+                                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="3" y="5" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M6 11H14M6 13H11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                            </div>
+                            <div class="step-card__info">
+                                <h4>添加新字幕</h4>
+                                <p>翻译并生成目标语言字幕，支持双语对照</p>
+                            </div>
+                        </div>
+                        <label class="step-toggle">
+                            <input type="checkbox" checked data-step-toggle="subtitle">
+                            <span class="step-toggle__slider"></span>
+                        </label>
+                    </div>
+                    <div class="step-card__body">
+                        <div class="step-card__config">
+                            <div class="config-field">
+                                <label>字幕样式</label>
+                                <select>
+                                    <option>默认样式</option>
+                                    <option>简约白字</option>
+                                    <option>双语对照</option>
+                                    <option>底部居中</option>
+                                </select>
+                            </div>
+                            <div class="config-field">
+                                <label>字幕位置</label>
+                                <select>
+                                    <option>底部居中</option>
+                                    <option>顶部居中</option>
+                                    <option>自定义位置</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 步骤 3：配音 -->
+                <div class="step-card step-card--active" data-step="voice">
+                    <div class="step-card__head">
+                        <div class="step-card__left">
+                            <span class="step-card__num">03</span>
+                            <div class="step-card__icon step-card__icon--purple">
+                                <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 3V13M7 7V9M13 5V11M4 9V7M16 8V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                            </div>
+                            <div class="step-card__info">
+                                <h4>配音</h4>
+                                <p>用 AI 声音克隆或自然语音生成目标语言配音</p>
+                            </div>
+                        </div>
+                        <label class="step-toggle">
+                            <input type="checkbox" checked data-step-toggle="voice">
+                            <span class="step-toggle__slider"></span>
+                        </label>
+                    </div>
+                    <div class="step-card__body">
+                        <div class="step-card__config">
+                            <div class="config-field">
+                                <label>配音风格</label>
+                                <select>
+                                    <option>克隆原声</option>
+                                    <option>自然男声</option>
+                                    <option>自然女声</option>
+                                </select>
+                            </div>
+                            <div class="config-field">
+                                <label>语速调整</label>
+                                <select>
+                                    <option>自动匹配原声</option>
+                                    <option>稍快</option>
+                                    <option>稍慢</option>
+                                    <option>正常语速</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 开始按钮 -->
+        <div class="start-btn-wrap">
+            <button class="btn-start">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M6 4L16 10L6 16V4Z" fill="currentColor"/></svg>
+                <span>开始译制</span>
+            </button>
+        </div>
+
+        <!-- 视频预览区（初始隐藏） -->
+        <section class="video-preview-section" style="display:none;">
+            <div class="video-container">
+                <!-- Loading State -->
+                <div class="video-loading">
+                    <div class="loading-orb">
+                        <div class="ring"></div>
+                        <div class="ring"></div>
+                        <div class="ring"></div>
+                        <div class="core"></div>
+                    </div>
+                    <div class="loading-text">AI 正在处理你的视频...</div>
+                    <div class="loading-progress"><div class="loading-progress-bar"></div></div>
+                </div>
+                <!-- 模拟视频播放器（完成后显示） -->
+                <div class="mock-player" style="display:none;">
+                    <!-- 假视频帧画面 -->
+                    <canvas class="mock-canvas" id="mockCanvas"></canvas>
+                    <!-- 字幕叠加层 -->
+                    <div class="mock-subtitle">
+                        <span class="mock-sub-en">The future of AI video translation is here</span>
+                        <span class="mock-sub-zh">AI 视频翻译的未来已来</span>
+                    </div>
+                    <!-- 擦除区域可视化（点击擦除按钮时显示） -->
+                    <div class="mock-erase-overlay" style="display:none;">
+                        <div class="erase-region" style="left:8%;bottom:6%;width:84%;height:12%;"></div>
+                    </div>
+                    <!-- 播放控件栏 -->
+                    <div class="player-controls">
+                        <button class="ctrl-play" id="ctrlPlay">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2L14 8L4 14V2Z" fill="currentColor"/></svg>
+                        </button>
+                        <span class="ctrl-time" id="ctrlTime">00:00</span>
+                        <div class="ctrl-progress">
+                            <div class="ctrl-progress-track">
+                                <div class="ctrl-progress-fill" id="ctrlProgressFill" style="width:0%"></div>
+                                <div class="ctrl-progress-handle" id="ctrlProgressHandle" style="left:0%"></div>
+                            </div>
+                        </div>
+                        <span class="ctrl-duration">02:34</span>
+                        <button class="ctrl-mute">
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 5H5L8 2V12L5 9H2V5Z" stroke="currentColor" stroke-width="1.2"/><path d="M10 4.5C10.8 5.3 11.2 6.5 11.2 7.5C11.2 8.5 10.8 9.5 10 10.3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- 底部工具栏：进度 + 操作 -->
+            <div class="pipeline-toolbar">
+                <div class="pipeline-steps">
+                    <div class="pipe-step"><span class="pipe-step-dot"></span>擦除原字幕</div>
+                    <div class="pipe-step"><span class="pipe-step-dot"></span>翻译字幕</div>
+                    <div class="pipe-step"><span class="pipe-step-dot"></span>生成配音</div>
+                </div>
+                <div class="toolbar-actions" style="display:none;">
+                    <button class="toolbar-btn" data-panel="panelErase">
+                        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M16 4L8 12L4 16H10L18 8L16 4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M2 18H18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        <span>擦除</span>
+                    </button>
+                    <button class="toolbar-btn" data-panel="panelSubtitle">
+                        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><rect x="3" y="5" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M6 11H14M6 13H11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                        <span>字幕</span>
+                    </button>
+                    <button class="toolbar-btn" data-panel="panelVoice">
+                        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 3V13M7 7V9M13 5V11M4 9V7M16 8V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        <span>配音</span>
+                    </button>
+                    <div class="toolbar-divider"></div>
+                    <button class="toolbar-btn toolbar-btn-export" data-panel="panelExport">
+                        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 3V12M10 12L14 8M10 12L6 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 14V16C3 16.5523 3.44772 17 4 17H16C16.5523 17 17 16.5523 17 16V14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        <span>导出</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 浮窗面板 - 擦除区域 -->
+        <div class="float-panel float-panel-wide" id="panelErase">
+            <div class="float-panel-header">
+                <h3>擦除区域调整</h3>
+                <button class="panel-close">×</button>
+            </div>
+            <div class="float-panel-body">
+                <div class="erase-timeline">
+                    <div class="erase-tl-header">
+                        <span class="erase-tl-label">时间轴</span>
+                        <span class="erase-tl-range">00:00 — 02:34</span>
+                    </div>
+                    <div class="erase-tl-track">
+                        <div class="erase-tl-bar"></div>
+                        <div class="erase-tl-region" style="left:0%;width:35%;" data-label="原字幕区域 1">
+                            <span class="erase-tl-region-label">00:03 – 00:52</span>
+                        </div>
+                        <div class="erase-tl-region" style="left:40%;width:28%;" data-label="原字幕区域 2">
+                            <span class="erase-tl-region-label">01:02 – 01:45</span>
+                        </div>
+                        <div class="erase-tl-region" style="left:75%;width:20%;" data-label="原字幕区域 3">
+                            <span class="erase-tl-region-label">01:55 – 02:25</span>
+                        </div>
+                        <div class="erase-tl-playhead" id="eraseTlPlayhead" style="left:0%"></div>
+                    </div>
+                </div>
+                <div class="erase-regions-list">
+                    <div class="erase-region-item">
+                        <div class="eri-header">
+                            <span class="eri-badge">区域 1</span>
+                            <span class="eri-time">00:03 – 00:52</span>
+                        </div>
+                        <div class="eri-coords">
+                            <div class="config-field"><label>X</label><input type="text" value="8%"></div>
+                            <div class="config-field"><label>Y</label><input type="text" value="82%"></div>
+                            <div class="config-field"><label>宽</label><input type="text" value="84%"></div>
+                            <div class="config-field"><label>高</label><input type="text" value="12%"></div>
+                        </div>
+                    </div>
+                    <div class="erase-region-item">
+                        <div class="eri-header">
+                            <span class="eri-badge">区域 2</span>
+                            <span class="eri-time">01:02 – 01:45</span>
+                        </div>
+                        <div class="eri-coords">
+                            <div class="config-field"><label>X</label><input type="text" value="8%"></div>
+                            <div class="config-field"><label>Y</label><input type="text" value="82%"></div>
+                            <div class="config-field"><label>宽</label><input type="text" value="84%"></div>
+                            <div class="config-field"><label>高</label><input type="text" value="12%"></div>
+                        </div>
+                    </div>
+                    <div class="erase-region-item">
+                        <div class="eri-header">
+                            <span class="eri-badge">区域 3</span>
+                            <span class="eri-time">01:55 – 02:25</span>
+                        </div>
+                        <div class="eri-coords">
+                            <div class="config-field"><label>X</label><input type="text" value="10%"></div>
+                            <div class="config-field"><label>Y</label><input type="text" value="5%"></div>
+                            <div class="config-field"><label>宽</label><input type="text" value="30%"></div>
+                            <div class="config-field"><label>高</label><input type="text" value="8%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 浮窗面板 - 字幕（逐句编辑） -->
+        <div class="float-panel float-panel-wide" id="panelSubtitle">
+            <div class="float-panel-header">
+                <h3>字幕编辑</h3>
+                <button class="panel-close">×</button>
+            </div>
+            <div class="float-panel-body">
+                <div class="sub-row">
+                    <div class="sub-row-time"><input type="text" value="00:03"><span>–</span><input type="text" value="00:08"></div>
+                    <div class="sub-row-text">
+                        <input type="text" class="sub-text-orig" value="大家好，欢迎来到今天的分享" placeholder="原文">
+                        <input type="text" class="sub-text-trans" value="Hello everyone, welcome to today's sharing" placeholder="译文">
+                    </div>
+                </div>
+                <div class="sub-row">
+                    <div class="sub-row-time"><input type="text" value="00:09"><span>–</span><input type="text" value="00:15"></div>
+                    <div class="sub-row-text">
+                        <input type="text" class="sub-text-orig" value="今天我们来聊一聊 AI 视频翻译" placeholder="原文">
+                        <input type="text" class="sub-text-trans" value="Today let's talk about AI video translation" placeholder="译文">
+                    </div>
+                </div>
+                <div class="sub-row">
+                    <div class="sub-row-time"><input type="text" value="00:16"><span>–</span><input type="text" value="00:24"></div>
+                    <div class="sub-row-text">
+                        <input type="text" class="sub-text-orig" value="这项技术可以自动擦除原有字幕" placeholder="原文">
+                        <input type="text" class="sub-text-trans" value="This technology can automatically erase original subtitles" placeholder="译文">
+                    </div>
+                </div>
+                <div class="sub-row">
+                    <div class="sub-row-time"><input type="text" value="00:25"><span>–</span><input type="text" value="00:33"></div>
+                    <div class="sub-row-text">
+                        <input type="text" class="sub-text-orig" value="并重新生成目标语言的字幕和配音" placeholder="原文">
+                        <input type="text" class="sub-text-trans" value="And regenerate subtitles and dubbing in the target language" placeholder="译文">
+                    </div>
+                </div>
+                <div class="sub-row">
+                    <div class="sub-row-time"><input type="text" value="00:34"><span>–</span><input type="text" value="00:42"></div>
+                    <div class="sub-row-text">
+                        <input type="text" class="sub-text-orig" value="声音克隆技术让配音听起来和原声一样" placeholder="原文">
+                        <input type="text" class="sub-text-trans" value="Voice cloning makes the dubbing sound like the original" placeholder="译文">
+                    </div>
+                </div>
+                <div class="sub-row">
+                    <div class="sub-row-time"><input type="text" value="00:43"><span>–</span><input type="text" value="00:52"></div>
+                    <div class="sub-row-text">
+                        <input type="text" class="sub-text-orig" value="整个过程完全由 AI 自动完成" placeholder="原文">
+                        <input type="text" class="sub-text-trans" value="The entire process is fully automated by AI" placeholder="译文">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 浮窗面板 - 配音（逐句编辑） -->
+        <div class="float-panel float-panel-wide" id="panelVoice">
+            <div class="float-panel-header">
+                <h3>配音编辑</h3>
+                <button class="panel-close">×</button>
+            </div>
+            <div class="float-panel-body">
+                <div class="config-field" style="margin-bottom:16px;">
+                    <label>全局声音</label>
+                    <select><option>克隆原声</option><option>自然男声 A</option><option>自然男声 B</option><option>自然女声 A</option><option>自然女声 B</option></select>
+                </div>
+                <div class="voice-rows">
+                    <div class="voice-row">
+                        <div class="voice-row-time"><input type="text" value="00:03"><span>–</span><input type="text" value="00:08"></div>
+                        <input type="text" class="voice-row-text" value="Hello everyone, welcome to today's sharing">
+                        <button class="voice-play-btn" title="试听">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 1.5L10 6L3 10.5V1.5Z" fill="currentColor"/></svg>
+                        </button>
+                    </div>
+                    <div class="voice-row">
+                        <div class="voice-row-time"><input type="text" value="00:09"><span>–</span><input type="text" value="00:15"></div>
+                        <input type="text" class="voice-row-text" value="Today let's talk about AI video translation">
+                        <button class="voice-play-btn" title="试听">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 1.5L10 6L3 10.5V1.5Z" fill="currentColor"/></svg>
+                        </button>
+                    </div>
+                    <div class="voice-row">
+                        <div class="voice-row-time"><input type="text" value="00:16"><span>–</span><input type="text" value="00:24"></div>
+                        <input type="text" class="voice-row-text" value="This technology can automatically erase original subtitles">
+                        <button class="voice-play-btn" title="试听">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 1.5L10 6L3 10.5V1.5Z" fill="currentColor"/></svg>
+                        </button>
+                    </div>
+                    <div class="voice-row">
+                        <div class="voice-row-time"><input type="text" value="00:25"><span>–</span><input type="text" value="00:33"></div>
+                        <input type="text" class="voice-row-text" value="And regenerate subtitles and dubbing in the target language">
+                        <button class="voice-play-btn" title="试听">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 1.5L10 6L3 10.5V1.5Z" fill="currentColor"/></svg>
+                        </button>
+                    </div>
+                    <div class="voice-row">
+                        <div class="voice-row-time"><input type="text" value="00:34"><span>–</span><input type="text" value="00:42"></div>
+                        <input type="text" class="voice-row-text" value="Voice cloning makes the dubbing sound like the original">
+                        <button class="voice-play-btn" title="试听">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 1.5L10 6L3 10.5V1.5Z" fill="currentColor"/></svg>
+                        </button>
+                    </div>
+                    <div class="voice-row">
+                        <div class="voice-row-time"><input type="text" value="00:43"><span>–</span><input type="text" value="00:52"></div>
+                        <input type="text" class="voice-row-text" value="The entire process is fully automated by AI">
+                        <button class="voice-play-btn" title="试听">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 1.5L10 6L3 10.5V1.5Z" fill="currentColor"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 浮窗面板 - 导出 -->
+        <div class="float-panel" id="panelExport">
+            <div class="float-panel-header">
+                <h3>导出设置</h3>
+                <button class="panel-close">×</button>
+            </div>
+            <div class="float-panel-body">
+                <div class="config-field" style="margin-bottom:16px;">
+                    <label>输出格式</label>
+                    <select><option>MP4 (H.264)</option><option>MOV (ProRes)</option><option>WebM</option></select>
+                </div>
+                <div class="config-field" style="margin-bottom:16px;">
+                    <label>分辨率</label>
+                    <select><option>原始分辨率</option><option>4K (3840×2160)</option><option>1080p</option><option>720p</option></select>
+                </div>
+                <div class="config-field" style="margin-bottom:20px;">
+                    <label>导出字幕文件</label>
+                    <select><option>SRT 字幕</option><option>ASS 字幕</option><option>不导出</option></select>
+                </div>
+                <button class="btn-start" style="width:100%;padding:12px;">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 3V11M9 11L13 7M9 11L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 13V15C3 15.5523 3.44772 16 4 16H14C14.5523 16 15 15.5523 15 15V13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    下载视频
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

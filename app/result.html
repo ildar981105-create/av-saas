@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>任务记录 — FrameX</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <aside class="sidebar">
+        <a href="index.html" class="sidebar-logo"><svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#sLogo)" stroke-width="2.5"/><path d="M12 10L22 16L12 22V10Z" fill="url(#sLogo)"/><defs><linearGradient id="sLogo" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#a855f7"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs></svg><span>FrameX</span></a>
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10L10 3L17 10V17H12V13H8V17H3V10Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span>工作台</span></a>
+            <a href="translate.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 9H13M7 12H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>视频译制</span></a>
+            <a href="livestream.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="4" cy="5" r="2" fill="#ef4444"/></svg><span>直播剪辑</span></a>
+            <a href="generate.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L12 8H18L13 12L15 18L10 14L5 18L7 12L2 8H8L10 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span>AI 生成</span></a>
+            <div class="nav-divider"></div>
+            <a href="result.html" class="nav-item active"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 10L9 12L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>任务记录</span></a>
+        </nav>
+        <div class="sidebar-bottom"><div class="user-card"><div class="avatar">U</div><div class="user-info"><span class="user-name">用户</span><span class="user-plan">专业版</span></div></div></div>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div class="topbar-left"><h1 class="page-title">任务记录</h1></div>
+            <div class="topbar-right">
+                <div class="credits-badge"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 5V8L10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>剩余 47 次</span></div>
+            </div>
+        </header>
+
+        <!-- 结果详情区 -->
+        <div class="result-header">
+            <div class="result-info">
+                <h1>产品演示视频_中英翻译.mp4</h1>
+                <p>视频译制 · 中文 → 英文 · 完成于 2 小时前 · 时长 12:34</p>
+            </div>
+            <div class="result-actions">
+                <button class="btn-icon">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 8C4 6.89543 4.89543 6 6 6H10C11.1046 6 12 6.89543 12 8V12C12 13.1046 11.1046 14 10 14H6C4.89543 14 4 13.1046 4 12V8Z" stroke="currentColor" stroke-width="1.5"/><path d="M6 6V4C6 2.89543 6.89543 2 8 2H10C11.1046 2 12 2.89543 12 4V6" stroke="currentColor" stroke-width="1.5"/></svg>
+                    复制链接
+                </button>
+                <button class="btn-icon btn-download">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2V10M8 10L11 7M8 10L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 11V13C2 13.5523 2.44772 14 3 14H13C13.5523 14 14 13.5523 14 13V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    下载视频
+                </button>
+            </div>
+        </div>
+
+        <!-- 大视频预览 -->
+        <section class="video-preview-section">
+            <div class="video-container">
+                <div class="video-player-placeholder">
+                    <button class="big-play-btn">
+                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M10 6L22 14L10 22V6Z" fill="white"/></svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 历史任务列表 -->
+        <section class="recent-tasks" style="margin-top:40px;">
+            <div class="section-header-row">
+                <h3 class="section-label">全部任务</h3>
+            </div>
+            <div class="tasks-list">
+                <div class="task-item" style="background:rgba(168,85,247,0.06);border-radius:12px;">
+                    <div class="task-status task-status-done"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M4.5 7L6 8.5L9.5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                    <div class="task-info"><span class="task-name">产品演示视频_中英翻译.mp4</span><span class="task-meta">视频译制 · 中文→英文 · 12:34</span></div>
+                    <span class="task-time">2 小时前</span>
+                </div>
+                <div class="task-item">
+                    <div class="task-status task-status-processing"><div class="status-spinner"></div></div>
+                    <div class="task-info"><span class="task-name">电商直播 3.5 场次高光剪辑</span><span class="task-meta">直播剪辑 · 进行中 · 已生成 12 条</span></div>
+                    <span class="task-time">进行中</span>
+                </div>
+                <div class="task-item">
+                    <div class="task-status task-status-done"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M4.5 7L6 8.5L9.5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                    <div class="task-info"><span class="task-name">"赛博城市夜景"AI 生成</span><span class="task-meta">AI 生成 · 文生视频 · 00:15</span></div>
+                    <span class="task-time">昨天</span>
+                </div>
+                <div class="task-item">
+                    <div class="task-status task-status-done"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M4.5 7L6 8.5L9.5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                    <div class="task-info"><span class="task-name">日语教学视频_中日翻译.mp4</span><span class="task-meta">视频译制 · 日语→中文 · 08:22</span></div>
+                    <span class="task-time">3 天前</span>
+                </div>
+                <div class="task-item">
+                    <div class="task-status task-status-done"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M4.5 7L6 8.5L9.5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                    <div class="task-info"><span class="task-name">周末美食直播精华剪辑</span><span class="task-meta">直播剪辑 · 8 条片段 · 共 6:45</span></div>
+                    <span class="task-time">上周</span>
+                </div>
+                <div class="task-item">
+                    <div class="task-status task-status-done"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M4.5 7L6 8.5L9.5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                    <div class="task-info"><span class="task-name">"未来城市交通" AI 生成视频</span><span class="task-meta">AI 生成 · 文生视频 · 00:30</span></div>
+                    <span class="task-time">上周</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
