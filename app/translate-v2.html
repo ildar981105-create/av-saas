@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频译制 — FrameX</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+    /* ==============================================
+       V2 左右分栏 — 左视频+时间轴 / 右对话配置
+       ============================================== */
+
+    .tv2-body {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    /* ===== Top Bar ===== */
+    .tv2-topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 48px;
+        padding: 0 16px;
+        background: rgba(10,10,16,0.92);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        flex-shrink: 0;
+        z-index: 100;
+    }
+    .tv2-topbar-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .tv2-back {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.78rem;
+        font-weight: 500;
+        color: #64748b;
+        transition: color 0.2s;
+        text-decoration: none;
+    }
+    .tv2-back:hover { color: #e2e8f0; }
+    .tv2-topbar-title {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #e2e8f0;
+    }
+    .tv2-topbar-title .subtitle {
+        font-weight: 400;
+        color: #475569;
+        font-size: 0.72rem;
+        margin-left: 8px;
+    }
+    .tv2-topbar-right {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    /* ===== Main Split ===== */
+    .tv2-main {
+        flex: 1;
+        display: flex;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    /* ===== Left: Video + Timeline ===== */
+    .tv2-left {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Video area */
+    .tv2-video-wrap {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        padding: 16px;
+        min-height: 0;
+    }
+    .tv2-video-container {
+        position: relative;
+        width: 100%;
+        max-width: 960px;
+        aspect-ratio: 16/9;
+        background: #0a0a16;
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.06);
+    }
+    .tv2-video-container canvas {
+        width: 100%; height: 100%; display: block;
+    }
+
+    /* Upload overlay on video */
+    .tv2-upload-overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        background: rgba(6,6,10,0.85);
+        backdrop-filter: blur(8px);
+        z-index: 10;
+        border-radius: 16px;
+        cursor: pointer;
+        transition: all 0.3s;
+        border: 2px dashed rgba(168,85,247,0.2);
+    }
+    .tv2-upload-overlay:hover {
+        border-color: rgba(168,85,247,0.4);
+        background: rgba(6,6,10,0.75);
+    }
+    .tv2-upload-overlay.drag-over {
+        border-color: rgba(168,85,247,0.6);
+        background: rgba(168,85,247,0.06);
+    }
+    .tv2-upload-overlay.hidden { display: none; }
+    .tv2-upload-icon {
+        width: 56px; height: 56px;
+        border-radius: 50%;
+        background: rgba(168,85,247,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #a855f7;
+        position: relative;
+    }
+    .tv2-upload-icon::before {
+        content: '';
+        position: absolute;
+        inset: -6px;
+        border-radius: 50%;
+        border: 2px solid rgba(168,85,247,0.15);
+        animation: tv2UploadPulse 2s ease-in-out infinite;
+    }
+    @keyframes tv2UploadPulse {
+        0%,100% { transform: scale(1); opacity: 0.5; }
+        50% { transform: scale(1.12); opacity: 0; }
+    }
+    .tv2-upload-overlay h3 {
+        font-size: 0.92rem;
+        font-weight: 600;
+        color: #e2e8f0;
+    }
+    .tv2-upload-overlay p {
+        font-size: 0.75rem;
+        color: #64748b;
+    }
+    .tv2-upload-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 9px 22px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: #fff;
+        background: linear-gradient(135deg, #a855f7, #6366f1);
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-family: inherit;
+        box-shadow: 0 0 24px rgba(168,85,247,0.25);
+        transition: all 0.2s;
+        margin-top: 4px;
+    }
+    .tv2-upload-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 0 36px rgba(168,85,247,0.35);
+    }
+    .tv2-upload-formats {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.68rem;
+        color: #334155;
+        margin-top: 4px;
+    }
+    .tv2-upload-formats .ftag {
+        padding: 2px 7px;
+        border-radius: 4px;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.06);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.62rem;
+        color: #475569;
+    }
+
+    /* Processing overlay on video */
+    .tv2-processing-overlay {
+        position: absolute;
+        inset: 0;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        background: rgba(6,6,10,0.8);
+        backdrop-filter: blur(6px);
+        z-index: 10;
+        border-radius: 16px;
+    }
+    .tv2-processing-overlay.active { display: flex; }
+    .pv-orb { position: relative; width: 64px; height: 64px; }
+    .pv-orb .ring {
+        position: absolute; top: 50%; left: 50%;
+        transform: translate(-50%,-50%); border-radius: 50%;
+        border: 2px solid transparent;
+    }
+    .pv-orb .ring:nth-child(1) { width:64px;height:64px; border-top-color:#a855f7; animation: spin 1.5s linear infinite; }
+    .pv-orb .ring:nth-child(2) { width:48px;height:48px; border-right-color:#3b82f6; animation: spin 2s linear infinite reverse; }
+    .pv-orb .ring:nth-child(3) { width:32px;height:32px; border-bottom-color:#06b6d4; animation: spin 1s linear infinite; }
+    .pv-orb .core {
+        position: absolute; top:50%;left:50%; transform:translate(-50%,-50%);
+        width:12px;height:12px; border-radius:50%;
+        background:linear-gradient(135deg,#a855f7,#06b6d4);
+        box-shadow:0 0 18px rgba(168,85,247,0.5);
+    }
+    @keyframes spin { to { transform: translate(-50%,-50%) rotate(360deg); } }
+    .pv-text { font-size: 0.85rem; color: #94a3b8; }
+    .pv-bar-wrap { width: 200px; height: 3px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
+    .pv-bar { height: 100%; background: linear-gradient(90deg, #a855f7, #06b6d4); border-radius: 2px; width: 0%; transition: width 0.8s ease; }
+
+    /* Subtitle overlay on video */
+    .tv2-subtitle-overlay {
+        position: absolute;
+        bottom: 48px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        display: none;
+        flex-direction: column;
+        gap: 3px;
+        pointer-events: none;
+        z-index: 8;
+    }
+    .tv2-subtitle-overlay.active { display: flex; }
+    .tv2-subtitle-overlay .rs-en {
+        font-size: 1rem; font-weight: 600; color: #fff;
+        text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+    }
+    .tv2-subtitle-overlay .rs-zh {
+        font-size: 0.78rem; color: rgba(255,255,255,0.7);
+        text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+    }
+
+    /* Bottom Timeline (reusing editor styles) */
+    .tv2-timeline {
+        flex-shrink: 0;
+        background: rgba(10,10,16,0.95);
+        border-top: 1px solid rgba(255,255,255,0.06);
+        user-select: none;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease;
+    }
+    .tv2-timeline.visible {
+        max-height: 260px;
+        opacity: 1;
+    }
+    .tv2-tl-ruler {
+        display: flex;
+        align-items: flex-end;
+        height: 22px;
+        padding: 0 20px;
+        position: relative;
+        overflow: hidden;
+    }
+    .tv2-tl-ruler-marks {
+        width: 100%; height: 100%; position: relative;
+    }
+    .tv2-tl-ruler-mark {
+        position: absolute; bottom: 0;
+        display: flex; flex-direction: column; align-items: center;
+    }
+    .tv2-tl-ruler-mark .tick {
+        width: 1px; height: 8px; background: rgba(255,255,255,0.08);
+    }
+    .tv2-tl-ruler-mark .tick-label {
+        font-size: 0.58rem; font-family: 'JetBrains Mono', monospace;
+        color: #334155; margin-bottom: 2px;
+    }
+    .tv2-tl-ruler-mark.major .tick {
+        height: 12px; background: rgba(255,255,255,0.15);
+    }
+    .tv2-tl-tracks {
+        position: relative; padding: 0 20px; cursor: pointer;
+    }
+    .tv2-tl-track {
+        position: relative; height: 0; display: flex; align-items: center; margin-bottom: 0;
+        opacity: 0; overflow: hidden;
+        transition: height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease, margin-bottom 0.3s ease;
+    }
+    .tv2-tl-track.track-visible {
+        height: 22px; opacity: 1; margin-bottom: 1px; overflow: visible;
+    }
+    .tv2-tl-track-bg {
+        position: absolute; inset: 0; background: rgba(255,255,255,0.015); border-radius: 3px;
+    }
+    .tv2-tl-segment {
+        position: absolute; top: 2px; bottom: 2px; border-radius: 3px;
+        display: flex; align-items: center; justify-content: center;
+        overflow: hidden; cursor: pointer; transition: all 0.15s;
+    }
+    .tv2-tl-segment:hover { filter: brightness(1.2); }
+    .tv2-tl-seg-label {
+        font-size: 0.52rem; font-family: 'JetBrains Mono', monospace;
+        white-space: nowrap; opacity: 0.7;
+    }
+    .tv2-tl-segment--erase { background: rgba(239,68,68,0.2); border: 1px solid rgba(239,68,68,0.35); color: #ef4444; }
+    .tv2-tl-segment--subtitle { background: rgba(59,130,246,0.2); border: 1px solid rgba(59,130,246,0.35); color: #3b82f6; }
+    .tv2-tl-segment--voice { background: rgba(168,85,247,0.2); border: 1px solid rgba(168,85,247,0.35); color: #a855f7; }
+
+    .tv2-tl-playhead {
+        position: absolute; top: 0; bottom: 0; width: 2px; z-index: 10;
+        pointer-events: none; transition: left 0.05s linear;
+    }
+    .tv2-tl-playhead-line {
+        position: absolute; top: 0; bottom: 0; left: 0; width: 2px;
+        background: #a855f7;
+        box-shadow: 0 0 8px rgba(168,85,247,0.6), 0 0 16px rgba(168,85,247,0.3);
+    }
+    .tv2-tl-playhead-head {
+        position: absolute; top: -4px; left: 50%; transform: translateX(-50%);
+        width: 10px; height: 10px; background: #a855f7;
+        border-radius: 2px 2px 50% 50%;
+        box-shadow: 0 0 6px rgba(168,85,247,0.5);
+    }
+    .tv2-tl-controls {
+        display: flex; align-items: center; gap: 10px; padding: 5px 20px 7px;
+    }
+    .tv2-tl-play {
+        width: 26px; height: 26px; border-radius: 50%; border: none;
+        background: rgba(255,255,255,0.08); color: #e2e8f0;
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer; flex-shrink: 0; transition: background 0.2s;
+    }
+    .tv2-tl-play:hover { background: rgba(168,85,247,0.3); }
+    .tv2-tl-play.playing svg { display: none; }
+    .tv2-tl-play.playing::after {
+        content: ''; width: 8px; height: 10px;
+        border-left: 2.5px solid #fff; border-right: 2.5px solid #fff;
+    }
+    .tv2-tl-time {
+        font-size: 0.66rem; font-family: 'JetBrains Mono', monospace;
+        color: #64748b;
+    }
+    .tv2-tl-time .current { color: #e2e8f0; font-weight: 500; }
+
+    /* Processing steps indicator below timeline */
+    .tv2-steps {
+        display: flex; align-items: center; justify-content: center;
+        gap: 8px; padding: 6px 20px 8px;
+        border-top: 1px solid rgba(255,255,255,0.03);
+        display: none;
+    }
+    .tv2-steps.active { display: flex; }
+    .pstep {
+        display: flex; align-items: center; gap: 5px;
+        padding: 4px 12px; border-radius: 6px;
+        font-size: 0.7rem; font-weight: 500;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.06);
+        color: #475569; transition: all 0.3s;
+    }
+    .pstep.active { color: #a78bfa; background: rgba(168,85,247,0.1); border-color: rgba(168,85,247,0.25); }
+    .pstep.done { color: #22c55e; border-color: rgba(34,197,94,0.25); }
+    .pstep-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+    .pstep.active .pstep-dot { animation: pulse-step 1.5s infinite; }
+    @keyframes pulse-step {
+        0%,100% { box-shadow: 0 0 0 0 rgba(168,85,247,0.4); }
+        50% { box-shadow: 0 0 0 4px rgba(168,85,247,0); }
+    }
+
+    /* ===== Right: Chat Panel ===== */
+    .tv2-right {
+        width: 380px;
+        flex-shrink: 0;
+        background: rgba(12,12,20,0.95);
+        backdrop-filter: blur(20px);
+        border-left: 1px solid rgba(255,255,255,0.06);
+        display: flex;
+        flex-direction: column;
+        z-index: 50;
+        overflow: hidden;
+    }
+
+    .tv2-chat-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 16px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        flex-shrink: 0;
+    }
+    .tv2-chat-header-icon {
+        width: 28px; height: 28px;
+        border-radius: 8px;
+        background: rgba(168,85,247,0.12);
+        color: #a855f7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    .tv2-chat-header h3 {
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+    .tv2-chat-header p {
+        font-size: 0.68rem;
+        color: #64748b;
+    }
+
+    /* Chat scroll area */
+    .tv2-chat-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 16px 16px 300px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        min-height: 0;
+    }
+    .tv2-chat-body::-webkit-scrollbar { width: 4px; }
+    .tv2-chat-body::-webkit-scrollbar-track { background: transparent; }
+    .tv2-chat-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
+
+    /* Chat bubbles */
+    .chat-bubble {
+        max-width: 88%;
+        padding: 12px 14px;
+        border-radius: 14px;
+        font-size: 0.82rem;
+        line-height: 1.6;
+        opacity: 0;
+        transform: translateY(8px);
+        animation: bubbleIn 0.35s ease-out forwards;
+    }
+    @keyframes bubbleIn {
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .chat-bubble--ai {
+        align-self: flex-start;
+        background: rgba(168,85,247,0.06);
+        border: 1px solid rgba(168,85,247,0.12);
+        color: #e2e8f0;
+        border-bottom-left-radius: 4px;
+    }
+    .chat-bubble--ai .bubble-avatar {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.68rem;
+        font-weight: 600;
+        color: #a78bfa;
+        margin-bottom: 6px;
+    }
+    .chat-bubble--user {
+        align-self: flex-end;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.07);
+        color: #94a3b8;
+        border-bottom-right-radius: 4px;
+    }
+
+    /* Video info in bubble */
+    .bubble-video-info {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 8px;
+        padding: 8px 10px;
+        background: rgba(0,0,0,0.2);
+        border-radius: 10px;
+    }
+    .bubble-video-thumb {
+        width: 48px; height: 28px;
+        border-radius: 5px;
+        overflow: hidden;
+        flex-shrink: 0;
+        background: #0a0a16;
+    }
+    .bubble-video-thumb canvas { width: 100%; height: 100%; display: block; }
+    .bubble-video-meta { font-size: 0.7rem; }
+    .bubble-video-meta .vname { color: #e2e8f0; font-weight: 600; display: block; }
+    .bubble-video-meta .vmeta { color: #475569; font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; }
+
+    /* Feature cards in bubble */
+    .chat-features {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin: 8px 0;
+    }
+    .chat-feature-card {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        background: rgba(255,255,255,0.025);
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.25s;
+    }
+    .chat-feature-card:hover {
+        border-color: rgba(168,85,247,0.2);
+        background: rgba(168,85,247,0.03);
+    }
+    .chat-feature-card.selected {
+        border-color: rgba(168,85,247,0.3);
+        background: rgba(168,85,247,0.05);
+    }
+    .chat-feature-icon {
+        width: 30px; height: 30px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    .chat-feature-icon--red { background: rgba(239,68,68,0.12); color: #ef4444; }
+    .chat-feature-icon--blue { background: rgba(59,130,246,0.12); color: #3b82f6; }
+    .chat-feature-icon--purple { background: rgba(168,85,247,0.12); color: #a855f7; }
+    .chat-feature-info { flex: 1; min-width: 0; }
+    .chat-feature-info h4 { font-size: 0.78rem; font-weight: 600; margin-bottom: 1px; }
+    .chat-feature-info p { font-size: 0.66rem; color: #64748b; }
+    .chat-feature-check {
+        width: 20px; height: 20px;
+        border-radius: 5px;
+        border: 1.5px solid rgba(255,255,255,0.1);
+        background: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: all 0.2s;
+        color: transparent;
+    }
+    .chat-feature-card.selected .chat-feature-check {
+        background: rgba(168,85,247,0.2);
+        border-color: rgba(168,85,247,0.5);
+        color: #a855f7;
+    }
+
+    /* Quick config in bubble */
+    .chat-quick-config {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin: 6px 0;
+    }
+    .chat-config-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 10px;
+        background: rgba(0,0,0,0.15);
+        border-radius: 8px;
+    }
+    .chat-config-row .ccr-icon {
+        width: 6px; height: 6px;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+    .chat-config-row .ccr-label {
+        font-size: 0.72rem;
+        font-weight: 500;
+        color: #94a3b8;
+        width: 42px;
+        flex-shrink: 0;
+    }
+    .chat-config-row select {
+        flex: 1;
+        padding: 5px 8px;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.07);
+        border-radius: 6px;
+        color: #e2e8f0;
+        font-size: 0.72rem;
+        font-family: inherit;
+        outline: none;
+        -webkit-appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%2364748b' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 8px center;
+        padding-right: 24px;
+    }
+    .chat-config-row select option { background: #16162a; color: #e2e8f0; }
+    .chat-config-row[data-feature="erase"] .ccr-icon { background: #ef4444; }
+    .chat-config-row[data-feature="subtitle"] .ccr-icon { background: #3b82f6; }
+    .chat-config-row[data-feature="voice"] .ccr-icon { background: #a855f7; }
+
+    /* Step action buttons */
+    .chat-step-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 8px;
+    }
+    .chat-step-confirm {
+        flex: 1;
+        padding: 8px 16px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: #fff;
+        background: linear-gradient(135deg, #a855f7, #6366f1);
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.2s;
+    }
+    .chat-step-confirm:hover { transform: translateY(-1px); box-shadow: 0 0 16px rgba(168,85,247,0.3); }
+    .chat-step-skip {
+        padding: 8px 14px;
+        font-size: 0.78rem;
+        font-weight: 500;
+        color: #64748b;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 8px;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.2s;
+    }
+    .chat-step-skip:hover { color: #94a3b8; border-color: rgba(255,255,255,0.15); }
+
+    /* Start button */
+    .chat-start-wrap {
+        padding: 4px 0 8px;
+    }
+    .chat-start-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        padding: 11px 20px;
+        font-size: 0.88rem;
+        font-weight: 700;
+        color: #fff;
+        background: linear-gradient(135deg, #a855f7, #6366f1, #3b82f6);
+        background-size: 200% 200%;
+        animation: gradShift 4s ease infinite;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        box-shadow: 0 0 30px rgba(168,85,247,0.25);
+        transition: all 0.3s;
+        font-family: inherit;
+    }
+    @keyframes gradShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+    .chat-start-btn:hover { transform: translateY(-1px); box-shadow: 0 0 40px rgba(168,85,247,0.35); }
+
+    /* Result actions in chat */
+    .chat-result-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 4px;
+    }
+    .ra-btn-export {
+        flex: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 10px 16px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: #fff;
+        background: linear-gradient(135deg, #a855f7, #6366f1);
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        box-shadow: 0 0 20px rgba(168,85,247,0.25);
+        transition: all 0.2s;
+        font-family: inherit;
+    }
+    .ra-btn-export:hover { transform: translateY(-1px); box-shadow: 0 0 30px rgba(168,85,247,0.35); }
+    .ra-btn-finetune {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 10px 18px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: #94a3b8;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+        text-decoration: none;
+    }
+    .ra-btn-finetune:hover { color: #e2e8f0; border-color: rgba(168,85,247,0.3); background: rgba(168,85,247,0.06); }
+
+    /* Phase state classes for empty/uploading/ready/processing/done */
+    .tv2-phase-indicator {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        z-index: 12;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 0.68rem;
+        font-weight: 500;
+        background: rgba(10,10,20,0.8);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255,255,255,0.06);
+    }
+    .tv2-phase-indicator.hidden { display: none; }
+    .tv2-phase-dot {
+        width: 6px; height: 6px;
+        border-radius: 50%;
+        background: #64748b;
+    }
+    .tv2-phase-dot.live { background: #22c55e; animation: pulse-step 1.5s infinite; }
+    .tv2-phase-dot.processing { background: #a855f7; animation: pulse-step 1.2s infinite; }
+
+    /* Responsive */
+    @media (max-width: 800px) {
+        .tv2-main { flex-direction: column; }
+        .tv2-right {
+            width: 100%;
+            max-height: 40vh;
+            border-left: none;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+    }
+
+    /* Immersive mode: hide sidebar, expand main */
+    .tv2-body.tv2-immersive .sidebar {
+        transform: translateX(-100%);
+        opacity: 0;
+        pointer-events: none;
+    }
+    .tv2-body.tv2-immersive .main-content {
+        margin-left: 0 !important;
+    }
+    </style>
+</head>
+<body class="tv2-body">
+
+    <!-- ===== Sidebar ===== -->
+    <aside class="sidebar">
+        <a href="index.html" class="sidebar-logo">
+            <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#sLogo)" stroke-width="2.5"/><path d="M12 10L22 16L12 22V10Z" fill="url(#sLogo)"/><defs><linearGradient id="sLogo" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#a855f7"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs></svg>
+            <span>FrameX</span>
+        </a>
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10L10 3L17 10V17H12V13H8V17H3V10Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span>工作台</span></a>
+            <a href="translate-v2.html" class="nav-item active"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 9H13M7 12H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>视频译制</span></a>
+            <a href="livestream.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="4" cy="5" r="2" fill="#ef4444"/></svg><span>直播剪辑</span></a>
+            <a href="generate.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L12 8H18L13 12L15 18L10 14L5 18L7 12L2 8H8L10 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span>AI 生成</span></a>
+            <div class="nav-divider"></div>
+            <a href="result.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 10L9 12L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>任务记录</span></a>
+        </nav>
+        <div class="sidebar-bottom">
+            <div class="user-card"><div class="avatar">U</div><div class="user-info"><span class="user-name">用户</span><span class="user-plan">专业版</span></div></div>
+        </div>
+    </aside>
+
+    <main class="main-content" style="padding:0; display:flex; flex-direction:column; overflow:hidden;">
+
+        <!-- Top Bar -->
+        <header class="tv2-topbar">
+            <div class="tv2-topbar-left">
+                <a href="index.html" class="tv2-back">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    工作台
+                </a>
+                <span class="tv2-topbar-title">
+                    新建译制任务
+                    <span class="subtitle" id="topbarFilename"></span>
+                </span>
+            </div>
+            <div class="tv2-topbar-right">
+                <button class="ev2-btn-export" id="globalExportBtn" style="display:none;">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2V9M8 9L11 6M8 9L5 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 11V13C3 13.5523 3.44772 14 4 14H12C12.5523 14 13 13.5523 13 13V11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                    导出
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Split Layout -->
+        <div class="tv2-main">
+
+            <!-- Left: Video + Timeline -->
+            <div class="tv2-left">
+                <div class="tv2-video-wrap">
+                    <div class="tv2-video-container">
+                        <canvas id="mainCanvas"></canvas>
+
+                        <!-- Upload overlay -->
+                        <div class="tv2-upload-overlay" id="uploadOverlay">
+                            <div class="tv2-upload-icon">
+                                <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+                                    <path d="M16 6V20M16 6L22 12M16 6L10 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M6 22V26C6 27.1046 6.89543 28 8 28H24C25.1046 28 26 27.1046 26 26V22" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <h3>拖入视频文件</h3>
+                            <p>支持 120+ 语言互译 · AI 擦除 · 声音克隆</p>
+                            <button class="tv2-upload-btn" id="uploadBtn">
+                                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 8H14M8 2V14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                                选择视频文件
+                            </button>
+                            <div class="tv2-upload-formats">
+                                <span class="ftag">MP4</span>
+                                <span class="ftag">MOV</span>
+                                <span class="ftag">AVI</span>
+                                <span class="ftag">MKV</span>
+                            </div>
+                        </div>
+                        <input type="file" id="videoFileInput" accept="video/*" hidden>
+
+                        <!-- Processing overlay -->
+                        <div class="tv2-processing-overlay" id="processingOverlay">
+                            <div class="pv-orb">
+                                <div class="ring"></div>
+                                <div class="ring"></div>
+                                <div class="ring"></div>
+                                <div class="core"></div>
+                            </div>
+                            <div class="pv-text" id="pvText">正在擦除字幕...</div>
+                            <div class="pv-bar-wrap"><div class="pv-bar" id="pvBar"></div></div>
+                        </div>
+
+                        <!-- Phase indicator badge -->
+                        <div class="tv2-phase-indicator hidden" id="phaseIndicator">
+                            <span class="tv2-phase-dot" id="phaseDot"></span>
+                            <span id="phaseLabel">就绪</span>
+                        </div>
+
+                        <!-- Subtitle overlay -->
+                        <div class="tv2-subtitle-overlay" id="subtitleOverlay">
+                            <span class="rs-en">The future of AI video translation is here</span>
+                            <span class="rs-zh">AI 视频翻译的未来已来</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline -->
+                <div class="tv2-timeline" id="timeline">
+                    <div class="tv2-tl-ruler">
+                        <div class="tv2-tl-ruler-marks" id="rulerMarks"></div>
+                    </div>
+                    <div class="tv2-tl-tracks" id="tlTracks">
+                        <div class="tv2-tl-track" data-track="erase">
+                            <div class="tv2-tl-track-bg"></div>
+                            <div class="tv2-tl-segment tv2-tl-segment--erase" style="left:0%;width:6%;"><span class="tv2-tl-seg-label">E1</span></div>
+                            <div class="tv2-tl-segment tv2-tl-segment--erase" style="left:8%;width:10%;"><span class="tv2-tl-seg-label">E2</span></div>
+                            <div class="tv2-tl-segment tv2-tl-segment--erase" style="left:20%;width:12%;"><span class="tv2-tl-seg-label">E3</span></div>
+                            <div class="tv2-tl-segment tv2-tl-segment--erase" style="left:35%;width:14%;"><span class="tv2-tl-seg-label">E4</span></div>
+                            <div class="tv2-tl-segment tv2-tl-segment--erase" style="left:52%;width:10%;"><span class="tv2-tl-seg-label">E5</span></div>
+                            <div class="tv2-tl-segment tv2-tl-segment--erase" style="left:65%;width:15%;"><span class="tv2-tl-seg-label">E6</span></div>
+                            <div class="tv2-tl-segment tv2-tl-segment--erase" style="left:83%;width:12%;"><span class="tv2-tl-seg-label">E7</span></div>
+                        </div>
+                        <div class="tv2-tl-track" data-track="subtitle">
+                            <div class="tv2-tl-track-bg"></div>
+                            <div class="tv2-tl-segment tv2-tl-segment--subtitle" style="left:0%;width:6%;"><span class="tv2-tl-seg-label">S1</span></div>
+                            <div class="tv2-tl-segment tv2-tl-segment--subtitle" style="left:8%;width:10%;"><span class="tv2-tl-seg-label">S2</span></div>
+                            <div class="tv2-tl-segment tv2-tl-segment--subtitle" style="left:20%;width:12%;"><span class="tv2-tl-seg-label">S3</span></div>
+                            <div class="tv2-tl-segment tv2-tl-segment--subtitle" style="left:35%;width:14%;"><span class="tv2-tl-seg-label">S4</span></div>
+                            <div class="tv2-tl-segment tv2-tl-segment--subtitle" style="left:52%;width:10%;"><span class="tv2-tl-seg-label">S5</span></div>
+                            <div class="tv2-tl-segment tv2-tl-segment--subtitle" style="left:65%;width:15%;"><span class="tv2-tl-seg-label">S6</span></div>
+                            <div class="tv2-tl-segment tv2-tl-segment--subtitle" style="left:83%;width:12%;"><span class="tv2-tl-seg-label">S7</span></div>
+                        </div>
+                        <div class="tv2-tl-track" data-track="voice">
+                            <div class="tv2-tl-track-bg"></div>
+                            <div class="tv2-tl-segment tv2-tl-segment--voice" style="left:0%;width:6%;"><span class="tv2-tl-seg-label">V1</span></div>
+                            <div class="tv2-tl-segment tv2-tl-segment--voice" style="left:8%;width:10%;"><span class="tv2-tl-seg-label">V2</span></div>
+                            <div class="tv2-tl-segment tv2-tl-segment--voice" style="left:20%;width:12%;"><span class="tv2-tl-seg-label">V3</span></div>
+                            <div class="tv2-tl-segment tv2-tl-segment--voice" style="left:35%;width:14%;"><span class="tv2-tl-seg-label">V4</span></div>
+                            <div class="tv2-tl-segment tv2-tl-segment--voice" style="left:52%;width:10%;"><span class="tv2-tl-seg-label">V5</span></div>
+                            <div class="tv2-tl-segment tv2-tl-segment--voice" style="left:65%;width:15%;"><span class="tv2-tl-seg-label">V6</span></div>
+                            <div class="tv2-tl-segment tv2-tl-segment--voice" style="left:83%;width:12%;"><span class="tv2-tl-seg-label">V7</span></div>
+                        </div>
+                        <div class="tv2-tl-playhead" id="tlPlayhead" style="left:0%;">
+                            <div class="tv2-tl-playhead-head"></div>
+                            <div class="tv2-tl-playhead-line"></div>
+                        </div>
+                    </div>
+                    <div class="tv2-tl-controls">
+                        <button class="tv2-tl-play" id="tlPlay">
+                            <svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="M3 1.5L12 7L3 12.5V1.5Z" fill="currentColor"/></svg>
+                        </button>
+                        <span class="tv2-tl-time" id="tlTime">
+                            <span class="current">00:00</span> / 02:34
+                        </span>
+                    </div>
+                    <!-- Processing steps -->
+                    <div class="tv2-steps" id="processingSteps">
+                        <div class="pstep" data-ps="erase"><span class="pstep-dot"></span>擦除</div>
+                        <div class="pstep" data-ps="subtitle"><span class="pstep-dot"></span>翻译</div>
+                        <div class="pstep" data-ps="voice"><span class="pstep-dot"></span>配音</div>
+                        <div class="pstep" data-ps="merge"><span class="pstep-dot"></span>合成</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Chat Panel -->
+            <aside class="tv2-right">
+                <div class="tv2-chat-header">
+                    <div class="tv2-chat-header-icon">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.2"/><path d="M8 4V8L10 10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                    </div>
+                    <div>
+                        <h3>FrameX AI 助手</h3>
+                        <p>上传视频开始配置</p>
+                    </div>
+                </div>
+                <div class="tv2-chat-body" id="chatFlow">
+                    <!-- Initial welcome bubble -->
+                    <div class="chat-bubble chat-bubble--ai" style="animation-delay:0.1s;">
+                        <div class="bubble-avatar">
+                            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.2"/><path d="M8 4V8L10 10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                            FrameX AI
+                        </div>
+                        你好！请在左侧上传视频文件，我会自动分析并帮你配置译制参数。
+                    </div>
+                </div>
+            </aside>
+
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+    <script>
+    (function() {
+        /* ===== State ===== */
+        let phase = 'upload'; // upload | config | processing | done
+        let playing = false;
+        let videoTime = 0;
+        const videoDuration = 154;
+        let animFrame = null;
+        let features = { erase: true, subtitle: true, voice: true };
+        let uploadedFileName = '';
+
+        /* ===== Elements ===== */
+        const canvas = document.getElementById('mainCanvas');
+        const ctx = canvas.getContext('2d');
+        const uploadOverlay = document.getElementById('uploadOverlay');
+        const processingOverlay = document.getElementById('processingOverlay');
+        const subtitleOverlay = document.getElementById('subtitleOverlay');
+        const phaseIndicator = document.getElementById('phaseIndicator');
+        const phaseDot = document.getElementById('phaseDot');
+        const phaseLabel = document.getElementById('phaseLabel');
+        const chatFlow = document.getElementById('chatFlow');
+        const fileInput = document.getElementById('videoFileInput');
+        const tlPlayhead = document.getElementById('tlPlayhead');
+        const tlTracks = document.getElementById('tlTracks');
+
+        /* ===== Canvas ===== */
+        function resizeCanvas() {
+            const c = canvas.parentElement;
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = c.clientWidth * dpr;
+            canvas.height = c.clientHeight * dpr;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        function drawFrame(t) {
+            const dpr = window.devicePixelRatio || 1;
+            const w = canvas.width / dpr, h = canvas.height / dpr;
+            ctx.save();
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            ctx.clearRect(0, 0, w, h);
+            const hue = (t * 6) % 360;
+            const grd = ctx.createLinearGradient(0, 0, w, h);
+            grd.addColorStop(0, `hsl(${hue},35%,10%)`);
+            grd.addColorStop(0.5, `hsl(${(hue+50)%360},30%,14%)`);
+            grd.addColorStop(1, `hsl(${(hue+120)%360},25%,8%)`);
+            ctx.fillStyle = grd;
+            ctx.fillRect(0, 0, w, h);
+            const cx = w * 0.5, cy = h * 0.4;
+            ctx.globalAlpha = 0.2;
+            ctx.beginPath();
+            ctx.arc(cx, cy - 30, 28, 0, Math.PI * 2);
+            ctx.fillStyle = `hsl(${hue+180},20%,28%)`;
+            ctx.fill();
+            ctx.beginPath();
+            ctx.ellipse(cx, cy + 30, 36, 50, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.globalAlpha = 0.12;
+            for (let i = 0; i < 10; i++) {
+                const px = (Math.sin(t * 0.25 + i * 2) * 0.4 + 0.5) * w;
+                const py = (Math.cos(t * 0.18 + i * 2.3) * 0.4 + 0.5) * h;
+                ctx.beginPath();
+                ctx.arc(px, py, 1.5 + Math.sin(t * 0.5 + i), 0, Math.PI * 2);
+                ctx.fillStyle = '#a78bfa';
+                ctx.fill();
+            }
+            ctx.restore();
+        }
+
+        function tick() {
+            if (playing) {
+                videoTime += 1 / 60;
+                if (videoTime >= videoDuration) videoTime = 0;
+            }
+            drawFrame(videoTime);
+            updateTimeline();
+            animFrame = requestAnimationFrame(tick);
+        }
+
+        function updateTimeline() {
+            const pct = (videoTime / videoDuration) * 100;
+            tlPlayhead.style.left = pct + '%';
+            const m = Math.floor(videoTime / 60);
+            const s = Math.floor(videoTime % 60);
+            document.getElementById('tlTime').innerHTML =
+                `<span class="current">${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}</span> / 02:34`;
+        }
+
+        /* ===== Ruler ===== */
+        function buildRuler() {
+            const marks = document.getElementById('rulerMarks');
+            marks.innerHTML = '';
+            const step = 15;
+            for (let s = 0; s <= videoDuration; s += step) {
+                const pct = (s / videoDuration) * 100;
+                const mark = document.createElement('div');
+                mark.className = 'tv2-tl-ruler-mark' + (s % 60 === 0 ? ' major' : '');
+                mark.style.left = pct + '%';
+                const mm = Math.floor(s / 60), sec = s % 60;
+                mark.innerHTML = `<span class="tick-label">${String(mm).padStart(2,'0')}:${String(sec).padStart(2,'0')}</span><span class="tick"></span>`;
+                marks.appendChild(mark);
+            }
+        }
+        buildRuler();
+
+        /* ===== Upload ===== */
+        uploadOverlay.addEventListener('click', (e) => {
+            if (e.target.closest('.tv2-upload-btn') || e.target === uploadOverlay || e.target.closest('.tv2-upload-icon') || e.target.closest('h3') || e.target.closest('p')) {
+                fileInput.click();
+            }
+        });
+        uploadOverlay.addEventListener('dragover', e => { e.preventDefault(); uploadOverlay.classList.add('drag-over'); });
+        uploadOverlay.addEventListener('dragleave', () => uploadOverlay.classList.remove('drag-over'));
+        uploadOverlay.addEventListener('drop', e => { e.preventDefault(); uploadOverlay.classList.remove('drag-over'); handleFile(e.dataTransfer.files[0]); });
+        fileInput.addEventListener('change', () => { if (fileInput.files.length) handleFile(fileInput.files[0]); });
+
+        function handleFile(file) {
+            uploadedFileName = file ? file.name : 'demo_video.mp4';
+            document.getElementById('topbarFilename').textContent = '— ' + uploadedFileName;
+            uploadOverlay.classList.add('hidden');
+            phaseIndicator.classList.remove('hidden');
+            phaseDot.className = 'tv2-phase-dot live';
+            phaseLabel.textContent = '视频已加载';
+            // Show timeline with animation
+            document.getElementById('timeline').classList.add('visible');
+            // Enter immersive mode — collapse sidebar
+            document.body.classList.add('tv2-immersive');
+            // Reset step state
+            currentStep = -1;
+            features = { erase: false, subtitle: false, voice: false };
+            // Hide all tracks
+            document.querySelectorAll('.tv2-tl-track').forEach(t => t.classList.remove('track-visible'));
+            phase = 'config';
+            playing = false;
+            buildConfigChat();
+        }
+
+        /* ===== Build chat config (step-by-step) ===== */
+        const configSteps = ['erase', 'subtitle', 'voice'];
+        let currentStep = -1;
+
+        function buildConfigChat() {
+            chatFlow.innerHTML = '';
+
+            // User bubble: uploaded
+            appendBubble('user', `已上传 <strong>${uploadedFileName}</strong>`, 0);
+
+            // AI: analysis result
+            const analysisHtml = `
+                <div class="bubble-video-info">
+                    <div class="bubble-video-thumb"><canvas id="chatThumb" width="96" height="56"></canvas></div>
+                    <div class="bubble-video-meta">
+                        <span class="vname">${uploadedFileName}</span>
+                        <span class="vmeta">128.5 MB · 1920×1080 · 30fps</span>
+                    </div>
+                </div>
+                视频分析完成！检测到语言: <strong>中文</strong> | 时长: <strong>02:34</strong><br>我来帮你逐步配置译制参数。`;
+            appendBubble('ai', analysisHtml, 0.3);
+
+            // Draw thumb
+            setTimeout(() => {
+                const c = document.getElementById('chatThumb');
+                if (c) {
+                    const cctx = c.getContext('2d');
+                    const g = cctx.createLinearGradient(0,0,c.width,c.height);
+                    g.addColorStop(0,'#1a1a2e'); g.addColorStop(0.5,'#16213e'); g.addColorStop(1,'#0f3460');
+                    cctx.fillStyle = g; cctx.fillRect(0,0,c.width,c.height);
+                }
+            }, 100);
+
+            // Start step-by-step config after a delay
+            setTimeout(() => advanceStep(), 800);
+        }
+
+        function advanceStep() {
+            currentStep++;
+            if (currentStep >= configSteps.length) {
+                // All steps done, show start button
+                showStartButton();
+                return;
+            }
+            const step = configSteps[currentStep];
+            showStepBubble(step);
+        }
+
+        function showStepBubble(step) {
+            const stepConfigs = {
+                erase: {
+                    icon: `<svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M16 4L8 12L4 16H10L18 8L16 4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M2 18H18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+                    iconClass: 'chat-feature-icon--red',
+                    title: '擦除原字幕',
+                    desc: 'AI 检测到 7 处字幕区域，需要擦除吗？',
+                    configHtml: `<div class="chat-quick-config">
+                        <div class="chat-config-row" data-feature="erase">
+                            <span class="ccr-icon"></span>
+                            <span class="ccr-label">模式</span>
+                            <select><option>AI 自动</option><option>手动指定</option></select>
+                        </div>
+                        <div class="chat-config-row" data-feature="erase">
+                            <span class="ccr-icon"></span>
+                            <span class="ccr-label">质量</span>
+                            <select><option>高质量</option><option>标准</option><option>快速</option></select>
+                        </div>
+                    </div>`,
+                    confirmText: '确认擦除设置'
+                },
+                subtitle: {
+                    icon: `<svg width="16" height="16" viewBox="0 0 20 20" fill="none"><rect x="3" y="5" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M6 11H14M6 13H11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>`,
+                    iconClass: 'chat-feature-icon--blue',
+                    title: '添加新字幕',
+                    desc: '接下来配置字幕翻译，选择目标语言和显示方式。',
+                    configHtml: `<div class="chat-quick-config">
+                        <div class="chat-config-row" data-feature="subtitle">
+                            <span class="ccr-icon"></span>
+                            <span class="ccr-label">语言</span>
+                            <select><option>英语</option><option>日语</option><option>韩语</option><option>法语</option><option>德语</option><option>西班牙语</option></select>
+                        </div>
+                        <div class="chat-config-row" data-feature="subtitle">
+                            <span class="ccr-icon"></span>
+                            <span class="ccr-label">样式</span>
+                            <select><option>双语对照</option><option>仅译文</option><option>仅原文</option></select>
+                        </div>
+                    </div>`,
+                    confirmText: '确认字幕设置'
+                },
+                voice: {
+                    icon: `<svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 3V13M7 7V9M13 5V11M4 9V7M16 8V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+                    iconClass: 'chat-feature-icon--purple',
+                    title: 'AI 配音',
+                    desc: '最后一步：配置 AI 配音参数。',
+                    configHtml: `<div class="chat-quick-config">
+                        <div class="chat-config-row" data-feature="voice">
+                            <span class="ccr-icon"></span>
+                            <span class="ccr-label">音色</span>
+                            <select><option>克隆原声</option><option>自然男声</option><option>自然女声</option></select>
+                        </div>
+                        <div class="chat-config-row" data-feature="voice">
+                            <span class="ccr-icon"></span>
+                            <span class="ccr-label">语速</span>
+                            <select><option>自动匹配</option><option>稍快</option><option>稍慢</option></select>
+                        </div>
+                    </div>`,
+                    confirmText: '确认配音设置'
+                }
+            };
+
+            const cfg = stepConfigs[step];
+
+            // AI bubble with feature card + config
+            const bubbleHtml = `
+                <div class="chat-features">
+                    <div class="chat-feature-card selected" style="pointer-events:none;">
+                        <div class="chat-feature-icon ${cfg.iconClass}">${cfg.icon}</div>
+                        <div class="chat-feature-info"><h4>${cfg.title}</h4><p>${cfg.desc}</p></div>
+                    </div>
+                </div>
+                ${cfg.configHtml}
+                <div class="chat-step-actions">
+                    <button class="chat-step-skip" data-step="${step}">跳过</button>
+                    <button class="chat-step-confirm" data-step="${step}">${cfg.confirmText}</button>
+                </div>`;
+            appendBubble('ai', bubbleHtml, 0);
+            scrollChat();
+
+            // Bind buttons after a tick
+            setTimeout(() => {
+                const confirmBtn = chatFlow.querySelector(`.chat-step-confirm[data-step="${step}"]`);
+                const skipBtn = chatFlow.querySelector(`.chat-step-skip[data-step="${step}"]`);
+                if (confirmBtn) confirmBtn.addEventListener('click', () => confirmStep(step, true));
+                if (skipBtn) skipBtn.addEventListener('click', () => confirmStep(step, false));
+            }, 50);
+        }
+
+        function confirmStep(step, enabled) {
+            features[step] = enabled;
+
+            // Disable the step buttons
+            const btns = chatFlow.querySelectorAll(`.chat-step-confirm[data-step="${step}"], .chat-step-skip[data-step="${step}"]`);
+            btns.forEach(b => { b.disabled = true; b.style.opacity = '0.4'; b.style.pointerEvents = 'none'; });
+
+            if (enabled) {
+                // User confirms
+                const labelMap = { erase: '擦除', subtitle: '字幕', voice: '配音' };
+                appendBubble('user', `已确认${labelMap[step]}设置 ✓`, 0);
+
+                // Show corresponding timeline track with animation
+                const track = document.querySelector(`.tv2-tl-track[data-track="${step}"]`);
+                if (track) {
+                    setTimeout(() => track.classList.add('track-visible'), 200);
+                }
+            } else {
+                appendBubble('user', `跳过此步骤`, 0);
+                // Hide track
+                const track = document.querySelector(`.tv2-tl-track[data-track="${step}"]`);
+                if (track) track.classList.remove('track-visible');
+            }
+
+            scrollChat();
+            // Next step after brief delay
+            setTimeout(() => advanceStep(), 600);
+        }
+
+        function showStartButton() {
+            // AI summary
+            const enabledFeats = [];
+            if (features.erase) enabledFeats.push('擦除');
+            if (features.subtitle) enabledFeats.push('字幕翻译');
+            if (features.voice) enabledFeats.push('AI 配音');
+
+            if (enabledFeats.length === 0) {
+                appendBubble('ai', '你跳过了所有步骤，请至少选择一个功能。', 0);
+                currentStep = -1;
+                setTimeout(() => advanceStep(), 800);
+                return;
+            }
+
+            appendBubble('ai', `配置完成！已选择：<strong>${enabledFeats.join('、')}</strong>。准备好就开始处理吧 🚀`, 0);
+
+            const startEl = document.createElement('div');
+            startEl.className = 'chat-start-wrap';
+            startEl.style.opacity = '0';
+            startEl.style.animation = 'bubbleIn 0.35s ease-out 0.2s forwards';
+            startEl.innerHTML = `<button class="chat-start-btn" id="chatStartBtn">
+                <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M6 4L16 10L6 16V4Z" fill="currentColor"/></svg>
+                开始处理
+            </button>`;
+            chatFlow.appendChild(startEl);
+            scrollChat();
+
+            setTimeout(() => {
+                const btn = document.getElementById('chatStartBtn');
+                if (btn) btn.addEventListener('click', startProcessing);
+            }, 100);
+        }
+
+        function appendBubble(type, html, delay) {
+            const el = document.createElement('div');
+            el.className = `chat-bubble chat-bubble--${type === 'ai' ? 'ai' : 'user'}`;
+            el.style.animationDelay = delay + 's';
+            if (type === 'ai') {
+                el.innerHTML = `<div class="bubble-avatar">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.2"/><path d="M8 4V8L10 10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                    FrameX AI
+                </div>` + html;
+            } else {
+                el.innerHTML = html;
+            }
+            chatFlow.appendChild(el);
+        }
+
+        function scrollChat() {
+            chatFlow.scrollTo({ top: chatFlow.scrollHeight, behavior: 'smooth' });
+        }
+
+        /* ===== Processing ===== */
+        function startProcessing() {
+            phase = 'processing';
+            processingOverlay.classList.add('active');
+            phaseDot.className = 'tv2-phase-dot processing';
+            phaseLabel.textContent = '处理中...';
+
+            // Show steps
+            const stepsEl = document.getElementById('processingSteps');
+            stepsEl.classList.add('active');
+
+            // User bubble
+            appendBubble('user', '开始处理！', 0);
+            scrollChat();
+
+            // AI bubble
+            setTimeout(() => {
+                appendBubble('ai', '好的，正在处理中...你可以在左侧看到实时进度 ✨', 0);
+                scrollChat();
+            }, 400);
+
+            const steps = [];
+            if (features.erase) steps.push({ key: 'erase', text: '正在擦除字幕...' });
+            if (features.subtitle) steps.push({ key: 'subtitle', text: '正在翻译字幕...' });
+            if (features.voice) steps.push({ key: 'voice', text: '正在生成配音...' });
+            steps.push({ key: 'merge', text: '正在合成视频...' });
+
+            const psteps = document.querySelectorAll('.pstep');
+            const bar = document.getElementById('pvBar');
+            const text = document.getElementById('pvText');
+            let i = 0;
+
+            function next() {
+                if (i >= steps.length) {
+                    bar.style.width = '100%';
+                    text.textContent = '处理完成！';
+                    psteps.forEach(s => { s.classList.remove('active'); s.classList.add('done'); });
+                    setTimeout(showResult, 600);
+                    return;
+                }
+                const step = steps[i];
+                text.textContent = step.text;
+                bar.style.width = ((i + 1) / steps.length * 100) + '%';
+                psteps.forEach(s => s.classList.remove('active'));
+                const ps = document.querySelector(`.pstep[data-ps="${step.key}"]`);
+                if (ps) ps.classList.add('active');
+                if (i > 0) {
+                    const prev = document.querySelector(`.pstep[data-ps="${steps[i-1].key}"]`);
+                    if (prev) { prev.classList.remove('active'); prev.classList.add('done'); }
+                }
+                i++;
+                setTimeout(next, 1200 + Math.random() * 800);
+            }
+            next();
+        }
+
+        /* ===== Result ===== */
+        function showResult() {
+            phase = 'done';
+            processingOverlay.classList.remove('active');
+            subtitleOverlay.classList.add('active');
+            phaseDot.className = 'tv2-phase-dot live';
+            phaseLabel.textContent = '译制完成';
+            playing = true;
+            document.getElementById('tlPlay').classList.add('playing');
+            document.getElementById('globalExportBtn').style.display = '';
+
+            // Chat: done bubble + actions
+            appendBubble('ai', '译制完成！字幕已翻译为英语，配音使用了声音克隆。看看效果如何？', 0);
+
+            const actions = document.createElement('div');
+            actions.className = 'chat-result-actions';
+            actions.style.opacity = '0';
+            actions.style.animation = 'bubbleIn 0.35s ease-out 0.3s forwards';
+            actions.innerHTML = `
+                <button class="ra-btn-export" id="resultExportBtn">
+                    <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M9 3V11M9 11L13 7M9 11L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 13V15C3 15.5523 3.44772 16 4 16H14C14.5523 16 15 15.5523 15 15V13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    导出
+                </button>
+                <a href="editor-v2.html" class="ra-btn-finetune">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M12 2L14 4L6 12H4V10L12 2Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+                    精调
+                </a>`;
+            chatFlow.appendChild(actions);
+
+            setTimeout(scrollChat, 100);
+        }
+
+        /* ===== Timeline controls ===== */
+        document.getElementById('tlPlay').addEventListener('click', () => {
+            if (phase === 'upload') return;
+            playing = !playing;
+            document.getElementById('tlPlay').classList.toggle('playing', playing);
+        });
+
+        tlTracks.addEventListener('click', e => {
+            if (phase === 'upload') return;
+            const rect = tlTracks.getBoundingClientRect();
+            const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+            videoTime = pct * videoDuration;
+        });
+
+        /* ===== Keyboard ===== */
+        document.addEventListener('keydown', e => {
+            if (e.code === 'Space' && phase !== 'upload') {
+                e.preventDefault();
+                playing = !playing;
+                document.getElementById('tlPlay').classList.toggle('playing', playing);
+            }
+            if (e.code === 'ArrowLeft') videoTime = Math.max(0, videoTime - 5);
+            if (e.code === 'ArrowRight') videoTime = Math.min(videoDuration, videoTime + 5);
+        });
+
+        /* ===== Start ===== */
+        tick();
+    })();
+    </script>
+</body>
+</html>
