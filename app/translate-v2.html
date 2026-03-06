@@ -823,8 +823,13 @@
     /* Result actions in chat */
     .chat-result-actions {
         display: flex;
+        flex-direction: column;
         gap: 8px;
-        margin-top: 4px;
+        margin-top: 8px;
+    }
+    .chat-result-actions-row {
+        display: flex;
+        gap: 8px;
     }
     .ra-btn-export {
         flex: 1;
@@ -843,14 +848,17 @@
         box-shadow: 0 0 20px rgba(168,85,247,0.25);
         transition: all 0.2s;
         font-family: inherit;
+        white-space: nowrap;
     }
     .ra-btn-export:hover { transform: translateY(-1px); box-shadow: 0 0 30px rgba(168,85,247,0.35); }
     .ra-btn-re-finetune {
+        flex: 1;
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 5px;
         padding: 10px 14px;
-        font-size: 0.8rem;
+        font-size: 0.78rem;
         font-weight: 500;
         color: #a78bfa;
         background: rgba(168,85,247,0.06);
@@ -859,6 +867,7 @@
         cursor: pointer;
         transition: all 0.2s;
         font-family: inherit;
+        white-space: nowrap;
     }
     .ra-btn-re-finetune:hover {
         background: rgba(168,85,247,0.12);
@@ -867,8 +876,10 @@
         box-shadow: 0 0 12px rgba(168,85,247,0.2);
     }
     .ra-btn-finetune {
+        flex: 1;
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 5px;
         padding: 10px 18px;
         font-size: 0.8rem;
@@ -2377,7 +2388,7 @@
                 if (step === 'erase') renderEraseOverlays();
 
                 // AI confirms and mentions tab navigation
-                appendBubble('ai', `${labelMap[step]}设置已确认！顶部标签已解锁，你可以随时点击回来精调。`, 0);
+                appendBubble('ai', `${labelMap[step]}设置已确认！继续下一步配置吧。`, 0);
                 scrollChat();
 
                 // Auto-advance after delay
@@ -2547,8 +2558,39 @@
 
             // AI confirms finetune done in chat
             const labelMap = { erase: '擦除', subtitle: '字幕', voice: '配音' };
-            appendBubble('ai', `${labelMap[wasStep]}精调已完成 ✓ 你可以随时通过顶部标签再次修改。`, 0);
-            scrollChat();
+
+            if (phase === 'done') {
+                // Re-finetune from result — show restart button
+                const reRunHtml = `${labelMap[wasStep]}精调已更新 ✓ 点击下方按钮重新开始处理。
+                <div class="chat-result-actions" style="margin-top:8px;">
+                    <div class="chat-result-actions-row">
+                        <button class="ra-btn-export ra-btn-restart" id="reRunBtn">
+                            <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><path d="M6 4L16 10L6 16V4Z" fill="currentColor"/></svg>
+                            重新开始处理
+                        </button>
+                    </div>
+                    <div class="chat-result-actions-row">
+                        <button class="ra-btn-re-finetune" id="reRefineBtn2">
+                            <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M2 4H14M2 8H10M2 12H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                            继续精调其他项
+                        </button>
+                    </div>
+                </div>`;
+                appendBubble('ai', reRunHtml, 0);
+                scrollChat();
+                setTimeout(() => {
+                    const reRunBtn = document.getElementById('reRunBtn');
+                    if (reRunBtn) reRunBtn.addEventListener('click', () => startProcessing());
+                    const reRefineBtn2 = document.getElementById('reRefineBtn2');
+                    if (reRefineBtn2) {
+                        const firstStep = configSteps.find(s => features[s]);
+                        if (firstStep) reRefineBtn2.addEventListener('click', () => enterFinetune(firstStep));
+                    }
+                }, 100);
+            } else {
+                appendBubble('ai', `${labelMap[wasStep]}精调已完成 ✓`, 0);
+                scrollChat();
+            }
 
             // Advance to next step if pending
             if (pendingAdvanceStep === wasStep) {
@@ -2739,18 +2781,22 @@
                 译制完成！视频已准备就绪 🎬<br>
                 <span style="font-size:0.72rem;color:#64748b;">你之前的精调设置都已应用。</span>
                 <div class="chat-result-actions">
-                    <button class="ra-btn-export" onclick="alert('导出中...')">
-                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2V9M8 9L11 6M8 9L5 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 11V13C3 13.5523 3.44772 14 4 14H12C12.5523 14 13 13.5523 13 13V11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-                        导出视频
-                    </button>
-                    <button class="ra-btn-re-finetune" id="resultRefineBtn">
-                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M2 4H14M2 8H10M2 12H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                        再次精调
-                    </button>
-                    <a href="result.html" class="ra-btn-finetune">
-                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><rect x="3" y="3" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.2"/><path d="M6 8L7.2 9.2L10 6.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        任务记录
-                    </a>
+                    <div class="chat-result-actions-row">
+                        <button class="ra-btn-export" onclick="alert('导出中...')">
+                            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2V9M8 9L11 6M8 9L5 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 11V13C3 13.5523 3.44772 14 4 14H12C12.5523 14 13 13.5523 13 13V11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                            导出视频
+                        </button>
+                    </div>
+                    <div class="chat-result-actions-row">
+                        <button class="ra-btn-re-finetune" id="resultRefineBtn">
+                            <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M2 4H14M2 8H10M2 12H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                            再次精调
+                        </button>
+                        <a href="result.html" class="ra-btn-finetune">
+                            <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><rect x="3" y="3" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.2"/><path d="M6 8L7.2 9.2L10 6.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            任务记录
+                        </a>
+                    </div>
                 </div>`;
             appendBubble('ai', resultHtml, 0);
             scrollChat();
