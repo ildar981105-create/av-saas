@@ -30,7 +30,7 @@
         if (!text) return;
         const intent = detectIntent(text);
         const routes = {
-            translate: 'translate-v3.html',
+            translate: 'translate-v4.html',
             livestream: 'livestream.html',
             generate: 'generate.html'
         };
@@ -50,7 +50,7 @@
         uploadTrigger.addEventListener('click', () => fileInput.click());
         fileInput.addEventListener('change', () => {
             if (fileInput.files.length > 0) {
-                window.location.href = 'translate-v3.html?file=selected';
+                window.location.href = 'translate-v4.html?file=selected';
             }
         });
     }
@@ -79,7 +79,7 @@
         overlay.classList.remove('active');
         dragCounter = 0;
         if (e.dataTransfer.files.length > 0) {
-            window.location.href = 'translate-v3.html?file=dropped';
+            window.location.href = 'translate-v4.html?file=dropped';
         }
     });
 })();
