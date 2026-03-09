@@ -102,8 +102,35 @@
         overflow: hidden;
         border: 1px solid rgba(255,255,255,0.06);
     }
-    .tv2-video-container canvas {
-        width: 100%; height: 100%; display: block;
+    .tv2-video-container video {
+        width: 100%; height: 100%; display: block; object-fit: cover;
+    }
+    .tv2-burnt-sub {
+        position: absolute;
+        bottom: 8%;
+        left: 0; right: 0;
+        text-align: center;
+        pointer-events: none;
+        z-index: 5;
+        opacity: 0;
+        transition: opacity 0.15s;
+    }
+    .tv2-burnt-sub.visible {
+        opacity: 1;
+    }
+    .tv2-burnt-sub .bs-bar {
+        display: inline-block;
+        background: rgba(0,0,0,0.72);
+        padding: 5px 18px 6px;
+        border-radius: 4px;
+    }
+    .tv2-burnt-sub .bs-text {
+        color: #fde047;
+        font-weight: 700;
+        font-size: clamp(12px, 2.4vw, 18px);
+        font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+        text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+        letter-spacing: 0.5px;
     }
 
     /* Upload overlay on video */
@@ -264,28 +291,32 @@
     /* Subtitle preview on video (time-synced) */
     .tv2-sub-preview {
         position: absolute;
-        bottom: 36px;
-        left: 50%;
-        transform: translateX(-50%);
+        bottom: 0;
+        left: 0; right: 0;
         text-align: center;
         display: none;
         flex-direction: column;
-        gap: 2px;
+        align-items: center;
+        gap: 4px;
+        padding: 18px 16px 20px;
         pointer-events: none;
         z-index: 9;
-        max-width: 85%;
+        background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.7) 55%, transparent 100%);
         transition: opacity 0.2s;
     }
     .tv2-sub-preview.visible { display: flex; }
     .tv2-sub-preview .sub-orig {
-        font-size: 0.82rem; color: rgba(255,255,255,0.55);
-        text-shadow: 0 1px 6px rgba(0,0,0,0.8);
-        line-height: 1.3;
+        font-size: 1rem; color: rgba(255,255,255,0.7);
+        text-shadow: 0 1px 4px rgba(0,0,0,0.9), 0 0 12px rgba(0,0,0,0.6);
+        line-height: 1.4;
+        max-width: 90%;
     }
     .tv2-sub-preview .sub-trans {
-        font-size: 0.95rem; font-weight: 600; color: #fff;
-        text-shadow: 0 2px 8px rgba(0,0,0,0.9);
-        line-height: 1.3;
+        font-size: 1.2rem; font-weight: 700; color: #fff;
+        text-shadow: 0 2px 6px rgba(0,0,0,1), 0 0 16px rgba(0,0,0,0.7);
+        line-height: 1.4;
+        max-width: 90%;
+        letter-spacing: 0.02em;
     }
 
     /* Voice/audio indicator on video */
@@ -339,6 +370,239 @@
         opacity: 0.6;
     }
 
+    /* ===== Finetune Mode Visual Enhancements ===== */
+
+    /* Glowing border on video container when in finetune mode */
+    .tv2-video-container {
+        transition: border-color 0.5s ease, box-shadow 0.5s ease;
+    }
+    .tv2-video-container.finetune-active {
+        border-color: rgba(168,85,247,0.55);
+        box-shadow:
+            0 0 24px rgba(168,85,247,0.2),
+            0 0 60px rgba(168,85,247,0.1),
+            inset 0 0 24px rgba(168,85,247,0.04);
+        animation: finetuneGlow 3s ease-in-out infinite;
+    }
+    @keyframes finetuneGlow {
+        0%, 100% {
+            box-shadow:
+                0 0 24px rgba(168,85,247,0.2),
+                0 0 60px rgba(168,85,247,0.1),
+                inset 0 0 24px rgba(168,85,247,0.04);
+            border-color: rgba(168,85,247,0.55);
+        }
+        50% {
+            box-shadow:
+                0 0 36px rgba(168,85,247,0.3),
+                0 0 90px rgba(168,85,247,0.15),
+                inset 0 0 36px rgba(168,85,247,0.06);
+            border-color: rgba(168,85,247,0.7);
+        }
+    }
+
+    /* Finetune mode badge — shown in scrubber info bar, outside video */
+    .tv2-finetune-badge {
+        display: none;
+        align-items: center;
+        gap: 6px;
+        margin-left: auto;
+        padding: 4px 12px;
+        border-radius: 16px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        background: rgba(168,85,247,0.15);
+        border: 1px solid rgba(168,85,247,0.35);
+        color: #c4b5fd;
+        white-space: nowrap;
+        transition: opacity 0.3s ease;
+    }
+    .tv2-finetune-badge.visible {
+        display: inline-flex;
+    }
+    .tv2-finetune-badge .ftb-icon {
+        font-size: 0.85rem;
+        line-height: 1;
+    }
+    .tv2-finetune-badge .ftb-text {
+        white-space: nowrap;
+    }
+    .tv2-finetune-badge .ftb-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #a855f7;
+        animation: ftbDotPulse 1.5s ease-in-out infinite;
+    }
+    @keyframes ftbDotPulse {
+        0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(168,85,247,0.4); }
+        50% { opacity: 0.6; box-shadow: 0 0 0 4px rgba(168,85,247,0); }
+    }
+
+    /* Finetune mode: hint text below video */
+    .tv2-finetune-hint {
+        position: absolute;
+        bottom: 8px;
+        left: 50%;
+        transform: translateX(-50%) translateY(6px);
+        z-index: 15;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 14px;
+        border-radius: 20px;
+        font-size: 0.68rem;
+        font-weight: 500;
+        background: rgba(168,85,247,0.12);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(168,85,247,0.2);
+        color: #a78bfa;
+        opacity: 0;
+        transition: opacity 0.4s ease 0.15s, transform 0.4s ease 0.15s;
+        pointer-events: none;
+        white-space: nowrap;
+    }
+    .tv2-finetune-hint.visible {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    .tv2-finetune-hint svg {
+        flex-shrink: 0;
+    }
+
+    /* ===== Video Scrubber (below video, always visible) ===== */
+    .tv2-scrubber {
+        display: none;
+        flex-direction: column;
+        padding: 0 16px 0;
+        flex-shrink: 0;
+    }
+    .tv2-scrubber.visible {
+        display: flex;
+    }
+    .tv2-scrubber-bar {
+        position: relative;
+        height: 6px;
+        background: rgba(255,255,255,0.06);
+        border-radius: 3px;
+        cursor: pointer;
+        transition: height 0.15s;
+    }
+    .tv2-scrubber-bar:hover {
+        height: 8px;
+    }
+    .tv2-scrubber-bar:hover .tv2-scrubber-thumb {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    .tv2-scrubber-fill {
+        position: absolute;
+        top: 0; left: 0; bottom: 0;
+        background: linear-gradient(90deg, #a855f7, #6366f1);
+        border-radius: 3px;
+        width: 0%;
+        pointer-events: none;
+    }
+    .tv2-scrubber-thumb {
+        position: absolute;
+        top: 50%;
+        left: 0%;
+        width: 14px;
+        height: 14px;
+        background: #a855f7;
+        border: 2px solid #fff;
+        border-radius: 50%;
+        transform: translate(-50%, -50%) scale(0.6);
+        opacity: 0;
+        transition: opacity 0.15s, transform 0.15s;
+        pointer-events: none;
+        box-shadow: 0 0 8px rgba(168,85,247,0.5);
+        z-index: 2;
+    }
+    .tv2-scrubber.dragging .tv2-scrubber-thumb {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    .tv2-scrubber-info {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 5px 0 6px;
+    }
+    .tv2-scrubber-play {
+        width: 24px; height: 24px;
+        border-radius: 50%;
+        border: none;
+        background: rgba(255,255,255,0.08);
+        color: #e2e8f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: background 0.2s;
+    }
+    .tv2-scrubber-play:hover {
+        background: rgba(168,85,247,0.3);
+    }
+    .tv2-scrubber-time {
+        font-size: 0.66rem;
+        font-family: 'JetBrains Mono', monospace;
+        color: #64748b;
+    }
+    .tv2-scrubber-time .st-cur {
+        color: #e2e8f0;
+        font-weight: 500;
+    }
+
+    /* Timeline enhanced state in finetune */
+    .tv2-timeline.finetune-mode {
+        border-top: 2px solid rgba(168,85,247,0.5);
+        background: linear-gradient(180deg, rgba(168,85,247,0.08) 0%, rgba(10,10,16,0.98) 50%);
+        box-shadow: 0 -6px 30px rgba(168,85,247,0.12);
+        padding-bottom: 6px;
+    }
+    .tv2-timeline.finetune-mode.visible {
+        max-height: 500px;
+    }
+    /* In finetune mode: tracks are taller and expand instantly */
+    .tv2-timeline.finetune-mode .tv2-tl-track.track-visible {
+        height: 44px;
+        transition: none;
+        margin-bottom: 3px;
+    }
+    .tv2-timeline.finetune-mode .tv2-tl-track {
+        transition: none;
+    }
+    .tv2-timeline.finetune-mode .tv2-tl-segment {
+        top: 5px; bottom: 5px;
+    }
+    /* Placeholder tracks (feature not enabled) — show position with empty state */
+    .tv2-timeline.finetune-mode .tv2-tl-track.track-placeholder {
+        height: 44px;
+        opacity: 0.3;
+        margin-bottom: 3px;
+        overflow: visible;
+    }
+    .tv2-timeline.finetune-mode .tv2-tl-track.track-placeholder .tv2-tl-track-bg {
+        background: rgba(255,255,255,0.02);
+        border: 1px dashed rgba(255,255,255,0.06);
+        border-radius: 4px;
+    }
+    .tv2-timeline.finetune-mode .tv2-tl-track.track-placeholder .tv2-tl-track-label {
+        opacity: 0.5;
+    }
+    .tv2-timeline.finetune-mode .tv2-tl-track.track-placeholder .tv2-tl-segment {
+        display: none;
+    }
+    /* Active track highlight in finetune */
+    .tv2-timeline.finetune-mode .tv2-tl-track.track-visible.track-ft-active {
+        opacity: 1;
+    }
+    .tv2-timeline.finetune-mode .tv2-tl-track.track-visible.track-ft-dim {
+        opacity: 0.35;
+    }
+
     /* Bottom Timeline (reusing editor styles) */
     .tv2-timeline {
         flex-shrink: 0;
@@ -351,16 +615,17 @@
         transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease;
     }
     .tv2-timeline.visible {
-        max-height: 260px;
+        max-height: 320px;
         opacity: 1;
+        overflow: visible;
     }
     .tv2-tl-ruler {
         display: flex;
         align-items: flex-end;
-        height: 22px;
-        padding: 0 20px;
+        height: 28px;
+        padding: 0 20px 0 80px;
         position: relative;
-        overflow: hidden;
+        overflow: visible;
         cursor: pointer;
     }
     .tv2-tl-ruler-marks {
@@ -375,13 +640,13 @@
     }
     .tv2-tl-ruler-mark .tick-label {
         font-size: 0.58rem; font-family: 'JetBrains Mono', monospace;
-        color: #334155; margin-bottom: 2px;
+        color: #64748b; margin-bottom: 2px;
     }
     .tv2-tl-ruler-mark.major .tick {
         height: 12px; background: rgba(255,255,255,0.15);
     }
     .tv2-tl-tracks {
-        position: relative; padding: 0 20px; cursor: pointer; min-height: 10px;
+        position: relative; padding: 0 20px 0 80px; cursor: pointer; min-height: 10px;
     }
     .tv2-tl-track {
         position: relative; height: 0; display: flex; align-items: center; margin-bottom: 0;
@@ -389,13 +654,63 @@
         transition: height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease, margin-bottom 0.3s ease;
     }
     .tv2-tl-track.track-visible {
-        height: 22px; opacity: 1; margin-bottom: 1px; overflow: visible;
+        height: 26px; opacity: 1; margin-bottom: 2px; overflow: visible;
+    }
+    .tv2-tl-track-label {
+        position: absolute;
+        left: -80px;
+        width: 80px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding: 0 4px 0 8px;
+        font-size: 0.6rem;
+        color: #64748b;
+        white-space: nowrap;
+        user-select: none;
+        z-index: 2;
+    }
+    .tv2-tl-track-label .tl-label-dot {
+        width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
+    }
+    .tv2-tl-track[data-track="erase"] .tl-label-dot { background: #ef4444; }
+    .tv2-tl-track[data-track="subtitle"] .tl-label-dot { background: #3b82f6; }
+    .tv2-tl-track[data-track="voice"] .tl-label-dot { background: #a855f7; }
+    .tv2-tl-track-label .tl-label-name {
+        font-weight: 500;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        min-width: 0;
+    }
+    .tv2-tl-track-label .tl-label-actions {
+        display: flex; gap: 1px; flex-shrink: 0; margin-left: auto;
+    }
+    .tv2-tl-track-label .tl-label-btn {
+        width: 16px; height: 16px; border: none; border-radius: 3px;
+        background: transparent; color: #475569; cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        padding: 0; transition: all 0.15s;
+    }
+    .tv2-tl-track-label .tl-label-btn:hover {
+        background: rgba(255,255,255,0.06); color: #94a3b8;
+    }
+    .tv2-tl-track-label .tl-label-btn.active {
+        color: #f59e0b;
+    }
+    .tv2-tl-track-label .tl-label-btn svg {
+        width: 10px; height: 10px;
+    }
+    .tv2-tl-track-content {
+        flex: 1;
+        position: relative;
+        height: 100%;
     }
     .tv2-tl-track-bg {
         position: absolute; inset: 0; background: rgba(255,255,255,0.015); border-radius: 3px;
     }
     .tv2-tl-segment {
-        position: absolute; top: 2px; bottom: 2px; border-radius: 3px;
+        position: absolute; top: 3px; bottom: 3px; border-radius: 3px;
         display: flex; align-items: center; justify-content: center;
         overflow: hidden; cursor: pointer; transition: all 0.15s;
     }
@@ -431,7 +746,7 @@
         box-shadow: 0 0 6px rgba(168,85,247,0.5);
     }
     .tv2-tl-controls {
-        display: flex; align-items: center; gap: 10px; padding: 5px 20px 7px;
+        display: none;
     }
     .tv2-tl-play {
         width: 26px; height: 26px; border-radius: 50%; border: none;
@@ -496,6 +811,41 @@
         padding: 14px 16px;
         border-bottom: 1px solid rgba(255,255,255,0.05);
         flex-shrink: 0;
+        transition: background 0.4s ease, border-color 0.4s ease;
+    }
+    /* Finetune mode header enhancement */
+    .tv2-chat-header.finetune-header {
+        background: linear-gradient(135deg, rgba(168,85,247,0.12) 0%, rgba(99,42,186,0.08) 100%);
+        border-bottom-color: rgba(168,85,247,0.2);
+    }
+    .tv2-ft-mode-tag {
+        display: none;
+        align-items: center;
+        gap: 5px;
+        margin-left: auto;
+        padding: 3px 10px;
+        border-radius: 12px;
+        font-size: 0.62rem;
+        font-weight: 600;
+        color: #c4b5fd;
+        background: rgba(168,85,247,0.15);
+        border: 1px solid rgba(168,85,247,0.3);
+        white-space: nowrap;
+        letter-spacing: 0.5px;
+    }
+    .tv2-ft-mode-tag.visible {
+        display: inline-flex;
+    }
+    .tv2-ft-mode-tag .ftm-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: #a855f7;
+        animation: ftmDotPulse 1.8s ease-in-out infinite;
+    }
+    @keyframes ftmDotPulse {
+        0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(168,85,247,0.5); }
+        50% { opacity: 0.5; box-shadow: 0 0 0 4px rgba(168,85,247,0); }
     }
     .tv2-chat-header-icon {
         width: 28px; height: 28px;
@@ -586,7 +936,7 @@
         flex-shrink: 0;
         background: #0a0a16;
     }
-    .bubble-video-thumb canvas { width: 100%; height: 100%; display: block; }
+    .bubble-video-thumb video { width: 100%; height: 100%; display: block; object-fit: cover; }
     .bubble-video-meta { font-size: 0.7rem; }
     .bubble-video-meta .vname { color: #e2e8f0; font-weight: 600; display: block; }
     .bubble-video-meta .vmeta { color: #475569; font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; }
@@ -895,24 +1245,44 @@
     }
     .ra-btn-finetune:hover { color: #e2e8f0; border-color: rgba(168,85,247,0.3); background: rgba(168,85,247,0.06); }
 
-    /* Phase state classes for empty/uploading/ready/processing/done */
+    /* Phase state — contextual status indicator (top-left of video) */
     .tv2-phase-indicator {
         position: absolute;
-        top: 12px;
-        left: 12px;
+        top: 10px;
+        left: 10px;
         z-index: 12;
         display: flex;
         align-items: center;
         gap: 6px;
-        padding: 4px 10px;
-        border-radius: 6px;
+        padding: 5px 12px;
+        border-radius: 8px;
         font-size: 0.68rem;
         font-weight: 500;
-        background: rgba(10,10,20,0.8);
-        backdrop-filter: blur(8px);
-        border: 1px solid rgba(255,255,255,0.06);
+        background: rgba(10,10,20,0.85);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.08);
+        color: #94a3b8;
+        transition: background 0.3s, border-color 0.3s, color 0.3s;
     }
     .tv2-phase-indicator.hidden { display: none; }
+    /* Finetune state: purple tint */
+    .tv2-phase-indicator.phase-finetune {
+        background: rgba(168,85,247,0.12);
+        border-color: rgba(168,85,247,0.3);
+        color: #c4b5fd;
+    }
+    /* Processing state: amber tint */
+    .tv2-phase-indicator.phase-processing {
+        background: rgba(245,158,11,0.12);
+        border-color: rgba(245,158,11,0.3);
+        color: #fcd34d;
+    }
+    /* Done state: green tint */
+    .tv2-phase-indicator.phase-done {
+        background: rgba(34,197,94,0.1);
+        border-color: rgba(34,197,94,0.25);
+        color: #86efac;
+    }
     .tv2-phase-dot {
         width: 6px; height: 6px;
         border-radius: 50%;
@@ -1529,6 +1899,462 @@
         color: #fff;
     }
 
+    /* ===== Overview Stepper (Step 1-2-3 roadmap) ===== */
+    .chat-overview-stepper {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        margin: 10px 0 6px;
+        padding: 10px 12px;
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 12px;
+    }
+    .chat-ov-step {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        flex: 1;
+        min-width: 0;
+    }
+    .chat-ov-num {
+        width: 22px; height: 22px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.62rem;
+        font-weight: 700;
+        font-family: 'JetBrains Mono', monospace;
+        flex-shrink: 0;
+        border: 1.5px solid rgba(255,255,255,0.1);
+        color: #64748b;
+        background: rgba(255,255,255,0.03);
+        transition: all 0.3s;
+    }
+    .chat-ov-step[data-ov="erase"] .chat-ov-num { border-color: rgba(239,68,68,0.3); color: #ef4444; background: rgba(239,68,68,0.08); }
+    .chat-ov-step[data-ov="subtitle"] .chat-ov-num { border-color: rgba(59,130,246,0.3); color: #3b82f6; background: rgba(59,130,246,0.08); }
+    .chat-ov-step[data-ov="voice"] .chat-ov-num { border-color: rgba(168,85,247,0.3); color: #a855f7; background: rgba(168,85,247,0.08); }
+    .chat-ov-info {
+        min-width: 0;
+    }
+    .chat-ov-info h5 {
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: #e2e8f0;
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .chat-ov-info p {
+        font-size: 0.6rem;
+        color: #475569;
+        margin: 0;
+        white-space: nowrap;
+    }
+    .chat-ov-arrow {
+        flex-shrink: 0;
+        width: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(255,255,255,0.08);
+    }
+
+    /* ===== Pre-step choice buttons ===== */
+    .chat-pre-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 8px;
+    }
+    .chat-pre-btn {
+        flex: 1 1 auto;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 9px 14px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        border-radius: 10px;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.25s;
+        border: 1px solid;
+        white-space: nowrap;
+    }
+    .chat-pre-btn--auto {
+        color: #fff;
+        background: linear-gradient(135deg, rgba(168,85,247,0.25), rgba(99,102,241,0.2));
+        border-color: rgba(168,85,247,0.35);
+    }
+    .chat-pre-btn--auto:hover {
+        background: linear-gradient(135deg, rgba(168,85,247,0.35), rgba(99,102,241,0.3));
+        transform: translateY(-1px);
+        box-shadow: 0 0 16px rgba(168,85,247,0.2);
+    }
+    .chat-pre-btn--manual {
+        color: #a78bfa;
+        background: rgba(168,85,247,0.06);
+        border-color: rgba(168,85,247,0.2);
+    }
+    .chat-pre-btn--manual:hover {
+        background: rgba(168,85,247,0.12);
+        border-color: rgba(168,85,247,0.35);
+        transform: translateY(-1px);
+    }
+    .chat-pre-btn--skip {
+        color: #64748b;
+        background: rgba(255,255,255,0.03);
+        border-color: rgba(255,255,255,0.06);
+        flex: 0 0 auto;
+    }
+    .chat-pre-btn--skip:hover {
+        color: #94a3b8;
+        border-color: rgba(255,255,255,0.12);
+    }
+    .chat-pre-btn svg { flex-shrink: 0; }
+
+    /* ===== Scan loading animation ===== */
+    .chat-scan-loading {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        margin: 6px 0;
+        background: rgba(168,85,247,0.04);
+        border: 1px solid rgba(168,85,247,0.1);
+        border-radius: 10px;
+    }
+    .scan-dots {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+    }
+    .scan-dots span {
+        width: 6px; height: 6px;
+        border-radius: 50%;
+        background: #a855f7;
+        animation: scanPulse 1.2s ease-in-out infinite;
+    }
+    .scan-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .scan-dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes scanPulse {
+        0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
+        40% { opacity: 1; transform: scale(1.2); }
+    }
+    .scan-text {
+        font-size: 0.76rem;
+        color: #a78bfa;
+        font-weight: 500;
+    }
+
+    /* Scan result highlight */
+    .chat-scan-result {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        margin: 6px 0;
+        background: rgba(34,197,94,0.06);
+        border: 1px solid rgba(34,197,94,0.15);
+        border-radius: 10px;
+        font-size: 0.76rem;
+        color: #4ade80;
+        font-weight: 500;
+    }
+    .chat-scan-result .scan-check {
+        width: 18px; height: 18px;
+        border-radius: 50%;
+        background: rgba(34,197,94,0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        color: #22c55e;
+    }
+
+    /* Step indicator badge in bubble */
+    .chat-step-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 3px 10px;
+        border-radius: 100px;
+        font-size: 0.64rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+    .chat-step-badge--erase { background: rgba(239,68,68,0.1); color: #ef4444; border: 1px solid rgba(239,68,68,0.2); }
+    .chat-step-badge--subtitle { background: rgba(59,130,246,0.1); color: #3b82f6; border: 1px solid rgba(59,130,246,0.2); }
+    .chat-step-badge--voice { background: rgba(168,85,247,0.1); color: #a855f7; border: 1px solid rgba(168,85,247,0.2); }
+
+    /* ===== Transcript Preview List (collapsible) ===== */
+    .chat-transcript-preview {
+        margin: 8px 0;
+        background: rgba(0,0,0,0.15);
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .chat-transcript-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 12px;
+        cursor: pointer;
+        transition: background 0.2s;
+        user-select: none;
+    }
+    .chat-transcript-toggle:hover {
+        background: rgba(255,255,255,0.03);
+    }
+    .chat-transcript-toggle .ctt-left {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: #94a3b8;
+    }
+    .chat-transcript-toggle .ctt-count {
+        font-size: 0.6rem;
+        font-weight: 600;
+        color: #3b82f6;
+        background: rgba(59,130,246,0.1);
+        padding: 1px 7px;
+        border-radius: 100px;
+    }
+    .chat-transcript-toggle .ctt-arrow {
+        color: #475569;
+        transition: transform 0.3s;
+        font-size: 0.7rem;
+    }
+    .chat-transcript-toggle.expanded .ctt-arrow {
+        transform: rotate(180deg);
+    }
+    .chat-transcript-list {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
+    }
+    .chat-transcript-list.expanded {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+    .chat-transcript-list::-webkit-scrollbar { width: 3px; }
+    .chat-transcript-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.06); border-radius: 2px; }
+    .chat-transcript-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 6px 12px;
+        border-top: 1px solid rgba(255,255,255,0.03);
+    }
+    .chat-transcript-item .cti-num {
+        font-size: 0.6rem;
+        font-weight: 700;
+        font-family: 'JetBrains Mono', monospace;
+        color: #475569;
+        flex-shrink: 0;
+        min-width: 16px;
+        text-align: right;
+        margin-top: 2px;
+    }
+    .chat-transcript-item .cti-text {
+        font-size: 0.72rem;
+        color: #94a3b8;
+        line-height: 1.5;
+    }
+
+    /* ===== Inline Subtitle List (in chat bubble) ===== */
+    .chat-sub-list-inline {
+        margin: 8px 0;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+    .chat-sub-line {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 10px;
+        border-radius: 8px;
+        background: rgba(59,130,246,0.04);
+        border: 1px solid rgba(59,130,246,0.08);
+        cursor: pointer;
+        transition: all 0.15s;
+    }
+    .chat-sub-line:hover {
+        background: rgba(59,130,246,0.1);
+        border-color: rgba(59,130,246,0.2);
+    }
+    .chat-sub-line.active {
+        background: rgba(59,130,246,0.12);
+        border-color: rgba(59,130,246,0.3);
+    }
+    .chat-sub-line .csl-time {
+        font-size: 0.58rem;
+        font-family: 'JetBrains Mono', monospace;
+        color: #64748b;
+        white-space: nowrap;
+        flex-shrink: 0;
+        min-width: 76px;
+    }
+    .chat-sub-line .csl-orig {
+        font-size: 0.72rem;
+        color: #cbd5e1;
+        line-height: 1.4;
+    }
+
+    /* ===== Inline Erase Region List (in chat bubble) ===== */
+    .chat-erase-list-inline {
+        margin: 8px 0;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+    .chat-erase-line {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 10px;
+        border-radius: 8px;
+        background: rgba(239,68,68,0.04);
+        border: 1px solid rgba(239,68,68,0.08);
+        cursor: pointer;
+        transition: all 0.15s;
+    }
+    .chat-erase-line:hover {
+        background: rgba(239,68,68,0.1);
+        border-color: rgba(239,68,68,0.2);
+    }
+    .chat-erase-line.active {
+        background: rgba(239,68,68,0.12);
+        border-color: rgba(239,68,68,0.3);
+    }
+    .chat-erase-line .cel-id {
+        font-size: 0.58rem;
+        font-family: 'JetBrains Mono', monospace;
+        color: #ef4444;
+        font-weight: 600;
+        white-space: nowrap;
+        flex-shrink: 0;
+        min-width: 22px;
+    }
+    .chat-erase-line .cel-time {
+        font-size: 0.58rem;
+        font-family: 'JetBrains Mono', monospace;
+        color: #64748b;
+        white-space: nowrap;
+        flex-shrink: 0;
+        min-width: 76px;
+    }
+    .chat-erase-line .cel-meta {
+        font-size: 0.62rem;
+        color: #94a3b8;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .chat-erase-line .cel-meta span {
+        color: #64748b;
+        margin-right: 6px;
+    }
+
+    /* ===== Inline Voice List (in chat bubble) ===== */
+    .chat-voice-list-inline {
+        margin: 8px 0;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+    .chat-voice-line {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 10px;
+        border-radius: 8px;
+        background: rgba(168,85,247,0.04);
+        border: 1px solid rgba(168,85,247,0.08);
+        cursor: pointer;
+        transition: all 0.15s;
+    }
+    .chat-voice-line:hover {
+        background: rgba(168,85,247,0.1);
+        border-color: rgba(168,85,247,0.2);
+    }
+    .chat-voice-line.active {
+        background: rgba(168,85,247,0.12);
+        border-color: rgba(168,85,247,0.3);
+    }
+    .chat-voice-line .cvl-id {
+        font-size: 0.58rem;
+        font-family: 'JetBrains Mono', monospace;
+        color: #a855f7;
+        font-weight: 600;
+        white-space: nowrap;
+        flex-shrink: 0;
+        min-width: 22px;
+    }
+    .chat-voice-line .cvl-time {
+        font-size: 0.58rem;
+        font-family: 'JetBrains Mono', monospace;
+        color: #64748b;
+        white-space: nowrap;
+        flex-shrink: 0;
+        min-width: 76px;
+    }
+    .chat-voice-line .cvl-text {
+        font-size: 0.62rem;
+        color: #94a3b8;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* ===== Translation Config Inline ===== */
+    .chat-translate-config {
+        margin: 8px 0;
+        padding: 10px 12px;
+        background: rgba(59,130,246,0.04);
+        border: 1px solid rgba(59,130,246,0.12);
+        border-radius: 10px;
+    }
+    .chat-translate-config .ctc-title {
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: #60a5fa;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    /* ===== Source Tag (voice step) ===== */
+    .chat-source-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 0.68rem;
+        font-weight: 600;
+        margin: 6px 0;
+    }
+    .chat-source-tag--ok {
+        background: rgba(34,197,94,0.08);
+        border: 1px solid rgba(34,197,94,0.2);
+        color: #4ade80;
+    }
+    .chat-source-tag--warn {
+        background: rgba(245,158,11,0.08);
+        border: 1px solid rgba(245,158,11,0.2);
+        color: #fbbf24;
+    }
+
     /* Responsive */
     @media (max-width: 800px) {
         .tv2-main { flex-direction: column; }
@@ -1601,7 +2427,11 @@
             <div class="tv2-left">
                 <div class="tv2-video-wrap">
                     <div class="tv2-video-container">
-                        <canvas id="mainCanvas"></canvas>
+                        <video id="mainVideo" muted loop preload="auto"
+                               src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+                               style="width:100%;height:100%;object-fit:cover;display:block;"></video>
+                        <!-- Burnt-in subtitle overlay -->
+                        <div class="tv2-burnt-sub" id="burntSub"></div>
 
                         <!-- Upload overlay -->
                         <div class="tv2-upload-overlay" id="uploadOverlay">
@@ -1644,6 +2474,12 @@
                             <span id="phaseLabel">就绪</span>
                         </div>
 
+                        <!-- Finetune mode hint (bottom center, action guidance) -->
+                        <div class="tv2-finetune-hint" id="finetuneHint">
+                            <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 2L14 8L8 14M2 8H14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <span id="finetuneHintText"></span>
+                        </div>
+
                         <!-- Erase region overlays -->
                         <div class="erase-overlay-container" id="eraseOverlayContainer"></div>
 
@@ -1667,6 +2503,28 @@
                     </div>
                 </div>
 
+                <!-- Video Scrubber (always visible after upload) -->
+                <div class="tv2-scrubber" id="videoScrubber">
+                    <div class="tv2-scrubber-bar" id="scrubberBar">
+                        <div class="tv2-scrubber-fill" id="scrubberFill"></div>
+                        <div class="tv2-scrubber-thumb" id="scrubberThumb"></div>
+                    </div>
+                    <div class="tv2-scrubber-info">
+                        <button class="tv2-scrubber-play" id="scrubberPlay">
+                            <svg class="sp-play" width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 1.5L12 7L3 12.5V1.5Z" fill="currentColor"/></svg>
+                            <svg class="sp-pause" width="12" height="12" viewBox="0 0 14 14" fill="none" style="display:none"><rect x="2" y="1" width="3.5" height="12" rx="0.8" fill="currentColor"/><rect x="8.5" y="1" width="3.5" height="12" rx="0.8" fill="currentColor"/></svg>
+                        </button>
+                        <span class="tv2-scrubber-time" id="scrubberTime">
+                            <span class="st-cur">00:00</span> / 01:30
+                        </span>
+                        <div class="tv2-finetune-badge" id="finetuneBadge">
+                            <span class="ftb-dot"></span>
+                            <span class="ftb-icon" id="ftbIcon"></span>
+                            <span class="ftb-text" id="ftbText"></span>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Timeline -->
                 <div class="tv2-timeline" id="timeline">
                     <div class="tv2-tl-ruler">
@@ -1674,34 +2532,76 @@
                     </div>
                     <div class="tv2-tl-tracks" id="tlTracks">
                         <div class="tv2-tl-track" data-track="erase">
-                            <div class="tv2-tl-track-bg"></div>
-                            <div class="tv2-tl-segment tv2-tl-segment--erase" style="left:0%;width:6%;"><span class="tv2-tl-seg-label">E1</span></div>
-                            <div class="tv2-tl-segment tv2-tl-segment--erase" style="left:8%;width:10%;"><span class="tv2-tl-seg-label">E2</span></div>
-                            <div class="tv2-tl-segment tv2-tl-segment--erase" style="left:20%;width:12%;"><span class="tv2-tl-seg-label">E3</span></div>
-                            <div class="tv2-tl-segment tv2-tl-segment--erase" style="left:35%;width:14%;"><span class="tv2-tl-seg-label">E4</span></div>
-                            <div class="tv2-tl-segment tv2-tl-segment--erase" style="left:52%;width:10%;"><span class="tv2-tl-seg-label">E5</span></div>
-                            <div class="tv2-tl-segment tv2-tl-segment--erase" style="left:65%;width:15%;"><span class="tv2-tl-seg-label">E6</span></div>
-                            <div class="tv2-tl-segment tv2-tl-segment--erase" style="left:83%;width:12%;"><span class="tv2-tl-seg-label">E7</span></div>
+                            <div class="tv2-tl-track-label">
+                                <span class="tl-label-dot"></span>
+                                <span class="tl-label-name">擦除</span>
+                                <span class="tl-label-actions">
+                                    <button class="tl-label-btn tl-btn-eye" title="隐藏/显示">
+                                        <svg viewBox="0 0 16 16" fill="none"><path d="M1.5 8C2.5 5 5 3 8 3s5.5 2 6.5 5c-1 3-3.5 5-6.5 5S2.5 11 1.5 8Z" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
+                                    </button>
+                                    <button class="tl-label-btn tl-btn-lock" title="锁定/解锁">
+                                        <svg viewBox="0 0 16 16" fill="none"><rect x="3" y="7" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 7V5a3 3 0 0 1 6 0v2" stroke="currentColor" stroke-width="1.2"/></svg>
+                                    </button>
+                                </span>
+                            </div>
+                            <div class="tv2-tl-track-content">
+                                <div class="tv2-tl-track-bg"></div>
+                                <div class="tv2-tl-segment tv2-tl-segment--erase" style="left:0%;width:6%;"><span class="tv2-tl-seg-label">E1</span></div>
+                                <div class="tv2-tl-segment tv2-tl-segment--erase" style="left:8%;width:10%;"><span class="tv2-tl-seg-label">E2</span></div>
+                                <div class="tv2-tl-segment tv2-tl-segment--erase" style="left:20%;width:12%;"><span class="tv2-tl-seg-label">E3</span></div>
+                                <div class="tv2-tl-segment tv2-tl-segment--erase" style="left:35%;width:14%;"><span class="tv2-tl-seg-label">E4</span></div>
+                                <div class="tv2-tl-segment tv2-tl-segment--erase" style="left:52%;width:10%;"><span class="tv2-tl-seg-label">E5</span></div>
+                                <div class="tv2-tl-segment tv2-tl-segment--erase" style="left:65%;width:15%;"><span class="tv2-tl-seg-label">E6</span></div>
+                                <div class="tv2-tl-segment tv2-tl-segment--erase" style="left:83%;width:12%;"><span class="tv2-tl-seg-label">E7</span></div>
+                            </div>
                         </div>
                         <div class="tv2-tl-track" data-track="subtitle">
-                            <div class="tv2-tl-track-bg"></div>
-                            <div class="tv2-tl-segment tv2-tl-segment--subtitle" style="left:0%;width:6%;"><span class="tv2-tl-seg-label">S1</span></div>
-                            <div class="tv2-tl-segment tv2-tl-segment--subtitle" style="left:8%;width:10%;"><span class="tv2-tl-seg-label">S2</span></div>
-                            <div class="tv2-tl-segment tv2-tl-segment--subtitle" style="left:20%;width:12%;"><span class="tv2-tl-seg-label">S3</span></div>
-                            <div class="tv2-tl-segment tv2-tl-segment--subtitle" style="left:35%;width:14%;"><span class="tv2-tl-seg-label">S4</span></div>
-                            <div class="tv2-tl-segment tv2-tl-segment--subtitle" style="left:52%;width:10%;"><span class="tv2-tl-seg-label">S5</span></div>
-                            <div class="tv2-tl-segment tv2-tl-segment--subtitle" style="left:65%;width:15%;"><span class="tv2-tl-seg-label">S6</span></div>
-                            <div class="tv2-tl-segment tv2-tl-segment--subtitle" style="left:83%;width:12%;"><span class="tv2-tl-seg-label">S7</span></div>
+                            <div class="tv2-tl-track-label">
+                                <span class="tl-label-dot"></span>
+                                <span class="tl-label-name">字幕</span>
+                                <span class="tl-label-actions">
+                                    <button class="tl-label-btn tl-btn-eye" title="隐藏/显示">
+                                        <svg viewBox="0 0 16 16" fill="none"><path d="M1.5 8C2.5 5 5 3 8 3s5.5 2 6.5 5c-1 3-3.5 5-6.5 5S2.5 11 1.5 8Z" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
+                                    </button>
+                                    <button class="tl-label-btn tl-btn-lock" title="锁定/解锁">
+                                        <svg viewBox="0 0 16 16" fill="none"><rect x="3" y="7" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 7V5a3 3 0 0 1 6 0v2" stroke="currentColor" stroke-width="1.2"/></svg>
+                                    </button>
+                                </span>
+                            </div>
+                            <div class="tv2-tl-track-content">
+                                <div class="tv2-tl-track-bg"></div>
+                                <div class="tv2-tl-segment tv2-tl-segment--subtitle" style="left:0%;width:6%;"><span class="tv2-tl-seg-label">S1</span></div>
+                                <div class="tv2-tl-segment tv2-tl-segment--subtitle" style="left:8%;width:10%;"><span class="tv2-tl-seg-label">S2</span></div>
+                                <div class="tv2-tl-segment tv2-tl-segment--subtitle" style="left:20%;width:12%;"><span class="tv2-tl-seg-label">S3</span></div>
+                                <div class="tv2-tl-segment tv2-tl-segment--subtitle" style="left:35%;width:14%;"><span class="tv2-tl-seg-label">S4</span></div>
+                                <div class="tv2-tl-segment tv2-tl-segment--subtitle" style="left:52%;width:10%;"><span class="tv2-tl-seg-label">S5</span></div>
+                                <div class="tv2-tl-segment tv2-tl-segment--subtitle" style="left:65%;width:15%;"><span class="tv2-tl-seg-label">S6</span></div>
+                                <div class="tv2-tl-segment tv2-tl-segment--subtitle" style="left:83%;width:12%;"><span class="tv2-tl-seg-label">S7</span></div>
+                            </div>
                         </div>
                         <div class="tv2-tl-track" data-track="voice">
-                            <div class="tv2-tl-track-bg"></div>
-                            <div class="tv2-tl-segment tv2-tl-segment--voice" style="left:0%;width:6%;"><span class="tv2-tl-seg-label">V1</span></div>
-                            <div class="tv2-tl-segment tv2-tl-segment--voice" style="left:8%;width:10%;"><span class="tv2-tl-seg-label">V2</span></div>
-                            <div class="tv2-tl-segment tv2-tl-segment--voice" style="left:20%;width:12%;"><span class="tv2-tl-seg-label">V3</span></div>
-                            <div class="tv2-tl-segment tv2-tl-segment--voice" style="left:35%;width:14%;"><span class="tv2-tl-seg-label">V4</span></div>
-                            <div class="tv2-tl-segment tv2-tl-segment--voice" style="left:52%;width:10%;"><span class="tv2-tl-seg-label">V5</span></div>
-                            <div class="tv2-tl-segment tv2-tl-segment--voice" style="left:65%;width:15%;"><span class="tv2-tl-seg-label">V6</span></div>
-                            <div class="tv2-tl-segment tv2-tl-segment--voice" style="left:83%;width:12%;"><span class="tv2-tl-seg-label">V7</span></div>
+                            <div class="tv2-tl-track-label">
+                                <span class="tl-label-dot"></span>
+                                <span class="tl-label-name">配音</span>
+                                <span class="tl-label-actions">
+                                    <button class="tl-label-btn tl-btn-eye" title="隐藏/显示">
+                                        <svg viewBox="0 0 16 16" fill="none"><path d="M1.5 8C2.5 5 5 3 8 3s5.5 2 6.5 5c-1 3-3.5 5-6.5 5S2.5 11 1.5 8Z" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.2"/></svg>
+                                    </button>
+                                    <button class="tl-label-btn tl-btn-lock" title="锁定/解锁">
+                                        <svg viewBox="0 0 16 16" fill="none"><rect x="3" y="7" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 7V5a3 3 0 0 1 6 0v2" stroke="currentColor" stroke-width="1.2"/></svg>
+                                    </button>
+                                </span>
+                            </div>
+                            <div class="tv2-tl-track-content">
+                                <div class="tv2-tl-track-bg"></div>
+                                <div class="tv2-tl-segment tv2-tl-segment--voice" style="left:0%;width:6%;"><span class="tv2-tl-seg-label">V1</span></div>
+                                <div class="tv2-tl-segment tv2-tl-segment--voice" style="left:8%;width:10%;"><span class="tv2-tl-seg-label">V2</span></div>
+                                <div class="tv2-tl-segment tv2-tl-segment--voice" style="left:20%;width:12%;"><span class="tv2-tl-seg-label">V3</span></div>
+                                <div class="tv2-tl-segment tv2-tl-segment--voice" style="left:35%;width:14%;"><span class="tv2-tl-seg-label">V4</span></div>
+                                <div class="tv2-tl-segment tv2-tl-segment--voice" style="left:52%;width:10%;"><span class="tv2-tl-seg-label">V5</span></div>
+                                <div class="tv2-tl-segment tv2-tl-segment--voice" style="left:65%;width:15%;"><span class="tv2-tl-seg-label">V6</span></div>
+                                <div class="tv2-tl-segment tv2-tl-segment--voice" style="left:83%;width:12%;"><span class="tv2-tl-seg-label">V7</span></div>
+                            </div>
                         </div>
                         <div class="tv2-tl-playhead" id="tlPlayhead" style="left:0%;">
                             <div class="tv2-tl-playhead-head"></div>
@@ -1713,7 +2613,7 @@
                             <svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="M3 1.5L12 7L3 12.5V1.5Z" fill="currentColor"/></svg>
                         </button>
                         <span class="tv2-tl-time" id="tlTime">
-                            <span class="current">00:00</span> / 02:34
+                            <span class="current">00:00</span> / 01:30
                         </span>
                     </div>
                     <!-- Processing steps -->
@@ -1728,7 +2628,7 @@
 
             <!-- Right: Chat Panel -->
             <aside class="tv2-right">
-                <div class="tv2-chat-header">
+                <div class="tv2-chat-header" id="chatHeader">
                     <div class="tv2-chat-header-icon">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.2"/><path d="M8 4V8L10 10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
                     </div>
@@ -1736,6 +2636,10 @@
                         <h3>FrameX AI 助手</h3>
                         <p>上传视频开始配置</p>
                     </div>
+                    <span class="tv2-ft-mode-tag" id="ftModeTag">
+                        <span class="ftm-dot"></span>
+                        精调模式
+                    </span>
                 </div>
 
                 <!-- Progress Tabs (Persistent Navigation) -->
@@ -2001,14 +2905,14 @@
         let phase = 'upload'; // upload | config | processing | done
         let playing = false;
         let videoTime = 0;
-        const videoDuration = 154;
+        const videoDuration = 90;
         let animFrame = null;
         let features = { erase: true, subtitle: true, voice: true };
         let uploadedFileName = '';
 
         /* ===== Elements ===== */
-        const canvas = document.getElementById('mainCanvas');
-        const ctx = canvas.getContext('2d');
+        const videoEl = document.getElementById('mainVideo');
+        const burntSub = document.getElementById('burntSub');
         const uploadOverlay = document.getElementById('uploadOverlay');
         const processingOverlay = document.getElementById('processingOverlay');
         const subtitleOverlay = document.getElementById('subtitleOverlay');
@@ -2028,24 +2932,24 @@
 
         /* ===== Subtitle Data Model ===== */
         const subtitleItems = [
-            { id: 'S1', orig: '大家好，欢迎来到今天的分享', trans: 'Hello everyone, welcome to today\'s sharing', startSec: 3, endSec: 9 },
-            { id: 'S2', orig: '今天我们来聊一聊 AI 视频翻译', trans: 'Today let\'s talk about AI video translation', startSec: 12, endSec: 24 },
-            { id: 'S3', orig: '这项技术可以自动擦除原有字幕', trans: 'This technology can automatically erase subtitles', startSec: 27, endSec: 38 },
-            { id: 'S4', orig: '并且重新生成目标语言的配音', trans: 'And regenerate dubbing in the target language', startSec: 41, endSec: 55 },
-            { id: 'S5', orig: '整个流程完全自动化', trans: 'The entire process is fully automated', startSec: 58, endSec: 72 },
-            { id: 'S6', orig: '声音克隆让配音听起来非常自然', trans: 'Voice cloning makes dubbing sound very natural', startSec: 78, endSec: 95 },
-            { id: 'S7', orig: '希望这个功能对大家有帮助', trans: 'Hope this feature is helpful to everyone', startSec: 100, endSec: 120 },
+            { id: 'S1', orig: '大家好 欢迎来到科技前沿', trans: 'Hello everyone, welcome to TechFront', startSec: 2, endSec: 5 },
+            { id: 'S2', orig: '今天我们来聊一个很火的话题 AI视频翻译', trans: 'Today let\'s talk about a hot topic — AI video translation', startSec: 8, endSec: 14 },
+            { id: 'S3', orig: '传统的视频本地化流程非常复杂', trans: 'Traditional video localization workflows are very complex', startSec: 20, endSec: 26 },
+            { id: 'S4', orig: '需要人工扒字幕 翻译 再重新配音', trans: 'You need manual subtitling, translation, and re-dubbing', startSec: 30, endSec: 37 },
+            { id: 'S5', orig: '但现在AI可以一键完成这些步骤', trans: 'But now AI can complete all these steps in one click', startSec: 42, endSec: 49 },
+            { id: 'S6', orig: '而且还能保留原始说话人的音色和语调', trans: 'And it can even preserve the original speaker\'s voice and tone', startSec: 55, endSec: 63 },
+            { id: 'S7', orig: '好了 今天的分享就到这里 我们下期再见', trans: 'That\'s all for today, see you next time', startSec: 68, endSec: 76 },
         ];
 
         /* ===== Voice Data Model ===== */
         const voiceItems = [
-            { id: 'V1', text: 'Hello everyone, welcome to today\'s sharing', startSec: 3, endSec: 9 },
-            { id: 'V2', text: 'Today let\'s talk about AI video translation', startSec: 12, endSec: 24 },
-            { id: 'V3', text: 'This technology can automatically erase subtitles', startSec: 27, endSec: 38 },
-            { id: 'V4', text: 'And regenerate dubbing in the target language', startSec: 41, endSec: 55 },
-            { id: 'V5', text: 'The entire process is fully automated', startSec: 58, endSec: 72 },
-            { id: 'V6', text: 'Voice cloning makes dubbing sound very natural', startSec: 78, endSec: 95 },
-            { id: 'V7', text: 'Hope this feature is helpful to everyone', startSec: 100, endSec: 120 },
+            { id: 'V1', text: 'Hello everyone, welcome to TechFront', startSec: 2, endSec: 5 },
+            { id: 'V2', text: 'Today let\'s talk about a hot topic — AI video translation', startSec: 8, endSec: 14 },
+            { id: 'V3', text: 'Traditional video localization workflows are very complex', startSec: 20, endSec: 26 },
+            { id: 'V4', text: 'You need manual subtitling, translation, and re-dubbing', startSec: 30, endSec: 37 },
+            { id: 'V5', text: 'But now AI can complete all these steps in one click', startSec: 42, endSec: 49 },
+            { id: 'V6', text: 'And it can even preserve the original speaker\'s voice and tone', startSec: 55, endSec: 63 },
+            { id: 'V7', text: 'That\'s all for today, see you next time', startSec: 68, endSec: 76 },
         ];
 
         /* ===== Progress Tabs Elements ===== */
@@ -2061,56 +2965,49 @@
         /* Track which step is currently being previewed (before confirm) */
         let previewingSteps = { erase: false, subtitle: false, voice: false };
 
-        /* ===== Canvas ===== */
-        function resizeCanvas() {
-            const c = canvas.parentElement;
-            const dpr = window.devicePixelRatio || 1;
-            canvas.width = c.clientWidth * dpr;
-            canvas.height = c.clientHeight * dpr;
-        }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
+        /* ===== Video sync ===== */
+        let lastBurntSubId = null;
 
-        function drawFrame(t) {
-            const dpr = window.devicePixelRatio || 1;
-            const w = canvas.width / dpr, h = canvas.height / dpr;
-            ctx.save();
-            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-            ctx.clearRect(0, 0, w, h);
-            const hue = (t * 6) % 360;
-            const grd = ctx.createLinearGradient(0, 0, w, h);
-            grd.addColorStop(0, `hsl(${hue},35%,10%)`);
-            grd.addColorStop(0.5, `hsl(${(hue+50)%360},30%,14%)`);
-            grd.addColorStop(1, `hsl(${(hue+120)%360},25%,8%)`);
-            ctx.fillStyle = grd;
-            ctx.fillRect(0, 0, w, h);
-            const cx = w * 0.5, cy = h * 0.4;
-            ctx.globalAlpha = 0.2;
-            ctx.beginPath();
-            ctx.arc(cx, cy - 30, 28, 0, Math.PI * 2);
-            ctx.fillStyle = `hsl(${hue+180},20%,28%)`;
-            ctx.fill();
-            ctx.beginPath();
-            ctx.ellipse(cx, cy + 30, 36, 50, 0, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.globalAlpha = 0.12;
-            for (let i = 0; i < 10; i++) {
-                const px = (Math.sin(t * 0.25 + i * 2) * 0.4 + 0.5) * w;
-                const py = (Math.cos(t * 0.18 + i * 2.3) * 0.4 + 0.5) * h;
-                ctx.beginPath();
-                ctx.arc(px, py, 1.5 + Math.sin(t * 0.5 + i), 0, Math.PI * 2);
-                ctx.fillStyle = '#a78bfa';
-                ctx.fill();
+        function updateBurntSubtitle(t) {
+            const curSub = subtitleItems.find(s => t >= s.startSec && t <= s.endSec);
+            if (curSub) {
+                if (lastBurntSubId !== curSub.id) {
+                    burntSub.innerHTML = `<span class="bs-bar"><span class="bs-text">${curSub.orig}</span></span>`;
+                    burntSub.classList.add('visible');
+                    lastBurntSubId = curSub.id;
+                }
+            } else {
+                if (lastBurntSubId !== null) {
+                    burntSub.classList.remove('visible');
+                    lastBurntSubId = null;
+                }
             }
-            ctx.restore();
         }
+
+        function syncVideoToTime() {
+            // Only sync when seeking (large time delta), not during normal playback
+            const vd = videoEl.duration || 15;
+            const targetVt = videoTime % vd;
+            if (Math.abs(videoEl.currentTime - targetVt) > 1) {
+                videoEl.currentTime = targetVt;
+            }
+        }
+
+        let needsVideoSync = false;
 
         function tick() {
             if (playing) {
                 videoTime += 1 / 60;
                 if (videoTime >= videoDuration) videoTime = 0;
+                if (videoEl.paused) videoEl.play().catch(() => {});
+            } else {
+                if (!videoEl.paused) videoEl.pause();
             }
-            drawFrame(videoTime);
+            if (needsVideoSync) {
+                syncVideoToTime();
+                needsVideoSync = false;
+            }
+            updateBurntSubtitle(videoTime);
             updateTimeline();
             updateAllPreviews();
             animFrame = requestAnimationFrame(tick);
@@ -2118,11 +3015,27 @@
 
         function updateTimeline() {
             const pct = (videoTime / videoDuration) * 100;
-            tlPlayhead.style.left = pct + '%';
+            tlPlayhead.style.left = `calc(80px + ${pct}% * (1 - 100px / ${document.getElementById('tlTracks').offsetWidth || 1}))`;
+            // Simplified: use track content element for accurate positioning
+            const tracksEl = document.getElementById('tlTracks');
+            if (tracksEl) {
+                const totalW = tracksEl.offsetWidth;
+                const contentW = totalW - 80 - 20; // label + right padding
+                const px = 80 + (pct / 100) * contentW;
+                tlPlayhead.style.left = px + 'px';
+            }
             const m = Math.floor(videoTime / 60);
             const s = Math.floor(videoTime % 60);
             document.getElementById('tlTime').innerHTML =
-                `<span class="current">${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}</span> / 02:34`;
+                `<span class="current">${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}</span> / ${String(Math.floor(videoDuration/60)).padStart(2,'0')}:${String(videoDuration%60).padStart(2,'0')}`;
+            // Update scrubber
+            const scrubFill = document.getElementById('scrubberFill');
+            const scrubThumb = document.getElementById('scrubberThumb');
+            const scrubTime = document.getElementById('scrubberTime');
+            if (scrubFill) scrubFill.style.width = pct + '%';
+            if (scrubThumb) scrubThumb.style.left = pct + '%';
+            if (scrubTime) scrubTime.innerHTML =
+                `<span class="st-cur">${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}</span> / ${String(Math.floor(videoDuration/60)).padStart(2,'0')}:${String(videoDuration%60).padStart(2,'0')}`;
         }
 
         /* ===== Ruler ===== */
@@ -2157,24 +3070,32 @@
             uploadedFileName = file ? file.name : 'demo_video.mp4';
             document.getElementById('topbarFilename').textContent = '— ' + uploadedFileName;
             uploadOverlay.classList.add('hidden');
+            document.getElementById('videoScrubber').classList.add('visible');
             phaseIndicator.classList.remove('hidden');
             phaseDot.className = 'tv2-phase-dot live';
-            phaseLabel.textContent = '视频已加载';
-            // Show timeline with animation
-            document.getElementById('timeline').classList.add('visible');
+            phaseLabel.textContent = '请在右侧对话中配置参数';
+            phaseIndicator.className = 'tv2-phase-indicator';
+            // Timeline stays hidden until finetune mode is entered
+            // (tracks will be prepared but timeline container stays collapsed)
             // Enter immersive mode — collapse sidebar
             document.body.classList.add('tv2-immersive');
             // Reset step state
             currentStep = -1;
             features = { erase: false, subtitle: false, voice: false };
+            scriptReady = false;
             // Hide all tracks
-            document.querySelectorAll('.tv2-tl-track').forEach(t => t.classList.remove('track-visible'));
+            document.querySelectorAll('.tv2-tl-track').forEach(t => {
+                t.classList.remove('track-visible', 'track-placeholder', 'track-ft-active', 'track-ft-dim');
+                t.style.opacity = '';
+            });
             // Reset fine-tune section
             chatFlow.style.display = '';
             document.getElementById('finetuneSection').classList.remove('active');
             document.querySelectorAll('.tv2-ft-panel').forEach(p => p.classList.remove('active'));
             inFinetune = false;
             currentFinetuneStep = null;
+            document.getElementById('chatHeader').classList.remove('finetune-header');
+            document.getElementById('ftModeTag').classList.remove('visible');
             pendingAdvanceStep = null;
             // Reset tabs to locked
             unlockedTabs = { erase: false, subtitle: false, voice: false };
@@ -2202,71 +3123,602 @@
             // AI: analysis result
             const analysisHtml = `
                 <div class="bubble-video-info">
-                    <div class="bubble-video-thumb"><canvas id="chatThumb" width="96" height="56"></canvas></div>
+                    <div class="bubble-video-thumb"><video id="chatThumb" muted src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:inherit;"></video></div>
                     <div class="bubble-video-meta">
                         <span class="vname">${uploadedFileName}</span>
                         <span class="vmeta">128.5 MB · 1920×1080 · 30fps</span>
                     </div>
                 </div>
-                视频分析完成！检测到语言: <strong>中文</strong> | 时长: <strong>02:34</strong><br>我来帮你逐步配置译制参数。`;
+                视频分析完成！检测到语言: <strong>中文</strong> | 时长: <strong>01:30</strong><br>我来帮你逐步配置译制参数。`;
             appendBubble('ai', analysisHtml, 0.3);
 
-            // Draw thumb
+            // Set thumb to a representative frame
             setTimeout(() => {
-                const c = document.getElementById('chatThumb');
-                if (c) {
-                    const cctx = c.getContext('2d');
-                    const g = cctx.createLinearGradient(0,0,c.width,c.height);
-                    g.addColorStop(0,'#1a1a2e'); g.addColorStop(0.5,'#16213e'); g.addColorStop(1,'#0f3460');
-                    cctx.fillStyle = g; cctx.fillRect(0,0,c.width,c.height);
+                const thumbVid = document.getElementById('chatThumb');
+                if (thumbVid) {
+                    thumbVid.currentTime = 2;
                 }
             }, 100);
 
-            // Start step-by-step config after a delay
-            setTimeout(() => advanceStep(), 800);
+            // Overview bubble: tell user about the 3 steps
+            setTimeout(() => {
+                const overviewHtml = `
+                    接下来我们分 <strong>3 步</strong>完成译制配置，每步你都可以确认、跳过或精调：
+                    <div class="chat-overview-stepper">
+                        <div class="chat-ov-step" data-ov="erase">
+                            <span class="chat-ov-num">1</span>
+                            <div class="chat-ov-info"><h5>擦除原字幕</h5><p>检测并清除</p></div>
+                        </div>
+                        <div class="chat-ov-arrow">
+                            <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <div class="chat-ov-step" data-ov="subtitle">
+                            <span class="chat-ov-num">2</span>
+                            <div class="chat-ov-info"><h5>文案与字幕</h5><p>识别 / 翻译</p></div>
+                        </div>
+                        <div class="chat-ov-arrow">
+                            <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <div class="chat-ov-step" data-ov="voice">
+                            <span class="chat-ov-num">3</span>
+                            <div class="chat-ov-info"><h5>AI 配音</h5><p>语音合成</p></div>
+                        </div>
+                    </div>
+                    我们开始吧！`;
+                appendBubble('ai', overviewHtml, 0);
+                scrollChat();
+
+                // Start step-by-step config after overview
+                setTimeout(() => advanceStep(), 1000);
+            }, 600);
         }
 
         function advanceStep() {
             currentStep++;
             if (currentStep >= configSteps.length) {
-                // All steps done, show start button
                 showStartButton();
                 return;
             }
             const step = configSteps[currentStep];
-            showStepBubble(step);
+            showStepPreBubble(step);
         }
 
-        function showStepBubble(step) {
-            const stepConfigs = {
-                erase: {
-                    icon: `<svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M16 4L8 12L4 16H10L18 8L16 4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M2 18H18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
-                    iconClass: 'chat-feature-icon--red',
-                    title: '擦除原字幕',
-                    desc: 'AI 检测到 7 处字幕区域，需要擦除吗？',
-                    configHtml: `<div class="chat-quick-config">
-                        <div class="chat-config-row" data-feature="erase">
-                            <span class="ccr-icon"></span>
-                            <span class="ccr-label">模式</span>
-                            <select><option>AI 自动</option><option>手动指定</option></select>
-                        </div>
-                        <div class="chat-config-row" data-feature="erase">
-                            <span class="ccr-icon"></span>
-                            <span class="ccr-label">质量</span>
-                            <select><option>高质量</option><option>标准</option><option>快速</option></select>
-                        </div>
-                    </div>`,
-                    confirmText: '确认擦除'
-                },
-                subtitle: {
-                    icon: `<svg width="16" height="16" viewBox="0 0 20 20" fill="none"><rect x="3" y="5" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M6 11H14M6 13H11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>`,
-                    iconClass: 'chat-feature-icon--blue',
-                    title: '添加新字幕',
-                    desc: '接下来配置字幕翻译，选择目标语言和显示方式。',
-                    configHtml: `<div class="chat-quick-config">
+        /* ===== Step pre-configs (labels, icons, descriptions) ===== */
+        let scriptReady = false; // tracks whether transcript/script is available for voice step
+
+        const stepMeta = {
+            erase: {
+                icon: `<svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M16 4L8 12L4 16H10L18 8L16 4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M2 18H18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+                iconClass: 'chat-feature-icon--red',
+                badgeClass: 'chat-step-badge--erase',
+                title: '擦除原字幕',
+                preDesc: '先来处理原字幕。需要 AI 自动检测字幕区域，还是手动框选？',
+                autoLabel: '🔍 AI 自动检测',
+                manualLabel: '✋ 手动框选',
+                scanText: '正在检测字幕区域...',
+                scanResultText: '检测完成！发现 <strong>7 处</strong>字幕区域',
+                resultDesc: 'AI 检测到 7 处字幕区域，确认擦除配置：',
+                configHtml: `<div class="chat-quick-config">
+                    <div class="chat-config-row" data-feature="erase">
+                        <span class="ccr-icon"></span>
+                        <span class="ccr-label">质量</span>
+                        <select><option>高质量</option><option>标准</option><option>快速</option></select>
+                    </div>
+                    <div class="chat-config-row" data-feature="erase">
+                        <span class="ccr-icon"></span>
+                        <span class="ccr-label">填充</span>
+                        <select><option>AI 修复</option><option>纯色填充</option><option>模糊</option></select>
+                    </div>
+                </div>`,
+                confirmText: '确认擦除'
+            },
+            subtitle: {
+                icon: `<svg width="16" height="16" viewBox="0 0 20 20" fill="none"><rect x="3" y="5" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M6 11H14M6 13H11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>`,
+                iconClass: 'chat-feature-icon--blue',
+                badgeClass: 'chat-step-badge--subtitle',
+                title: '文案与字幕',
+                preDesc: '接下来处理文案。需要 AI 从视频语音中识别文案，还是上传文稿？',
+                autoLabel: '🤖 AI 语音识别',
+                manualLabel: '📄 上传文稿 / SRT',
+                scanText: '正在识别视频语音...',
+                scanResultText: '识别完成！共提取 <strong>7 句</strong>原文',
+                resultDesc: '',
+                configHtml: '', // subtitle uses custom two-phase flow
+                confirmText: '确认文案'
+            },
+            voice: {
+                icon: `<svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 3V13M7 7V9M13 5V11M4 9V7M16 8V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+                iconClass: 'chat-feature-icon--purple',
+                badgeClass: 'chat-step-badge--voice',
+                title: 'AI 配音',
+                preDesc: '最后一步：AI 配音。',
+                autoLabel: '🎙️ AI 配音',
+                manualLabel: '📁 上传音频',
+                scanText: '正在生成 AI 配音...',
+                scanResultText: '配音生成完成！已准备 <strong>7 段</strong>配音',
+                resultDesc: '配音已准备就绪，确认配音配置：',
+                configHtml: `<div class="chat-quick-config">
+                    <div class="chat-config-row" data-feature="voice">
+                        <span class="ccr-icon"></span>
+                        <span class="ccr-label">音色</span>
+                        <select><option>克隆原声</option><option>自然男声</option><option>自然女声</option></select>
+                    </div>
+                    <div class="chat-config-row" data-feature="voice">
+                        <span class="ccr-icon"></span>
+                        <span class="ccr-label">语速</span>
+                        <select><option>自动匹配</option><option>稍快</option><option>稍慢</option></select>
+                    </div>
+                    <div class="chat-config-row" data-feature="voice">
+                        <span class="ccr-icon"></span>
+                        <span class="ccr-label">情绪</span>
+                        <select><option>自然</option><option>热情</option><option>沉稳</option><option>活泼</option></select>
+                    </div>
+                </div>`,
+                confirmText: '确认配音'
+            }
+        };
+
+        /* ===== Phase A: Pre-step choice bubble ===== */
+        function showStepPreBubble(step) {
+            const meta = stepMeta[step];
+            const stepNum = configSteps.indexOf(step) + 1;
+
+            // Hide previous step previews when entering a new step
+            const stepOrder = ['erase', 'subtitle', 'voice'];
+            const curIdx = stepOrder.indexOf(step);
+            stepOrder.forEach((s, i) => {
+                if (i < curIdx && previewingSteps[s]) {
+                    previewingSteps[s] = false;
+                    if (s === 'erase') renderEraseOverlays();
+                }
+            });
+
+            // Voice step: show script source tag before choices
+            let voiceSourceHtml = '';
+            if (step === 'voice') {
+                if (scriptReady) {
+                    voiceSourceHtml = `<div class="chat-source-tag chat-source-tag--ok">✓ 文案来源：使用步骤2的字幕文案</div>`;
+                } else {
+                    voiceSourceHtml = `<div class="chat-source-tag chat-source-tag--warn">⚠ 暂无文案 — 需要先提供文案才能 AI 配音</div>`;
+                }
+            }
+
+            const bubbleHtml = `
+                <div class="chat-step-badge ${meta.badgeClass}">步骤 ${stepNum} / 3</div>
+                <div class="chat-features">
+                    <div class="chat-feature-card selected" style="pointer-events:none;">
+                        <div class="chat-feature-icon ${meta.iconClass}">${meta.icon}</div>
+                        <div class="chat-feature-info"><h4>${meta.title}</h4><p>${meta.preDesc}</p></div>
+                    </div>
+                </div>
+                ${voiceSourceHtml}
+                <div class="chat-pre-actions">
+                    <button class="chat-pre-btn chat-pre-btn--auto" data-step="${step}" data-action="auto">
+                        ${meta.autoLabel}
+                    </button>
+                    <button class="chat-pre-btn chat-pre-btn--manual" data-step="${step}" data-action="manual">
+                        ${meta.manualLabel}
+                    </button>
+                    <button class="chat-pre-btn chat-pre-btn--skip" data-step="${step}" data-action="skip">
+                        跳过
+                    </button>
+                </div>`;
+            appendBubble('ai', bubbleHtml, 0);
+            scrollChat();
+
+            // Bind pre-actions
+            setTimeout(() => {
+                chatFlow.querySelectorAll(`.chat-pre-btn[data-step="${step}"]`).forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const action = btn.dataset.action;
+                        // Disable all pre-action buttons
+                        chatFlow.querySelectorAll(`.chat-pre-btn[data-step="${step}"]`).forEach(b => {
+                            b.disabled = true; b.style.opacity = '0.4'; b.style.pointerEvents = 'none';
+                        });
+                        if (action === 'auto') {
+                            appendBubble('user', `${meta.autoLabel.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '').trim()}`, 0);
+                            scrollChat();
+                            startStepScan(step);
+                        } else if (action === 'manual') {
+                            appendBubble('user', `${meta.manualLabel.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '').trim()}`, 0);
+                            scrollChat();
+                            if (step === 'subtitle') {
+                                // Manual upload for subtitle: simulate upload then go to transcript preview
+                                startSubtitleUpload();
+                            } else if (step === 'voice') {
+                                // Upload audio = go directly to finetune
+                                confirmAndFinetune(step);
+                            } else {
+                                // Erase manual = go directly to finetune
+                                confirmAndFinetune(step);
+                            }
+                        } else if (action === 'skip') {
+                            confirmStep(step, false);
+                        }
+                    });
+                });
+            }, 50);
+        }
+
+        /* ===== Phase B: Scan animation + result bubble ===== */
+        function startStepScan(step) {
+            const meta = stepMeta[step];
+
+            if (step === 'subtitle') {
+                // Subtitle step: Phase 2A — AI speech recognition
+                startSubtitleASR();
+                return;
+            }
+
+            if (step === 'voice' && !scriptReady) {
+                // Voice step without script: need to get script first
+                startVoiceScriptAcquire();
+                return;
+            }
+
+            if (step === 'voice') {
+                // Voice step: show config first, then generate
+                startVoiceConfigPhase();
+                return;
+            }
+
+            // Erase: standard scan flow — single bubble that transitions from loading → result
+            const scanEl = document.createElement('div');
+            scanEl.className = 'chat-bubble chat-bubble--ai';
+            scanEl.style.animationDelay = '0s';
+            scanEl.innerHTML = `<div class="bubble-avatar">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.2"/><path d="M8 4V8L10 10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                    FrameX AI
+                </div>
+                <div class="chat-scan-loading">
+                    <div class="scan-dots"><span></span><span></span><span></span></div>
+                    <span class="scan-text">${meta.scanText}</span>
+                </div>`;
+            chatFlow.appendChild(scanEl);
+            scrollChat();
+
+            setTimeout(() => {
+                let eraseListHtml = '';
+                eraseRegions.forEach((r, i) => {
+                    const m1 = String(Math.floor(r.startSec / 60)).padStart(2,'0');
+                    const s1 = String(r.startSec % 60).padStart(2,'0');
+                    const m2 = String(Math.floor(r.endSec / 60)).padStart(2,'0');
+                    const s2 = String(r.endSec % 60).padStart(2,'0');
+                    eraseListHtml += `<div class="chat-erase-line" data-erase-idx="${i}">
+                        <span class="cel-id">${r.id}</span>
+                        <span class="cel-time">${m1}:${s1} - ${m2}:${s2}</span>
+                        <span class="cel-meta"><span>${r.w}%×${r.h}%</span>pos(${r.x}%,${r.y}%)</span>
+                    </div>`;
+                });
+
+                const confirmLabel = meta.confirmText;
+                // Replace loading content with full result in the same bubble
+                scanEl.innerHTML = `<div class="bubble-avatar">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.2"/><path d="M8 4V8L10 10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                    FrameX AI
+                </div>
+                <div class="chat-scan-result">
+                    <span class="scan-check">
+                        <svg width="10" height="10" viewBox="0 0 14 14" fill="none"><path d="M3 7L6 10L11 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                    ${meta.scanResultText}
+                </div>
+                <div class="chat-erase-list-inline">
+                    ${eraseListHtml}
+                </div>
+                ${meta.configHtml}
+                <div class="chat-step-actions">
+                    <button class="chat-step-skip" data-step="${step}">跳过</button>
+                    <button class="chat-step-ft-entry" data-step="${step}">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M2 4H14M2 8H10M2 12H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        去精调
+                    </button>
+                    <button class="chat-step-confirm" data-step="${step}">${confirmLabel}</button>
+                </div>`;
+                scrollChat();
+
+                // Preview this step (same logic as showStepResultBubble)
+                const stepOrder = ['erase', 'subtitle', 'voice'];
+                const curIdx = stepOrder.indexOf(step);
+                stepOrder.forEach((s, i) => {
+                    if (i < curIdx && previewingSteps[s]) {
+                        previewingSteps[s] = false;
+                        if (s === 'erase') renderEraseOverlays();
+                    }
+                });
+                previewingSteps[step] = true;
+                const previewTrack = document.querySelector(`.tv2-tl-track[data-track="${step}"]`);
+                if (previewTrack) {
+                    setTimeout(() => previewTrack.classList.add('track-visible'), 300);
+                }
+                syncTimelineSegments(step);
+                if (step === 'erase') renderEraseOverlays();
+
+                // Bind action buttons + erase region lines
+                setTimeout(() => {
+                    const confirmBtn = chatFlow.querySelector(`.chat-step-confirm[data-step="${step}"]:not([data-phase])`);
+                    const skipBtn = chatFlow.querySelector(`.chat-step-skip[data-step="${step}"]:not([data-phase])`);
+                    const ftEntryBtn = chatFlow.querySelector(`.chat-step-ft-entry[data-step="${step}"]:not([data-phase])`);
+                    if (confirmBtn) confirmBtn.addEventListener('click', () => confirmStep(step, true));
+                    if (skipBtn) skipBtn.addEventListener('click', () => confirmStep(step, false));
+                    if (ftEntryBtn) ftEntryBtn.addEventListener('click', () => confirmAndFinetune(step));
+
+                    scanEl.querySelectorAll('.chat-erase-line').forEach(line => {
+                        line.addEventListener('click', () => {
+                            const ei = parseInt(line.dataset.eraseIdx);
+                            if (ei >= 0 && ei < eraseRegions.length) {
+                                videoTime = eraseRegions[ei].startSec;
+                                needsVideoSync = true;
+                                scanEl.querySelectorAll('.chat-erase-line').forEach(l => l.classList.remove('active'));
+                                line.classList.add('active');
+                            }
+                        });
+                    });
+                }, 50);
+            }, 1800);
+        }
+
+        /* ===== Voice Step: Config Phase (select before generating) ===== */
+        function startVoiceConfigPhase() {
+            const meta = stepMeta.voice;
+            const configBubbleHtml = `
+                <div class="chat-translate-config">
+                    <div class="ctc-title">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M10 3V13M7 7V9M13 5V11M4 9V7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                        配音配置
+                    </div>
+                    ${meta.configHtml}
+                </div>
+                <div class="chat-step-actions">
+                    <button class="chat-step-skip" data-step="voice" data-phase="voiceconfig">跳过</button>
+                    <button class="chat-step-confirm" data-step="voice" data-phase="voiceconfig">开始生成配音</button>
+                </div>`;
+            appendBubble('ai', `请先配置配音参数：${configBubbleHtml}`, 0);
+            scrollChat();
+
+            setTimeout(() => {
+                const confirmBtn = chatFlow.querySelector('.chat-step-confirm[data-phase="voiceconfig"]');
+                const skipBtn = chatFlow.querySelector('.chat-step-skip[data-phase="voiceconfig"]');
+
+                if (confirmBtn) confirmBtn.addEventListener('click', () => {
+                    [confirmBtn, skipBtn].forEach(b => { if(b) { b.disabled = true; b.style.opacity = '0.4'; b.style.pointerEvents = 'none'; }});
+                    appendBubble('user', '开始生成配音 →', 0);
+                    scrollChat();
+                    runVoiceGeneration();
+                });
+                if (skipBtn) skipBtn.addEventListener('click', () => {
+                    [confirmBtn, skipBtn].forEach(b => { if(b) { b.disabled = true; b.style.opacity = '0.4'; b.style.pointerEvents = 'none'; }});
+                    confirmStep('voice', false);
+                });
+            }, 100);
+        }
+
+        /* ===== Voice Step: Run Generation ===== */
+        function runVoiceGeneration() {
+            const meta = stepMeta.voice;
+            const voiceScanEl = document.createElement('div');
+            voiceScanEl.className = 'chat-bubble chat-bubble--ai';
+            voiceScanEl.style.animationDelay = '0s';
+            voiceScanEl.innerHTML = `<div class="bubble-avatar">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.2"/><path d="M8 4V8L10 10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                    FrameX AI
+                </div>
+                <div class="chat-scan-loading">
+                    <div class="scan-dots"><span></span><span></span><span></span></div>
+                    <span class="scan-text">${meta.scanText}</span>
+                </div>`;
+            chatFlow.appendChild(voiceScanEl);
+            scrollChat();
+
+            setTimeout(() => {
+                let voiceListHtml = '';
+                voiceItems.forEach((v, i) => {
+                    const m1 = String(Math.floor(v.startSec / 60)).padStart(2,'0');
+                    const s1 = String(v.startSec % 60).padStart(2,'0');
+                    const m2 = String(Math.floor(v.endSec / 60)).padStart(2,'0');
+                    const s2 = String(v.endSec % 60).padStart(2,'0');
+                    voiceListHtml += `<div class="chat-voice-line" data-voice-idx="${i}">
+                        <span class="cvl-id">${v.id}</span>
+                        <span class="cvl-time">${m1}:${s1} - ${m2}:${s2}</span>
+                        <span class="cvl-text">${v.text}</span>
+                    </div>`;
+                });
+
+                const step = 'voice';
+                voiceScanEl.innerHTML = `<div class="bubble-avatar">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.2"/><path d="M8 4V8L10 10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                    FrameX AI
+                </div>
+                <div class="chat-scan-result">
+                    <span class="scan-check">
+                        <svg width="10" height="10" viewBox="0 0 14 14" fill="none"><path d="M3 7L6 10L11 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                    ${meta.scanResultText}
+                </div>
+                <div class="chat-voice-list-inline">
+                    ${voiceListHtml}
+                </div>
+                <div class="chat-step-actions">
+                    <button class="chat-step-skip" data-step="${step}">跳过</button>
+                    <button class="chat-step-ft-entry" data-step="${step}">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M2 4H14M2 8H10M2 12H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        去精调
+                    </button>
+                    <button class="chat-step-confirm" data-step="${step}">确认配音</button>
+                </div>`;
+                scrollChat();
+
+                // Preview this step
+                const stepOrder = ['erase', 'subtitle', 'voice'];
+                const curIdx = stepOrder.indexOf(step);
+                stepOrder.forEach((s, i) => {
+                    if (i < curIdx && previewingSteps[s]) {
+                        previewingSteps[s] = false;
+                        if (s === 'erase') renderEraseOverlays();
+                    }
+                });
+                previewingSteps[step] = true;
+                const previewTrack = document.querySelector(`.tv2-tl-track[data-track="${step}"]`);
+                if (previewTrack) setTimeout(() => previewTrack.classList.add('track-visible'), 300);
+                syncTimelineSegments(step);
+
+                // Bind buttons + voice line clicks
+                setTimeout(() => {
+                    const confirmBtn = chatFlow.querySelector(`.chat-step-confirm[data-step="${step}"]:not([data-phase])`);
+                    const skipBtn = chatFlow.querySelector(`.chat-step-skip[data-step="${step}"]:not([data-phase])`);
+                    const ftEntryBtn = chatFlow.querySelector(`.chat-step-ft-entry[data-step="${step}"]:not([data-phase])`);
+                    if (confirmBtn) confirmBtn.addEventListener('click', () => confirmStep(step, true));
+                    if (skipBtn) skipBtn.addEventListener('click', () => confirmStep(step, false));
+                    if (ftEntryBtn) ftEntryBtn.addEventListener('click', () => confirmAndFinetune(step));
+
+                    voiceScanEl.querySelectorAll('.chat-voice-line').forEach(line => {
+                        line.addEventListener('click', () => {
+                            const vi = parseInt(line.dataset.voiceIdx);
+                            if (vi >= 0 && vi < voiceItems.length) {
+                                videoTime = voiceItems[vi].startSec;
+                                needsVideoSync = true;
+                                voiceScanEl.querySelectorAll('.chat-voice-line').forEach(l => l.classList.remove('active'));
+                                line.classList.add('active');
+                            }
+                        });
+                    });
+                }, 50);
+            }, 2200);
+        }
+
+        /* ===== Subtitle Step: Phase 2A — ASR Recognition ===== */
+        function startSubtitleASR() {
+            // Hide erase overlays when entering subtitle phase
+            if (previewingSteps.erase) {
+                previewingSteps.erase = false;
+                renderEraseOverlays();
+            }
+
+            const scanBubbleHtml = `
+                <div class="chat-scan-loading">
+                    <div class="scan-dots"><span></span><span></span><span></span></div>
+                    <span class="scan-text">正在识别视频语音...</span>
+                </div>`;
+            appendBubble('ai', scanBubbleHtml, 0);
+            scrollChat();
+
+            setTimeout(() => {
+                showTranscriptPreview('asr');
+            }, 2000);
+        }
+
+        /* ===== Subtitle Step: Manual Upload ===== */
+        function startSubtitleUpload() {
+            // Hide erase overlays when entering subtitle phase
+            if (previewingSteps.erase) {
+                previewingSteps.erase = false;
+                renderEraseOverlays();
+            }
+
+            const scanBubbleHtml = `
+                <div class="chat-scan-loading">
+                    <div class="scan-dots"><span></span><span></span><span></span></div>
+                    <span class="scan-text">正在解析上传文稿...</span>
+                </div>`;
+            appendBubble('ai', scanBubbleHtml, 0);
+            scrollChat();
+
+            setTimeout(() => {
+                showTranscriptPreview('upload');
+            }, 1200);
+        }
+
+        /* ===== Subtitle Step: Show Transcript Preview (inline list) ===== */
+        function showTranscriptPreview(source) {
+            const sourceLabel = source === 'asr' ? 'AI 语音识别完成' : '文稿解析完成';
+
+            let listHtml = '';
+            subtitleItems.forEach((s, i) => {
+                const m1 = String(Math.floor(s.startSec / 60)).padStart(2,'0');
+                const s1 = String(s.startSec % 60).padStart(2,'0');
+                const m2 = String(Math.floor(s.endSec / 60)).padStart(2,'0');
+                const s2 = String(s.endSec % 60).padStart(2,'0');
+                listHtml += `<div class="chat-sub-line" data-idx="${i}">
+                    <span class="csl-time">${m1}:${s1} - ${m2}:${s2}</span>
+                    <span class="csl-orig">${s.orig}</span>
+                </div>`;
+            });
+
+            const bubbleHtml = `
+                <div class="chat-scan-result">
+                    <span class="scan-check">
+                        <svg width="10" height="10" viewBox="0 0 14 14" fill="none"><path d="M3 7L6 10L11 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                    ${sourceLabel}！共识别 <strong>${subtitleItems.length} 处</strong>字幕
+                </div>
+                <div class="chat-sub-list-inline">
+                    ${listHtml}
+                </div>
+                <div class="chat-step-actions">
+                    <button class="chat-step-skip" data-step="subtitle" data-phase="transcript">跳过</button>
+                    <button class="chat-step-ft-entry" data-step="subtitle" data-phase="transcript">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M2 4H14M2 8H10M2 12H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        去精调
+                    </button>
+                    <button class="chat-step-confirm" data-step="subtitle" data-phase="transcript">确认文案</button>
+                </div>`;
+            appendBubble('ai', bubbleHtml, 0);
+            scrollChat();
+
+            // Bind click-to-seek on subtitle lines + action buttons
+            setTimeout(() => {
+                document.querySelectorAll('.chat-sub-line').forEach(line => {
+                    line.addEventListener('click', () => {
+                        const idx = parseInt(line.dataset.idx);
+                        if (idx >= 0 && idx < subtitleItems.length) {
+                            videoTime = subtitleItems[idx].startSec;
+                            needsVideoSync = true;
+                            document.querySelectorAll('.chat-sub-line').forEach(l => l.classList.remove('active'));
+                            line.classList.add('active');
+                        }
+                    });
+                });
+
+                // Bind action buttons for transcript phase
+                const confirmBtn = chatFlow.querySelector('.chat-step-confirm[data-phase="transcript"]');
+                const skipBtn = chatFlow.querySelector('.chat-step-skip[data-phase="transcript"]');
+                const ftEntryBtn = chatFlow.querySelector('.chat-step-ft-entry[data-phase="transcript"]');
+
+                if (confirmBtn) confirmBtn.addEventListener('click', () => {
+                    // Disable buttons
+                    [confirmBtn, skipBtn, ftEntryBtn].forEach(b => { if(b) { b.disabled = true; b.style.opacity = '0.4'; b.style.pointerEvents = 'none'; }});
+                    appendBubble('user', '确认文案 ✓', 0);
+                    scrollChat();
+                    scriptReady = true;
+                    // Auto-advance to Phase 2B: Translation config
+                    setTimeout(() => startTranslationPhase(), 600);
+                });
+                if (skipBtn) skipBtn.addEventListener('click', () => {
+                    [confirmBtn, skipBtn, ftEntryBtn].forEach(b => { if(b) { b.disabled = true; b.style.opacity = '0.4'; b.style.pointerEvents = 'none'; }});
+                    confirmStep('subtitle', false);
+                });
+                if (ftEntryBtn) ftEntryBtn.addEventListener('click', () => {
+                    [confirmBtn, skipBtn, ftEntryBtn].forEach(b => { if(b) { b.disabled = true; b.style.opacity = '0.4'; b.style.pointerEvents = 'none'; }});
+                    appendBubble('user', '进入字幕精调 →', 0);
+                    scriptReady = true;
+                    // Enter finetune but still need translation phase after
+                    confirmAndFinetune('subtitle');
+                });
+            }, 100);
+        }
+
+        /* ===== Subtitle Step: Phase 2B — Translation Config ===== */
+        function startTranslationPhase() {
+            const translateConfigHtml = `
+                <div class="chat-translate-config">
+                    <div class="ctc-title">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M2 4H14M2 8H10M2 12H7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                        翻译配置
+                    </div>
+                    <div class="chat-quick-config">
                         <div class="chat-config-row" data-feature="subtitle">
                             <span class="ccr-icon"></span>
-                            <span class="ccr-label">语言</span>
+                            <span class="ccr-label">目标</span>
                             <select><option>英语</option><option>日语</option><option>韩语</option><option>法语</option><option>德语</option><option>西班牙语</option></select>
                         </div>
                         <div class="chat-config-row" data-feature="subtitle">
@@ -2274,83 +3726,243 @@
                             <span class="ccr-label">样式</span>
                             <select><option>双语对照</option><option>仅译文</option><option>仅原文</option></select>
                         </div>
-                    </div>`,
-                    confirmText: '确认字幕设置'
-                },
-                voice: {
-                    icon: `<svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 3V13M7 7V9M13 5V11M4 9V7M16 8V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
-                    iconClass: 'chat-feature-icon--purple',
-                    title: 'AI 配音',
-                    desc: '最后一步：配置 AI 配音参数。',
-                    configHtml: `<div class="chat-quick-config">
-                        <div class="chat-config-row" data-feature="voice">
+                        <div class="chat-config-row" data-feature="subtitle">
                             <span class="ccr-icon"></span>
-                            <span class="ccr-label">音色</span>
-                            <select><option>克隆原声</option><option>自然男声</option><option>自然女声</option></select>
+                            <span class="ccr-label">字号</span>
+                            <select><option>中等</option><option>小</option><option>大</option></select>
                         </div>
-                        <div class="chat-config-row" data-feature="voice">
-                            <span class="ccr-icon"></span>
-                            <span class="ccr-label">语速</span>
-                            <select><option>自动匹配</option><option>稍快</option><option>稍慢</option></select>
-                        </div>
-                    </div>`,
-                    confirmText: '确认配音'
-                }
-            };
-
-            const cfg = stepConfigs[step];
-
-            // AI bubble with feature card + config + finetune entry
-            const bubbleHtml = `
-                <div class="chat-features">
-                    <div class="chat-feature-card selected" style="pointer-events:none;">
-                        <div class="chat-feature-icon ${cfg.iconClass}">${cfg.icon}</div>
-                        <div class="chat-feature-info"><h4>${cfg.title}</h4><p>${cfg.desc}</p></div>
                     </div>
                 </div>
-                ${cfg.configHtml}
+                <div class="chat-step-actions">
+                    <button class="chat-step-skip" data-step="subtitle" data-phase="translate">跳过</button>
+                    <button class="chat-step-confirm" data-step="subtitle" data-phase="translate">开始翻译</button>
+                </div>`;
+
+            appendBubble('ai', `文案已确认，现在配置字幕翻译：${translateConfigHtml}`, 0);
+            scrollChat();
+
+            // Bind translate phase action buttons
+            setTimeout(() => {
+                const confirmBtn = chatFlow.querySelector('.chat-step-confirm[data-phase="translate"]');
+                const skipBtn = chatFlow.querySelector('.chat-step-skip[data-phase="translate"]');
+
+                if (confirmBtn) confirmBtn.addEventListener('click', () => {
+                    [confirmBtn, skipBtn].forEach(b => { if(b) { b.disabled = true; b.style.opacity = '0.4'; b.style.pointerEvents = 'none'; }});
+                    appendBubble('user', '开始翻译 →', 0);
+                    scrollChat();
+                    runTranslationScan();
+                });
+                if (skipBtn) skipBtn.addEventListener('click', () => {
+                    [confirmBtn, skipBtn].forEach(b => { if(b) { b.disabled = true; b.style.opacity = '0.4'; b.style.pointerEvents = 'none'; }});
+                    confirmStep('subtitle', false);
+                });
+            }, 100);
+        }
+
+        /* ===== Subtitle Step: Phase 2B-2 — Run Translation ===== */
+        function runTranslationScan() {
+            const transScanEl = document.createElement('div');
+            transScanEl.className = 'chat-bubble chat-bubble--ai';
+            transScanEl.style.animationDelay = '0s';
+            transScanEl.innerHTML = `<div class="bubble-avatar">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.2"/><path d="M8 4V8L10 10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                    FrameX AI
+                </div>
+                <div class="chat-scan-loading">
+                    <div class="scan-dots"><span></span><span></span><span></span></div>
+                    <span class="scan-text">正在翻译生成字幕...</span>
+                </div>`;
+            chatFlow.appendChild(transScanEl);
+            scrollChat();
+
+            setTimeout(() => {
+                let subListHtml = '';
+                subtitleItems.forEach((s, i) => {
+                    const m1 = String(Math.floor(s.startSec / 60)).padStart(2,'0');
+                    const s1 = String(s.startSec % 60).padStart(2,'0');
+                    const m2 = String(Math.floor(s.endSec / 60)).padStart(2,'0');
+                    const s2 = String(s.endSec % 60).padStart(2,'0');
+                    subListHtml += `<div class="chat-sub-line chat-trans-line" data-trans-idx="${i}">
+                        <span class="csl-time">${m1}:${s1} - ${m2}:${s2}</span>
+                        <span class="csl-orig">${s.trans}</span>
+                    </div>`;
+                });
+
+                const step = 'subtitle';
+                const confirmLabel = scriptReady ? '确认字幕' : stepMeta.subtitle.confirmText;
+                transScanEl.innerHTML = `<div class="bubble-avatar">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.2"/><path d="M8 4V8L10 10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                    FrameX AI
+                </div>
+                <div class="chat-scan-result">
+                    <span class="scan-check">
+                        <svg width="10" height="10" viewBox="0 0 14 14" fill="none"><path d="M3 7L6 10L11 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                    翻译完成！已生成 <strong>${subtitleItems.length} 条</strong>双语字幕
+                </div>
+                <div class="chat-sub-list-inline">
+                    ${subListHtml}
+                </div>
                 <div class="chat-step-actions">
                     <button class="chat-step-skip" data-step="${step}">跳过</button>
                     <button class="chat-step-ft-entry" data-step="${step}">
                         <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M2 4H14M2 8H10M2 12H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
                         去精调
                     </button>
-                    <button class="chat-step-confirm" data-step="${step}">${cfg.confirmText}</button>
+                    <button class="chat-step-confirm" data-step="${step}">${confirmLabel}</button>
+                </div>`;
+                scrollChat();
+
+                // Preview this step
+                const stepOrder = ['erase', 'subtitle', 'voice'];
+                const curIdx = stepOrder.indexOf(step);
+                stepOrder.forEach((s, i) => {
+                    if (i < curIdx && previewingSteps[s]) {
+                        previewingSteps[s] = false;
+                        if (s === 'erase') renderEraseOverlays();
+                    }
+                });
+                previewingSteps[step] = true;
+                const previewTrack = document.querySelector(`.tv2-tl-track[data-track="${step}"]`);
+                if (previewTrack) {
+                    setTimeout(() => previewTrack.classList.add('track-visible'), 300);
+                }
+                syncTimelineSegments(step);
+
+                // Bind buttons + subtitle line clicks
+                setTimeout(() => {
+                    const confirmBtn = chatFlow.querySelector(`.chat-step-confirm[data-step="${step}"]:not([data-phase])`);
+                    const skipBtn = chatFlow.querySelector(`.chat-step-skip[data-step="${step}"]:not([data-phase])`);
+                    const ftEntryBtn = chatFlow.querySelector(`.chat-step-ft-entry[data-step="${step}"]:not([data-phase])`);
+                    if (confirmBtn) confirmBtn.addEventListener('click', () => confirmStep(step, true));
+                    if (skipBtn) skipBtn.addEventListener('click', () => confirmStep(step, false));
+                    if (ftEntryBtn) ftEntryBtn.addEventListener('click', () => confirmAndFinetune(step));
+
+                    transScanEl.querySelectorAll('.chat-trans-line').forEach(line => {
+                        line.addEventListener('click', () => {
+                            const idx = parseInt(line.dataset.transIdx);
+                            if (idx >= 0 && idx < subtitleItems.length) {
+                                videoTime = subtitleItems[idx].startSec;
+                                needsVideoSync = true;
+                                transScanEl.querySelectorAll('.chat-trans-line').forEach(l => l.classList.remove('active'));
+                                line.classList.add('active');
+                            }
+                        });
+                    });
+                }, 50);
+            }, 1800);
+        }
+
+        /* ===== Voice Step: Script Acquire (when no script from step 2) ===== */
+        function startVoiceScriptAcquire() {
+            // Show warning + inline mini-flow to get script
+            const acquireHtml = `
+                <div class="chat-source-tag chat-source-tag--warn">⚠ 配音需要文案作为基础</div>
+                需要先获取文案。AI 识别视频语音，还是上传文稿？
+                <div class="chat-pre-actions">
+                    <button class="chat-pre-btn chat-pre-btn--auto" data-step="voice-script" data-action="auto">
+                        🤖 AI 语音识别
+                    </button>
+                    <button class="chat-pre-btn chat-pre-btn--manual" data-step="voice-script" data-action="manual">
+                        📄 上传文稿
+                    </button>
+                </div>`;
+            appendBubble('ai', acquireHtml, 0);
+            scrollChat();
+
+            setTimeout(() => {
+                chatFlow.querySelectorAll('.chat-pre-btn[data-step="voice-script"]').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        chatFlow.querySelectorAll('.chat-pre-btn[data-step="voice-script"]').forEach(b => {
+                            b.disabled = true; b.style.opacity = '0.4'; b.style.pointerEvents = 'none';
+                        });
+                        const action = btn.dataset.action;
+                        if (action === 'auto') {
+                            appendBubble('user', 'AI 语音识别', 0);
+                        } else {
+                            appendBubble('user', '上传文稿', 0);
+                        }
+                        scrollChat();
+
+                        // Scan for script
+                        const delay = action === 'auto' ? 2000 : 1200;
+                        const scanText = action === 'auto' ? '正在识别视频语音...' : '正在解析上传文稿...';
+                        const scanBubbleHtml = `
+                            <div class="chat-scan-loading">
+                                <div class="scan-dots"><span></span><span></span><span></span></div>
+                                <span class="scan-text">${scanText}</span>
+                            </div>`;
+                        appendBubble('ai', scanBubbleHtml, 0);
+                        scrollChat();
+
+                        setTimeout(() => {
+                            scriptReady = true;
+                            appendBubble('ai', `
+                                <div class="chat-scan-result">
+                                    <span class="scan-check">
+                                        <svg width="10" height="10" viewBox="0 0 14 14" fill="none"><path d="M3 7L6 10L11 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    </span>
+                                    文案就绪！共 <strong>7 句</strong>
+                                </div>
+                                <div class="chat-source-tag chat-source-tag--ok">✓ 文案已准备好</div>`, 0);
+                            scrollChat();
+
+                            // Now proceed to voice config phase
+                            setTimeout(() => {
+                                startVoiceConfigPhase();
+                            }, 600);
+                        }, delay);
+                    });
+                });
+            }, 50);
+        }
+
+        /* ===== Phase C: Result bubble with config + actions ===== */
+        function showStepResultBubble(step, resultHtml) {
+            const meta = stepMeta[step];
+            // For subtitle after translation phase, use different confirm text
+            const confirmLabel = (step === 'subtitle' && scriptReady) ? '确认字幕' : meta.confirmText;
+
+            const bubbleHtml = `
+                ${resultHtml || ''}
+                ${meta.configHtml}
+                <div class="chat-step-actions">
+                    <button class="chat-step-skip" data-step="${step}">跳过</button>
+                    <button class="chat-step-ft-entry" data-step="${step}">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M2 4H14M2 8H10M2 12H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        去精调
+                    </button>
+                    <button class="chat-step-confirm" data-step="${step}">${confirmLabel}</button>
                 </div>`;
             appendBubble('ai', bubbleHtml, 0);
             scrollChat();
 
-            // ===== Immediately preview this step (before confirm) =====
-            // Hide previous step's preview so only the current step shows
+            // Preview this step
             const stepOrder = ['erase', 'subtitle', 'voice'];
             const curIdx = stepOrder.indexOf(step);
             stepOrder.forEach((s, i) => {
                 if (i < curIdx && previewingSteps[s]) {
                     previewingSteps[s] = false;
-                    // Clear erase overlays from video
                     if (s === 'erase') renderEraseOverlays();
                 }
             });
 
             previewingSteps[step] = true;
 
-            // Show timeline track with segments
+            // Show timeline track
             const previewTrack = document.querySelector(`.tv2-tl-track[data-track="${step}"]`);
             if (previewTrack) {
                 setTimeout(() => previewTrack.classList.add('track-visible'), 300);
             }
             syncTimelineSegments(step);
 
-            // For erase: show overlays on video immediately
-            if (step === 'erase') {
-                renderEraseOverlays();
-            }
+            if (step === 'erase') renderEraseOverlays();
 
-            // Bind buttons after a tick
+            // Bind action buttons — use :not([data-phase]) to avoid matching earlier phase buttons
             setTimeout(() => {
-                const confirmBtn = chatFlow.querySelector(`.chat-step-confirm[data-step="${step}"]`);
-                const skipBtn = chatFlow.querySelector(`.chat-step-skip[data-step="${step}"]`);
-                const ftEntryBtn = chatFlow.querySelector(`.chat-step-ft-entry[data-step="${step}"]`);
+                const confirmBtn = chatFlow.querySelector(`.chat-step-confirm[data-step="${step}"]:not([data-phase])`);
+                const skipBtn = chatFlow.querySelector(`.chat-step-skip[data-step="${step}"]:not([data-phase])`);
+                const ftEntryBtn = chatFlow.querySelector(`.chat-step-ft-entry[data-step="${step}"]:not([data-phase])`);
                 if (confirmBtn) confirmBtn.addEventListener('click', () => confirmStep(step, true));
                 if (skipBtn) skipBtn.addEventListener('click', () => confirmStep(step, false));
                 if (ftEntryBtn) ftEntryBtn.addEventListener('click', () => confirmAndFinetune(step));
@@ -2360,11 +3972,14 @@
         function confirmStep(step, enabled) {
             features[step] = enabled;
 
+            // Track script availability
+            if (step === 'subtitle' && enabled) scriptReady = true;
+
             // Preview mode is no longer needed — either unlocked or skipped
             previewingSteps[step] = false;
 
-            // Disable the step buttons
-            const btns = chatFlow.querySelectorAll(`.chat-step-confirm[data-step="${step}"], .chat-step-skip[data-step="${step}"], .chat-step-ft-entry[data-step="${step}"]`);
+            // Disable all step buttons for this step (including phased ones)
+            const btns = chatFlow.querySelectorAll(`.chat-step-confirm[data-step="${step}"], .chat-step-skip[data-step="${step}"], .chat-step-ft-entry[data-step="${step}"], .chat-pre-btn[data-step="${step}"]`);
             btns.forEach(b => { b.disabled = true; b.style.opacity = '0.4'; b.style.pointerEvents = 'none'; });
 
             if (enabled) {
@@ -2415,6 +4030,7 @@
         /* ===== Confirm + Immediately Enter Finetune ===== */
         function confirmAndFinetune(step) {
             features[step] = true;
+            if (step === 'subtitle') scriptReady = true;
 
             // Disable all step buttons
             const btns = chatFlow.querySelectorAll(`.chat-step-confirm[data-step="${step}"], .chat-step-skip[data-step="${step}"], .chat-step-ft-entry[data-step="${step}"]`);
@@ -2488,6 +4104,20 @@
         const headerTitleMap = { erase: '擦除精调', subtitle: '字幕精调', voice: '配音精调' };
         const headerDescMap = { erase: '调整擦除区域和参数', subtitle: '编辑字幕内容和样式', voice: '调整配音音色和语速' };
 
+        /* Badge / Hint content maps for each finetune step */
+        const ftBadgeIconMap = { erase: '🎯', subtitle: '📝', voice: '🎙️' };
+        const ftBadgeTextMap = { erase: '擦除精调中', subtitle: '字幕精调中', voice: '配音精调中' };
+        const ftPhaseTextMap = {
+            erase: '精调模式 · 在画面上调整擦除区域',
+            subtitle: '精调模式 · 编辑字幕文本和时间',
+            voice: '精调模式 · 调整配音参数'
+        };
+        const ftHintTextMap = {
+            erase: '可在画面上直接框选需要擦除的区域',
+            subtitle: '点击下方时间轴选段，编辑对应字幕',
+            voice: '点击下方时间轴选段，调整配音参数'
+        };
+
         function enterFinetune(step) {
             inFinetune = true;
             currentFinetuneStep = step;
@@ -2510,17 +4140,67 @@
             document.querySelector('.tv2-chat-header h3').textContent = headerTitleMap[step];
             document.querySelector('.tv2-chat-header p').textContent = headerDescMap[step];
 
-            // Highlight corresponding timeline track
+            // Highlight corresponding timeline track (using CSS classes instead of inline style)
             document.querySelectorAll('.tv2-tl-track').forEach(track => {
-                if (track.classList.contains('track-visible')) {
-                    track.style.opacity = track.dataset.track === step ? '1' : '0.4';
-                }
+                track.style.opacity = '';
+                track.classList.remove('track-ft-active', 'track-ft-dim');
             });
 
             // Update done button text
             document.getElementById('ftDoneBtn').innerHTML = `
                 <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M5.5 8L7 9.5L10.5 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 完成精调，返回对话`;
+
+            // ===== NEW: Visual enhancements for finetune mode =====
+
+            // 0. Chat header finetune mode indicator
+            document.getElementById('chatHeader').classList.add('finetune-header');
+            document.getElementById('ftModeTag').classList.add('visible');
+
+            // 1. Glowing border on video container
+            document.querySelector('.tv2-video-container').classList.add('finetune-active');
+
+            // 2. Show finetune badge (top-right of video)
+            const badge = document.getElementById('finetuneBadge');
+            document.getElementById('ftbIcon').textContent = ftBadgeIconMap[step] || '';
+            document.getElementById('ftbText').textContent = ftBadgeTextMap[step] || '';
+            badge.classList.add('visible');
+
+            // 3. Show finetune hint (bottom center of video)
+            const hint = document.getElementById('finetuneHint');
+            document.getElementById('finetuneHintText').textContent = ftHintTextMap[step] || '';
+            hint.classList.add('visible');
+
+            // 4. Timeline: expand + enhanced mode — show ALL 3 tracks instantly
+            const tl = document.getElementById('timeline');
+            tl.classList.add('finetune-mode');
+            // Show ALL tracks: enabled ones as track-visible, disabled ones as placeholder
+            configSteps.forEach(s => {
+                const trk = document.querySelector(`.tv2-tl-track[data-track="${s}"]`);
+                if (!trk) return;
+                trk.classList.remove('track-placeholder', 'track-ft-active', 'track-ft-dim');
+                if (features[s]) {
+                    trk.classList.add('track-visible');
+                    // Active vs dimmed
+                    trk.classList.add(s === step ? 'track-ft-active' : 'track-ft-dim');
+                } else {
+                    // Not enabled — show as placeholder (empty track, dashed border)
+                    trk.classList.add('track-visible', 'track-placeholder');
+                    trk.classList.add('track-ft-dim');
+                }
+            });
+            tl.classList.add('visible');
+
+            // 5. Phase indicator: show finetune context
+            phaseIndicator.className = 'tv2-phase-indicator phase-finetune';
+            phaseDot.className = 'tv2-phase-dot live';
+            phaseLabel.textContent = ftPhaseTextMap[step] || '精调模式';
+
+            // 6. Auto-dismiss hint after 4s to avoid clutter
+            clearTimeout(window._ftHintTimer);
+            window._ftHintTimer = setTimeout(() => {
+                hint.classList.remove('visible');
+            }, 5000);
 
             // Show/hide overlays — only current step's preview visible
             renderEraseOverlays();
@@ -2546,10 +4226,41 @@
             document.querySelector('.tv2-chat-header h3').textContent = 'FrameX AI 助手';
             document.querySelector('.tv2-chat-header p').textContent = '逐步配置译制参数';
 
-            // Reset timeline track opacity
+            // Remove chat header finetune mode indicator
+            document.getElementById('chatHeader').classList.remove('finetune-header');
+            document.getElementById('ftModeTag').classList.remove('visible');
+
+            // Reset timeline track opacity and finetune classes
             document.querySelectorAll('.tv2-tl-track').forEach(track => {
                 track.style.opacity = '';
+                track.classList.remove('track-ft-active', 'track-ft-dim');
+                // Remove placeholder tracks (not enabled features shown as empty)
+                if (track.classList.contains('track-placeholder')) {
+                    track.classList.remove('track-visible', 'track-placeholder');
+                }
             });
+
+            // ===== NEW: Remove finetune visual enhancements =====
+
+            // 1. Remove glowing border
+            document.querySelector('.tv2-video-container').classList.remove('finetune-active');
+
+            // 2. Hide finetune badge
+            document.getElementById('finetuneBadge').classList.remove('visible');
+
+            // 3. Hide finetune hint
+            document.getElementById('finetuneHint').classList.remove('visible');
+            clearTimeout(window._ftHintTimer);
+
+            // 4. Collapse timeline + remove enhanced mode
+            const tl = document.getElementById('timeline');
+            tl.classList.remove('visible');
+            tl.classList.remove('finetune-mode');
+
+            // 5. Restore phase indicator
+            phaseIndicator.className = 'tv2-phase-indicator';
+            phaseDot.className = 'tv2-phase-dot live';
+            phaseLabel.textContent = '请在右侧对话中继续配置';
 
             // Restore all previews
             renderEraseOverlays();
@@ -2628,10 +4339,20 @@
                     document.querySelector('.tv2-chat-header p').textContent = headerDescMap[key];
                     // Update timeline highlight
                     document.querySelectorAll('.tv2-tl-track').forEach(track => {
+                        track.classList.remove('track-ft-active', 'track-ft-dim');
                         if (track.classList.contains('track-visible')) {
-                            track.style.opacity = track.dataset.track === key ? '1' : '0.4';
+                            track.classList.add(track.dataset.track === key ? 'track-ft-active' : 'track-ft-dim');
                         }
                     });
+                    // Update finetune badge & hint for the new step
+                    document.getElementById('ftbIcon').textContent = ftBadgeIconMap[key] || '';
+                    document.getElementById('ftbText').textContent = ftBadgeTextMap[key] || '';
+                    document.getElementById('finetuneHintText').textContent = ftHintTextMap[key] || '';
+                    phaseLabel.textContent = ftPhaseTextMap[key] || '精调模式';
+                    const hint = document.getElementById('finetuneHint');
+                    hint.classList.add('visible');
+                    clearTimeout(window._ftHintTimer);
+                    window._ftHintTimer = setTimeout(() => hint.classList.remove('visible'), 5000);
                     // Update overlays — only current step visible
                     renderEraseOverlays();
                     updateSubtitlePreview();
@@ -2714,7 +4435,8 @@
             phase = 'processing';
             processingOverlay.classList.add('active');
             phaseDot.className = 'tv2-phase-dot processing';
-            phaseLabel.textContent = '处理中...';
+            phaseLabel.textContent = '处理中 · 请耐心等待...';
+            phaseIndicator.className = 'tv2-phase-indicator phase-processing';
 
             // Show steps
             const stepsEl = document.getElementById('processingSteps');
@@ -2771,10 +4493,13 @@
             processingOverlay.classList.remove('active');
             subtitleOverlay.classList.add('active');
             phaseDot.className = 'tv2-phase-dot live';
-            phaseLabel.textContent = '译制完成';
+            phaseLabel.textContent = '译制完成 · 可预览或导出';
+            phaseIndicator.className = 'tv2-phase-indicator phase-done';
             playing = true;
             document.getElementById('tlPlay').classList.add('playing');
             document.getElementById('globalExportBtn').style.display = '';
+            // Show timeline for result playback
+            document.getElementById('timeline').classList.add('visible');
 
             // Chat: done bubble with export actions
             const resultHtml = `
@@ -2827,6 +4552,7 @@
             item.addEventListener('click', () => {
                 if (idx < subtitleItems.length) {
                     videoTime = subtitleItems[idx].startSec;
+                    needsVideoSync = true;
                     document.querySelectorAll('#ftPanelSubtitle .ft-sub-item').forEach(i => i.classList.remove('active'));
                     item.classList.add('active');
                 }
@@ -2853,17 +4579,18 @@
         }
 
         const eraseRegions = [
-            { id: 'E1', title: '底部字幕区域', x: 8, y: 82, w: 84, h: 12, startSec: 0,   endSec: 9  },
-            { id: 'E2', title: '底部字幕区域', x: 8, y: 82, w: 84, h: 12, startSec: 12,  endSec: 27 },
-            { id: 'E3', title: '底部字幕区域', x: 6, y: 80, w: 88, h: 14, startSec: 31,  endSec: 49 },
-            { id: 'E4', title: '底部字幕区域', x: 10, y: 82, w: 80, h: 12, startSec: 53,  endSec: 74 },
-            { id: 'E5', title: '底部字幕区域', x: 8, y: 82, w: 84, h: 12, startSec: 78,  endSec: 93 },
-            { id: 'E6', title: '底部字幕区域', x: 5, y: 81, w: 90, h: 13, startSec: 97,  endSec: 119 },
-            { id: 'E7', title: '底部字幕区域', x: 8, y: 82, w: 84, h: 12, startSec: 122, endSec: 140 },
+            { id: 'E1', title: '底部字幕区域', x: 8, y: 82, w: 84, h: 12, startSec: 2,   endSec: 5  },
+            { id: 'E2', title: '底部字幕区域', x: 8, y: 82, w: 84, h: 12, startSec: 8,   endSec: 14 },
+            { id: 'E3', title: '底部字幕区域', x: 6, y: 82, w: 88, h: 12, startSec: 20,  endSec: 26 },
+            { id: 'E4', title: '底部字幕区域', x: 8, y: 82, w: 84, h: 12, startSec: 30,  endSec: 37 },
+            { id: 'E5', title: '底部字幕区域', x: 8, y: 82, w: 84, h: 12, startSec: 42,  endSec: 49 },
+            { id: 'E6', title: '底部字幕区域', x: 6, y: 82, w: 88, h: 12, startSec: 55,  endSec: 63 },
+            { id: 'E7', title: '底部字幕区域', x: 8, y: 82, w: 84, h: 12, startSec: 68,  endSec: 76 },
         ];
         let activeEraseRegion = 'E1';
         let eraseRegionCounter = 7;
         let lastVisibleEraseId = null;
+        let eraseTrackHidden = false; // set by eye-button on erase track
 
         const eraseRegionListEl = document.getElementById('eraseRegionList');
         const eraseRegionCountEl = document.getElementById('eraseRegionCount');
@@ -2894,7 +4621,7 @@
             const isErasePreviewing = previewingSteps.erase;
             // In finetune mode for a different step, hide erase overlays
             const isFinetuneOtherStep = inFinetune && currentFinetuneStep !== 'erase';
-            const showOverlays = !isFinetuneOtherStep && (isEraseFinetune || isEraseUnlocked || isErasePreviewing);
+            const showOverlays = !eraseTrackHidden && !isFinetuneOtherStep && (isEraseFinetune || isEraseUnlocked || isErasePreviewing);
 
             eraseOverlayContainer.classList.toggle('interactive', isEraseFinetune);
             eraseOverlayContainer.classList.toggle('preview-mode', !isEraseFinetune && (isEraseUnlocked || isErasePreviewing));
@@ -3042,6 +4769,7 @@
                     const r = eraseRegions.find(r => r.id === rid);
                     if (r) {
                         videoTime = r.startSec;
+                        needsVideoSync = true;
                         lastVisibleEraseId = rid;
                         updateEraseOverlayVisibility();
                     }
@@ -3201,13 +4929,13 @@
         function syncTimelineSegments(step) {
             const track = document.querySelector(`.tv2-tl-track[data-track="${step}"]`);
             if (!track) return;
-            const bg = track.querySelector('.tv2-tl-track-bg');
-            track.innerHTML = '';
-            if (bg) track.appendChild(bg); else {
-                const newBg = document.createElement('div');
-                newBg.className = 'tv2-tl-track-bg';
-                track.appendChild(newBg);
+            let content = track.querySelector('.tv2-tl-track-content');
+            if (!content) {
+                content = document.createElement('div');
+                content.className = 'tv2-tl-track-content';
+                track.appendChild(content);
             }
+            content.innerHTML = '<div class="tv2-tl-track-bg"></div>';
 
             let items;
             if (step === 'erase') items = eraseRegions.map(r => ({ id: r.id, startSec: r.startSec, endSec: r.endSec }));
@@ -3224,15 +4952,115 @@
                 seg.style.width = widthPct + '%';
                 seg.innerHTML = `<span class="tv2-tl-seg-label">${item.id}</span>`;
                 seg.dataset.startSec = item.startSec;
-                track.appendChild(seg);
+                content.appendChild(seg);
             });
         }
+
+        /* ===== Timeline Track Label Buttons (eye/lock) ===== */
+        (function initTrackLabelButtons() {
+            // Eye button: toggle track content visibility
+            document.querySelectorAll('.tl-btn-eye').forEach(btn => {
+                btn.addEventListener('click', e => {
+                    e.stopPropagation();
+                    const track = btn.closest('.tv2-tl-track');
+                    const content = track.querySelector('.tv2-tl-track-content');
+                    if (!content) return;
+                    const hidden = content.style.opacity === '0';
+                    content.style.opacity = hidden ? '1' : '0';
+                    content.style.pointerEvents = hidden ? '' : 'none';
+                    btn.classList.toggle('active', !hidden);
+                    // Change icon to slashed eye when hidden
+                    if (!hidden) {
+                        btn.innerHTML = '<svg viewBox="0 0 16 16" fill="none"><path d="M1.5 8C2.5 5 5 3 8 3s5.5 2 6.5 5c-1 3-3.5 5-6.5 5S2.5 11 1.5 8Z" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.2"/><line x1="2" y1="14" x2="14" y2="2" stroke="currentColor" stroke-width="1.2"/></svg>';
+                    } else {
+                        btn.innerHTML = '<svg viewBox="0 0 16 16" fill="none"><path d="M1.5 8C2.5 5 5 3 8 3s5.5 2 6.5 5c-1 3-3.5 5-6.5 5S2.5 11 1.5 8Z" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.2"/></svg>';
+                        btn.classList.remove('active');
+                    }
+                    // Sync video overlays when erase track visibility toggled
+                    const trackName = track.dataset.track;
+                    if (trackName === 'erase') {
+                        eraseTrackHidden = !hidden; // !hidden means we just hid it
+                        renderEraseOverlays();
+                    }
+                });
+            });
+            // Lock button: toggle track locked state (prevent segment clicking/editing)
+            document.querySelectorAll('.tl-btn-lock').forEach(btn => {
+                btn.addEventListener('click', e => {
+                    e.stopPropagation();
+                    const track = btn.closest('.tv2-tl-track');
+                    const content = track.querySelector('.tv2-tl-track-content');
+                    if (!content) return;
+                    const locked = btn.classList.toggle('active');
+                    content.style.pointerEvents = locked ? 'none' : '';
+                    if (locked) {
+                        btn.innerHTML = '<svg viewBox="0 0 16 16" fill="none"><rect x="3" y="7" width="10" height="7" rx="1.5" fill="currentColor" opacity="0.15" stroke="currentColor" stroke-width="1.2"/><path d="M5 7V5a3 3 0 0 1 6 0v2" stroke="currentColor" stroke-width="1.2"/></svg>';
+                    } else {
+                        btn.innerHTML = '<svg viewBox="0 0 16 16" fill="none"><rect x="3" y="7" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 7V5a3 3 0 0 1 6 0v2" stroke="currentColor" stroke-width="1.2"/></svg>';
+                    }
+                });
+            });
+        })();
+
+        /* ===== Video Scrubber controls ===== */
+        (function initScrubber() {
+            const scrubberBar = document.getElementById('scrubberBar');
+            const scrubber = document.getElementById('videoScrubber');
+            const scrubberPlayBtn = document.getElementById('scrubberPlay');
+            let scrubDragging = false;
+
+            function seekScrubber(clientX) {
+                const rect = scrubberBar.getBoundingClientRect();
+                const pct = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+                videoTime = pct * videoDuration;
+                needsVideoSync = true;
+            }
+
+            scrubberBar.addEventListener('mousedown', e => {
+                if (phase === 'upload') return;
+                e.preventDefault();
+                scrubDragging = true;
+                scrubber.classList.add('dragging');
+                seekScrubber(e.clientX);
+            });
+
+            document.addEventListener('mousemove', e => {
+                if (!scrubDragging) return;
+                seekScrubber(e.clientX);
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (scrubDragging) {
+                    scrubDragging = false;
+                    scrubber.classList.remove('dragging');
+                }
+            });
+
+            function updatePlayBtnIcon() {
+                const playIcon = scrubberPlayBtn.querySelector('.sp-play');
+                const pauseIcon = scrubberPlayBtn.querySelector('.sp-pause');
+                playIcon.style.display = playing ? 'none' : '';
+                pauseIcon.style.display = playing ? '' : 'none';
+            }
+
+            scrubberPlayBtn.addEventListener('click', () => {
+                if (phase === 'upload') return;
+                playing = !playing;
+                document.getElementById('tlPlay').classList.toggle('playing', playing);
+                updatePlayBtnIcon();
+            });
+        })();
 
         /* ===== Timeline controls ===== */
         document.getElementById('tlPlay').addEventListener('click', () => {
             if (phase === 'upload') return;
             playing = !playing;
             document.getElementById('tlPlay').classList.toggle('playing', playing);
+            // Sync scrubber play button icon
+            const spPlay = document.querySelector('.sp-play');
+            const spPause = document.querySelector('.sp-pause');
+            if (spPlay) spPlay.style.display = playing ? 'none' : '';
+            if (spPause) spPause.style.display = playing ? '' : 'none';
         });
 
         /* Timeline scrub: supports click + drag */
@@ -3240,8 +5068,11 @@
 
         function seekTimeline(clientX) {
             const rect = tlTracks.getBoundingClientRect();
-            const pct = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+            const contentLeft = rect.left + 80;
+            const contentWidth = rect.width - 80 - 20;
+            const pct = Math.max(0, Math.min(1, (clientX - contentLeft) / contentWidth));
             videoTime = pct * videoDuration;
+            needsVideoSync = true;
         }
 
         tlTracks.addEventListener('mousedown', e => {
@@ -3294,9 +5125,13 @@
                 e.preventDefault();
                 playing = !playing;
                 document.getElementById('tlPlay').classList.toggle('playing', playing);
+                const spPlay = document.querySelector('.sp-play');
+                const spPause = document.querySelector('.sp-pause');
+                if (spPlay) spPlay.style.display = playing ? 'none' : '';
+                if (spPause) spPause.style.display = playing ? '' : 'none';
             }
-            if (e.code === 'ArrowLeft') videoTime = Math.max(0, videoTime - 5);
-            if (e.code === 'ArrowRight') videoTime = Math.min(videoDuration, videoTime + 5);
+            if (e.code === 'ArrowLeft') { videoTime = Math.max(0, videoTime - 5); needsVideoSync = true; }
+            if (e.code === 'ArrowRight') { videoTime = Math.min(videoDuration, videoTime + 5); needsVideoSync = true; }
         });
 
         /* ===== Start ===== */
