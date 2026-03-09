@@ -326,7 +326,7 @@ input, textarea { font-family: inherit; }
     height: 38px;
     border-radius: 10px;
     border: none;
-    background: #22c55e;
+    background: var(--grad-main);
     color: #fff;
     display: flex;
     align-items: center;
@@ -334,10 +334,11 @@ input, textarea { font-family: inherit; }
     cursor: pointer;
     flex-shrink: 0;
     transition: all 0.2s;
+    box-shadow: 0 0 20px rgba(168,85,247,0.3);
 }
 .home-send-btn:hover {
-    background: #16a34a;
     transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(168,85,247,0.4);
 }
 .home-quick-tags {
     display: flex;
