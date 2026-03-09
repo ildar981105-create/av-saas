@@ -2707,69 +2707,60 @@
         transform: scale(1.01);
     }
 
-    /* ===== Single-Skill Quick Entry Cards ===== */
-    .tv2-single-skills {
-        display: flex;
+    /* ===== Mode Tabs (紧凑 segment 切换) ===== */
+    .tv2-mode-tabs {
+        display: inline-flex;
         align-items: center;
-        gap: 12px;
-        margin-top: 4px;
-        width: 100%;
-    }
-    .tv2-single-skills-label {
-        font-size: 0.72rem;
-        color: #475569;
-        white-space: nowrap;
-        flex-shrink: 0;
-    }
-    .tv2-single-skill-card {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 14px 16px;
-        background: rgba(255,255,255,0.02);
+        gap: 4px;
+        padding: 4px;
+        background: rgba(255,255,255,0.03);
         border: 1px solid rgba(255,255,255,0.06);
-        border-radius: 14px;
-        cursor: pointer;
-        transition: all 0.25s;
+        border-radius: 12px;
+        margin-bottom: 28px;
     }
-    .tv2-single-skill-card:hover {
-        background: rgba(255,255,255,0.05);
-        border-color: rgba(255,255,255,0.12);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-    }
-    .tv2-single-skill-icon {
-        flex-shrink: 0;
-        width: 36px;
-        height: 36px;
-        display: flex;
+    .tv2-mode-tab {
+        display: inline-flex;
         align-items: center;
-        justify-content: center;
-        border-radius: 10px;
-    }
-    .tv2-single-skill-icon--red {
-        background: rgba(239,68,68,0.12);
-    }
-    .tv2-single-skill-icon--blue {
-        background: rgba(6,182,212,0.12);
-    }
-    .tv2-single-skill-icon--purple {
-        background: rgba(168,85,247,0.12);
-    }
-    .tv2-single-skill-card:hover .tv2-single-skill-icon--red { background: rgba(239,68,68,0.2); }
-    .tv2-single-skill-card:hover .tv2-single-skill-icon--blue { background: rgba(6,182,212,0.2); }
-    .tv2-single-skill-card:hover .tv2-single-skill-icon--purple { background: rgba(168,85,247,0.2); }
-    .tv2-single-skill-info h5 {
+        gap: 6px;
+        padding: 8px 18px;
         font-size: 0.82rem;
-        font-weight: 600;
-        color: #e2e8f0;
-        margin: 0 0 2px;
-    }
-    .tv2-single-skill-info p {
-        font-size: 0.68rem;
+        font-weight: 500;
         color: #64748b;
-        margin: 0;
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: 9px;
+        cursor: pointer;
+        transition: all 0.25s cubic-bezier(.4,0,.2,1);
+        font-family: inherit;
+        white-space: nowrap;
+    }
+    .tv2-mode-tab svg {
+        flex-shrink: 0;
+        opacity: 0.5;
+        transition: opacity 0.25s;
+    }
+    .tv2-mode-tab:hover {
+        color: #94a3b8;
+        background: rgba(255,255,255,0.04);
+    }
+    .tv2-mode-tab:hover svg {
+        opacity: 0.7;
+    }
+    .tv2-mode-tab.active {
+        color: #e2e8f0;
+        background: rgba(168,85,247,0.1);
+        border-color: rgba(168,85,247,0.2);
+        box-shadow: 0 2px 12px rgba(168,85,247,0.1);
+    }
+    .tv2-mode-tab.active svg {
+        opacity: 1;
+        color: #a855f7;
+    }
+    @media (max-width: 560px) {
+        .tv2-mode-tabs {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
     }
 
     .tv2-upload-icon {
@@ -3353,11 +3344,33 @@
             <!-- Active Tasks Bar (shown when tasks are minimized) -->
             <div class="tv2-active-tasks-bar" id="activeTasksBar"></div>
             <div class="tv2-landing-scroll">
-                <!-- Hero + Primary CTA -->
+                <!-- Hero + Mode Tabs + Upload -->
                 <div class="tv2-landing-hero">
-                    <h1>短视频出海，<span class="gradient-text">3 分钟说全球 120+ 语言</span></h1>
-                    <p>从字幕擦除到原声克隆配音，全程 AI 自动完成</p>
-                    <!-- 主操作区：紧跟标题 -->
+                    <!-- 大标题先出来 -->
+                    <h1 id="tv2HeroTitle">短视频出海，<span class="gradient-text">3 分钟说全球 120+ 语言</span></h1>
+                    <p id="tv2HeroSubtitle">从字幕擦除到原声克隆配音，全程 AI 自动完成</p>
+
+                    <!-- 功能切换 Tabs（紧凑 pill 样式） -->
+                    <div class="tv2-mode-tabs" id="tv2ModeTabs">
+                        <button class="tv2-mode-tab active" data-mode="full">
+                            <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10L8 3L12 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 8H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M10 17L14 10L18 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 15H17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                            <span>一键译制</span>
+                        </button>
+                        <button class="tv2-mode-tab" data-mode="erase">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M17 3H7C5.89543 3 5 3.89543 5 5V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V5C19 3.89543 18.1046 3 17 3Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 8L16 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.6"/></svg>
+                            <span>擦除字幕</span>
+                        </button>
+                        <button class="tv2-mode-tab" data-mode="subtitle">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 18V6C4 4.89543 4.89543 4 6 4H18C19.1046 4 20 4.89543 20 6V18C20 19.1046 19.1046 20 18 20H6C4.89543 20 4 19.1046 4 18Z" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="14" width="12" height="4" rx="1" fill="rgba(6,182,212,0.15)" stroke="currentColor" stroke-width="1"/></svg>
+                            <span>添加字幕</span>
+                        </button>
+                        <button class="tv2-mode-tab" data-mode="voice">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2C10.3431 2 9 3.34315 9 5V12C9 13.6569 10.3431 15 12 15C13.6569 15 15 13.6569 15 12V5C15 3.34315 13.6569 2 12 2Z" stroke="currentColor" stroke-width="1.5"/><path d="M6 10V12C6 15.3137 8.68629 18 12 18C15.3137 18 18 15.3137 18 12V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                            <span>克隆配音</span>
+                        </button>
+                    </div>
+
+                    <!-- 主操作区：上传 -->
                     <div class="tv2-landing-primary-action">
                         <div class="tv2-upload-zone" id="tv2UploadZone">
                             <input type="file" id="tv2LandingFileInput" accept="video/*" hidden>
@@ -3365,40 +3378,8 @@
                                 <svg width="56" height="56" viewBox="0 0 36 36" fill="none"><path d="M18 6V22M18 6L24 12M18 6L12 12" stroke="url(#upGrad)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 24V28C6 29.1046 6.89543 30 8 30H28C29.1046 30 30 29.1046 30 28V24" stroke="url(#upGrad)" stroke-width="2.2" stroke-linecap="round"/><defs><linearGradient id="upGrad" x1="6" y1="6" x2="30" y2="30"><stop stop-color="#a855f7"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs></svg>
                             </div>
                             <div class="tv2-upload-text">
-                                <span class="tv2-upload-main">拖拽视频到此处，或 <em>点击上传</em></span>
-                                <span class="tv2-upload-hint">支持 MP4 / MOV / AVI / MKV 格式，最大 2GB</span>
-                            </div>
-                        </div>
-
-                        <!-- 单功能快捷入口 -->
-                        <div class="tv2-single-skills">
-                            <span class="tv2-single-skills-label">或，单独使用</span>
-                            <div class="tv2-single-skill-card" data-mode="erase">
-                                <div class="tv2-single-skill-icon tv2-single-skill-icon--red">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M17 3H7C5.89543 3 5 3.89543 5 5V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V5C19 3.89543 18.1046 3 17 3Z" stroke="#ef4444" stroke-width="1.5"/><path d="M9 8H15M9 12H15M9 16H12" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round"/><path d="M8 8L16 16" stroke="#ef4444" stroke-width="2" stroke-linecap="round" opacity="0.6"/></svg>
-                                </div>
-                                <div class="tv2-single-skill-info">
-                                    <h5>擦除字幕</h5>
-                                    <p>去除视频中的硬字幕</p>
-                                </div>
-                            </div>
-                            <div class="tv2-single-skill-card" data-mode="subtitle">
-                                <div class="tv2-single-skill-icon tv2-single-skill-icon--blue">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 18V6C4 4.89543 4.89543 4 6 4H18C19.1046 4 20 4.89543 20 6V18C20 19.1046 19.1046 20 18 20H6C4.89543 20 4 19.1046 4 18Z" stroke="#06b6d4" stroke-width="1.5"/><rect x="6" y="14" width="12" height="4" rx="1" fill="rgba(6,182,212,0.15)" stroke="#06b6d4" stroke-width="1"/><path d="M8 16.5H16" stroke="#06b6d4" stroke-width="1.2" stroke-linecap="round"/></svg>
-                                </div>
-                                <div class="tv2-single-skill-info">
-                                    <h5>添加字幕</h5>
-                                    <p>识别 + 翻译 + 嵌入字幕</p>
-                                </div>
-                            </div>
-                            <div class="tv2-single-skill-card" data-mode="voice">
-                                <div class="tv2-single-skill-icon tv2-single-skill-icon--purple">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2C10.3431 2 9 3.34315 9 5V12C9 13.6569 10.3431 15 12 15C13.6569 15 15 13.6569 15 12V5C15 3.34315 13.6569 2 12 2Z" stroke="#a855f7" stroke-width="1.5"/><path d="M6 10V12C6 15.3137 8.68629 18 12 18C15.3137 18 18 15.3137 18 12V10" stroke="#a855f7" stroke-width="1.5" stroke-linecap="round"/><path d="M12 18V22M8 22H16" stroke="#a855f7" stroke-width="1.5" stroke-linecap="round"/></svg>
-                                </div>
-                                <div class="tv2-single-skill-info">
-                                    <h5>克隆配音</h5>
-                                    <p>原声克隆目标语言配音</p>
-                                </div>
+                                <span class="tv2-upload-main" id="tv2UploadMain">拖拽视频到此处，或 <em>点击上传</em></span>
+                                <span class="tv2-upload-hint" id="tv2UploadHint">支持 MP4 / MOV / AVI / MKV 格式，最大 2GB</span>
                             </div>
                         </div>
                     </div>
@@ -6217,6 +6198,65 @@
         // Workflow mode: 'full' | 'erase' | 'subtitle' | 'voice'
         window.workflowMode = 'full';
 
+        // === Mode Tab Copy Data ===
+        var modeCopy = {
+            full: {
+                title: '短视频出海，<span class="gradient-text">3 分钟说全球 120+ 语言</span>',
+                subtitle: '从字幕擦除到原声克隆配音，全程 AI 自动完成',
+                uploadMain: '拖拽视频到此处，或 <em>点击上传</em>',
+                uploadHint: '支持 MP4 / MOV / AVI / MKV 格式，最大 2GB'
+            },
+            erase: {
+                title: 'AI 智能<span class="gradient-text">擦除视频硬字幕</span>',
+                subtitle: '自动识别画面中的文字区域，精准擦除不留痕迹',
+                uploadMain: '拖拽视频到此处，AI 将 <em>擦除硬字幕</em>',
+                uploadHint: '支持 MP4 / MOV / AVI / MKV 格式，最大 2GB'
+            },
+            subtitle: {
+                title: '一键生成<span class="gradient-text">多语种字幕</span>',
+                subtitle: '语音识别 + 精准翻译 + 时间轴对齐，支持 120+ 语言',
+                uploadMain: '拖拽视频到此处，AI 将 <em>识别并添加字幕</em>',
+                uploadHint: '支持 MP4 / MOV / AVI / MKV 格式，最大 2GB'
+            },
+            voice: {
+                title: '原声克隆，<span class="gradient-text">用你的声音说外语</span>',
+                subtitle: '保留说话人声纹特征，目标语言自然配音',
+                uploadMain: '拖拽视频到此处，AI 将 <em>克隆原声配音</em>',
+                uploadHint: '支持 MP4 / MOV / AVI / MKV 格式，最大 2GB'
+            }
+        };
+
+        function switchMode(mode) {
+            window.workflowMode = mode;
+            var copy = modeCopy[mode] || modeCopy.full;
+            var heroTitle = document.getElementById('tv2HeroTitle');
+            var heroSubtitle = document.getElementById('tv2HeroSubtitle');
+            var uploadMain = document.getElementById('tv2UploadMain');
+            var uploadHint = document.getElementById('tv2UploadHint');
+            if (heroTitle) heroTitle.innerHTML = copy.title;
+            if (heroSubtitle) heroSubtitle.textContent = copy.subtitle;
+            if (uploadMain) uploadMain.innerHTML = copy.uploadMain;
+            if (uploadHint) uploadHint.textContent = copy.uploadHint;
+            // Update tab active state
+            document.querySelectorAll('.tv2-mode-tab').forEach(function(tab) {
+                tab.classList.toggle('active', tab.dataset.mode === mode);
+            });
+        }
+
+        // Tab click → switch mode (does NOT open file picker immediately)
+        document.querySelectorAll('.tv2-mode-tab').forEach(function(tab) {
+            tab.addEventListener('click', function(e) {
+                e.stopPropagation();
+                switchMode(this.dataset.mode);
+            });
+        });
+
+        // Read ?mode= from URL on page load
+        var urlMode = new URLSearchParams(window.location.search).get('mode');
+        if (urlMode && modeCopy[urlMode]) {
+            switchMode(urlMode);
+        }
+
         // Transition to editor, then trigger handleFile if a file was selected
         function enterEditorWithFile(file) {
             landing.style.transition = 'opacity 0.35s, transform 0.35s';
@@ -6233,20 +6273,10 @@
             }, 350);
         }
 
-        // Click upload zone → full workflow → open file picker
+        // Click upload zone → use current workflowMode → open file picker
         uploadZone.addEventListener('click', function(e) {
             if (e.target === landingFileInput) return;
-            window.workflowMode = 'full';
             landingFileInput.click();
-        });
-
-        // Single-skill card click → set mode → open file picker
-        document.querySelectorAll('.tv2-single-skill-card').forEach(function(card) {
-            card.addEventListener('click', function(e) {
-                e.stopPropagation();
-                window.workflowMode = this.dataset.mode;
-                landingFileInput.click();
-            });
         });
 
         // File selected → enter editor with file
