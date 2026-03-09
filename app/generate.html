@@ -19,7 +19,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        min-height: calc(100vh - 120px);
+        min-height: 0;
     }
     .gen-landing::-webkit-scrollbar { width: 5px; }
     .gen-landing::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
@@ -561,6 +561,29 @@
         border-color: rgba(168,85,247,0.4);
     }
 
+    /* Confirm config button */
+    .gen-confirm-config {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        margin-top: 12px;
+        padding: 10px 20px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: #fff;
+        background: linear-gradient(135deg, #a855f7, #6366f1);
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-family: inherit;
+        box-shadow: 0 0 20px rgba(168,85,247,0.2);
+        transition: all 0.25s;
+    }
+    .gen-confirm-config:hover { transform: translateY(-1px); box-shadow: 0 0 30px rgba(168,85,247,0.35); }
+    .gen-confirm-config:active { transform: scale(0.98); }
+
     /* Clip editor in chat */
     .gen-clip-editor {
         background: rgba(255,255,255,0.02);
@@ -568,6 +591,17 @@
         border-radius: 12px;
         margin-top: 8px;
         overflow: hidden;
+        transition: all 0.3s;
+        cursor: pointer;
+    }
+    .gen-clip-editor:hover {
+        border-color: rgba(168,85,247,0.25);
+        background: rgba(255,255,255,0.03);
+    }
+    .gen-clip-editor.highlighted {
+        border-color: rgba(168,85,247,0.5);
+        background: rgba(168,85,247,0.05);
+        box-shadow: 0 0 16px rgba(168,85,247,0.1);
     }
     .gen-clip-editor-head {
         display: flex; align-items: center; justify-content: space-between;
@@ -583,7 +617,27 @@
         font-size: 0.65rem; color: #64748b;
         font-family: 'JetBrains Mono', monospace;
     }
-    .gen-clip-editor-body { padding: 10px 12px; }
+    .gen-clip-editor-body {
+        padding: 10px 12px;
+        display: flex;
+        gap: 10px;
+    }
+    /* Clip thumbnail preview inside editor */
+    .gen-clip-thumb {
+        width: 80px;
+        height: 50px;
+        border-radius: 6px;
+        overflow: hidden;
+        flex-shrink: 0;
+        border: 1px solid rgba(255,255,255,0.06);
+    }
+    .gen-clip-thumb canvas {
+        width: 100%; height: 100%; display: block;
+    }
+    .gen-clip-desc-wrap {
+        flex: 1;
+        min-width: 0;
+    }
     .gen-clip-desc-input {
         width: 100%;
         min-height: 40px;
@@ -800,7 +854,7 @@
     </aside>
 
     <!-- 主内容区 -->
-    <main class="main-content" style="padding-bottom:0;">
+    <main class="main-content" style="padding:0; display:flex; flex-direction:column; height:100vh; overflow:hidden;">
         <!-- 顶部栏 -->
         <header class="topbar" id="mainTopbar">
             <div class="topbar-left">
@@ -1099,35 +1153,62 @@
                             <button class="gen-ratio-chip" data-q="4k">4K</button>
                         </div>
                     </div>
+                    <button class="gen-confirm-config" id="confirmConfigBtn">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 8L7 11L12 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        确认设置，进入分镜编辑
+                    </button>
                 `;
                 addBubble('ai', configHtml);
                 bindConfigEvents();
 
-                // Add clips editor in chat
-                setTimeout(() => {
-                    let clipsHtml = '<p style="font-size:0.78rem;color:#94a3b8;margin-bottom:6px;">以下是各片段的画面描述，可以直接编辑：</p>';
-                    clips.forEach((c, i) => {
-                        clipsHtml += `
-                            <div class="gen-clip-editor">
-                                <div class="gen-clip-editor-head">
-                                    <span class="gen-clip-editor-badge" style="background:${c.color}15;color:${c.color};border:1px solid ${c.color}30;">片段 ${c.id} · ${c.title}</span>
-                                    <span class="gen-clip-editor-dur">${c.duration}s</span>
-                                </div>
-                                <div class="gen-clip-editor-body">
+                // Confirm button → show clip editors
+                document.getElementById('confirmConfigBtn').addEventListener('click', function() {
+                    this.disabled = true;
+                    this.style.opacity = '0.5';
+                    this.innerHTML = '✅ 已确认';
+                    showClipEditors();
+                });
+            }, 300);
+        }
+
+        // ===== Show clip editors (after config confirm) =====
+        function showClipEditors() {
+            const styleNames = { cinematic:'电影感', realistic:'写实', anime:'动画', cyber:'赛博朋克', watercolor:'水彩画', '3d':'3D 渲染' };
+            addBubble('ai', `<p>👍 设置已确认！<strong>${styleNames[selectedStyle] || selectedStyle}</strong> 风格 · <strong>${selectedRatio}</strong></p><p style="margin-top:4px;font-size:0.78rem;color:#94a3b8;">以下是各片段的画面描述，<strong>点击片段可联动左侧分镜预览</strong>，也可以直接编辑：</p>`);
+
+            setTimeout(() => {
+                let clipsHtml = '';
+                clips.forEach((c, i) => {
+                    clipsHtml += `
+                        <div class="gen-clip-editor" data-clip-idx="${i}">
+                            <div class="gen-clip-editor-head">
+                                <span class="gen-clip-editor-badge" style="background:${c.color}15;color:${c.color};border:1px solid ${c.color}30;">片段 ${c.id} · ${c.title}</span>
+                                <span class="gen-clip-editor-dur">${c.duration}s</span>
+                            </div>
+                            <div class="gen-clip-editor-body">
+                                <div class="gen-clip-thumb"><canvas width="160" height="100" data-thumb-idx="${i}"></canvas></div>
+                                <div class="gen-clip-desc-wrap">
                                     <textarea class="gen-clip-desc-input" data-clip-idx="${i}" placeholder="描述画面...">${c.desc}</textarea>
                                 </div>
                             </div>
-                        `;
-                    });
-                    clipsHtml += `
-                        <div class="gen-chat-actions" style="margin-top:10px;">
-                            <button class="gen-chat-action" id="chatStartGen">✨ 确认并开始生成</button>
-                            <button class="gen-chat-action" id="chatAiOptimize">🔮 AI 优化描述</button>
                         </div>
                     `;
-                    addBubble('ai', clipsHtml);
-                    bindClipEditors();
-                }, 400);
+                });
+                clipsHtml += `
+                    <div class="gen-chat-actions" style="margin-top:10px;">
+                        <button class="gen-chat-action" id="chatStartGen">✨ 确认并开始生成</button>
+                        <button class="gen-chat-action" id="chatAiOptimize">🔮 AI 优化描述</button>
+                    </div>
+                `;
+                addBubble('ai', clipsHtml);
+
+                // Draw thumbnails in each clip editor
+                clips.forEach((c, i) => {
+                    const thumbCanvas = document.querySelector(`canvas[data-thumb-idx="${i}"]`);
+                    if (thumbCanvas) drawClipPreview(thumbCanvas, c, i);
+                });
+
+                bindClipEditors();
             }, 300);
         }
 
@@ -1151,10 +1232,51 @@
         }
 
         function bindClipEditors() {
+            // Text editing
             document.querySelectorAll('.gen-clip-desc-input').forEach(ta => {
                 ta.addEventListener('input', e => {
                     const idx = parseInt(e.target.dataset.clipIdx);
                     if (clips[idx]) clips[idx].desc = e.target.value;
+                });
+            });
+
+            // Click/hover on clip editor → highlight left storyboard card
+            document.querySelectorAll('.gen-clip-editor[data-clip-idx]').forEach(editor => {
+                const idx = parseInt(editor.dataset.clipIdx);
+
+                editor.addEventListener('click', () => {
+                    // Highlight this editor
+                    document.querySelectorAll('.gen-clip-editor').forEach(e => e.classList.remove('highlighted'));
+                    editor.classList.add('highlighted');
+
+                    // Highlight left storyboard card
+                    const sbCards = document.querySelectorAll('.gen-sb-card');
+                    sbCards.forEach(c => c.classList.remove('selected'));
+                    if (sbCards[idx]) {
+                        sbCards[idx].classList.add('selected');
+                        sbCards[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
+                });
+
+                editor.addEventListener('mouseenter', () => {
+                    const sbCards = document.querySelectorAll('.gen-sb-card');
+                    if (sbCards[idx]) sbCards[idx].style.boxShadow = '0 0 24px ' + clips[idx].color + '40';
+                });
+                editor.addEventListener('mouseleave', () => {
+                    const sbCards = document.querySelectorAll('.gen-sb-card');
+                    if (sbCards[idx]) sbCards[idx].style.boxShadow = '';
+                });
+            });
+
+            // Also bind left storyboard cards → highlight right editor
+            document.querySelectorAll('.gen-sb-card').forEach((card, idx) => {
+                card.addEventListener('click', () => {
+                    const editors = document.querySelectorAll('.gen-clip-editor[data-clip-idx]');
+                    document.querySelectorAll('.gen-clip-editor').forEach(e => e.classList.remove('highlighted'));
+                    if (editors[idx]) {
+                        editors[idx].classList.add('highlighted');
+                        editors[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
                 });
             });
 
