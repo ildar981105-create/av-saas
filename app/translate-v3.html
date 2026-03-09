@@ -2934,6 +2934,311 @@
         .tv2-showcase-arrow { transform: rotate(90deg); }
     }
 
+    /* ===== Minimize Task Button (Topbar) ===== */
+    .tv2-minimize-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 5px 12px;
+        font-size: 0.72rem;
+        font-weight: 500;
+        color: #94a3b8;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 8px;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.2s;
+        white-space: nowrap;
+    }
+    .tv2-minimize-btn:hover {
+        color: #e2e8f0;
+        background: rgba(168,85,247,0.08);
+        border-color: rgba(168,85,247,0.3);
+    }
+    .tv2-minimize-btn svg { flex-shrink: 0; }
+
+    /* ===== Active Tasks Bar (Landing Page Top) ===== */
+    .tv2-active-tasks-bar {
+        display: none;
+        flex-direction: column;
+        gap: 8px;
+        padding: 12px 20px;
+        margin: 0 0 4px;
+        flex-shrink: 0;
+    }
+    .tv2-active-tasks-bar.visible {
+        display: flex;
+    }
+    .tv2-active-task-card {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        background: rgba(12,12,20,0.8);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 14px;
+        cursor: pointer;
+        transition: all 0.25s;
+        animation: taskCardIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    @keyframes taskCardIn {
+        from { opacity: 0; transform: translateY(-10px) scale(0.96); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .tv2-active-task-card:hover {
+        border-color: rgba(168,85,247,0.3);
+        background: rgba(168,85,247,0.04);
+    }
+    .tv2-active-task-card.task-processing {
+        border-color: rgba(245,158,11,0.2);
+    }
+    .tv2-active-task-card.task-processing:hover {
+        border-color: rgba(245,158,11,0.4);
+        background: rgba(245,158,11,0.04);
+    }
+    .tv2-active-task-card.task-done {
+        border-color: rgba(34,197,94,0.2);
+    }
+    .tv2-active-task-card.task-done:hover {
+        border-color: rgba(34,197,94,0.4);
+        background: rgba(34,197,94,0.04);
+    }
+    .tv2-atc-icon {
+        width: 36px; height: 36px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 1.1rem;
+    }
+    .tv2-atc-icon.icon-processing {
+        background: rgba(245,158,11,0.12);
+        color: #f59e0b;
+        position: relative;
+    }
+    .tv2-atc-icon.icon-processing::after {
+        content: '';
+        position: absolute;
+        inset: -3px;
+        border-radius: 13px;
+        border: 2px solid rgba(245,158,11,0.3);
+        animation: atcPulse 2s ease-in-out infinite;
+    }
+    @keyframes atcPulse {
+        0%, 100% { transform: scale(1); opacity: 0.6; }
+        50% { transform: scale(1.1); opacity: 0; }
+    }
+    .tv2-atc-icon.icon-done {
+        background: rgba(34,197,94,0.12);
+        color: #22c55e;
+    }
+    .tv2-atc-icon.icon-config {
+        background: rgba(168,85,247,0.12);
+        color: #a855f7;
+    }
+    .tv2-atc-info {
+        flex: 1;
+        min-width: 0;
+    }
+    .tv2-atc-info .atc-name {
+        display: block;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: #e2e8f0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .tv2-atc-info .atc-status {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.68rem;
+        color: #64748b;
+        margin-top: 2px;
+    }
+    .tv2-atc-progress {
+        flex: 0 0 100px;
+        height: 4px;
+        background: rgba(255,255,255,0.06);
+        border-radius: 2px;
+        overflow: hidden;
+    }
+    .tv2-atc-progress-fill {
+        height: 100%;
+        border-radius: 2px;
+        background: linear-gradient(90deg, #f59e0b, #f97316);
+        transition: width 0.6s ease;
+    }
+    .tv2-atc-progress-fill.done {
+        background: linear-gradient(90deg, #22c55e, #10b981);
+    }
+    .tv2-atc-action {
+        padding: 5px 12px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: #a78bfa;
+        background: rgba(168,85,247,0.08);
+        border: 1px solid rgba(168,85,247,0.2);
+        border-radius: 8px;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.2s;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+    .tv2-atc-action:hover {
+        background: rgba(168,85,247,0.15);
+        border-color: rgba(168,85,247,0.4);
+    }
+    .tv2-atc-action.action-done {
+        color: #4ade80;
+        background: rgba(34,197,94,0.08);
+        border-color: rgba(34,197,94,0.2);
+    }
+    .tv2-atc-action.action-done:hover {
+        background: rgba(34,197,94,0.15);
+        border-color: rgba(34,197,94,0.4);
+    }
+    .tv2-atc-close {
+        width: 24px; height: 24px;
+        border-radius: 6px;
+        border: none;
+        background: transparent;
+        color: #475569;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: all 0.2s;
+        padding: 0;
+    }
+    .tv2-atc-close:hover {
+        background: rgba(239,68,68,0.1);
+        color: #ef4444;
+    }
+
+    /* ===== Sidebar Notification Badge ===== */
+    .nav-item { position: relative; }
+    .nav-badge {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        min-width: 16px;
+        height: 16px;
+        padding: 0 4px;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.56rem;
+        font-weight: 700;
+        font-family: 'JetBrains Mono', monospace;
+        color: #fff;
+        background: #ef4444;
+        border-radius: 100px;
+        box-shadow: 0 0 8px rgba(239,68,68,0.4);
+        animation: badgePop 0.4s cubic-bezier(0.34,1.56,0.64,1);
+        z-index: 10;
+    }
+    .nav-badge.visible {
+        display: flex;
+    }
+    @keyframes badgePop {
+        from { transform: scale(0); }
+        to { transform: scale(1); }
+    }
+
+    /* ===== Toast Notifications ===== */
+    .tv2-toast-container {
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        pointer-events: none;
+    }
+    .tv2-toast {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 16px;
+        background: rgba(12,12,20,0.95);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(34,197,94,0.3);
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 24px rgba(34,197,94,0.1);
+        pointer-events: auto;
+        cursor: pointer;
+        animation: toastIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+        transition: all 0.3s;
+        max-width: 340px;
+    }
+    .tv2-toast:hover {
+        border-color: rgba(34,197,94,0.5);
+        transform: translateX(-4px);
+    }
+    .tv2-toast.toast-exit {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    @keyframes toastIn {
+        from { opacity: 0; transform: translateX(100px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+    .tv2-toast-icon {
+        width: 32px; height: 32px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 1rem;
+        background: rgba(34,197,94,0.12);
+    }
+    .tv2-toast-content {
+        flex: 1;
+        min-width: 0;
+    }
+    .tv2-toast-content .toast-title {
+        display: block;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: #e2e8f0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .tv2-toast-content .toast-desc {
+        display: block;
+        font-size: 0.66rem;
+        color: #64748b;
+        margin-top: 1px;
+    }
+    .tv2-toast-close {
+        width: 20px; height: 20px;
+        border-radius: 5px;
+        border: none;
+        background: transparent;
+        color: #475569;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: all 0.15s;
+        padding: 0;
+    }
+    .tv2-toast-close:hover {
+        background: rgba(255,255,255,0.06);
+        color: #94a3b8;
+    }
+
     </style>
 </head>
 <body class="tv2-body">
@@ -2950,7 +3255,7 @@
             <a href="livestream.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="4" cy="5" r="2" fill="#ef4444"/></svg><span>直播剪辑</span></a>
             <a href="generate.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L12 8H18L13 12L15 18L10 14L5 18L7 12L2 8H8L10 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span>AI 生成</span></a>
             <div class="nav-divider"></div>
-            <a href="result.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 10L9 12L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>任务记录</span></a>
+            <a href="result.html" class="nav-item" id="navTaskRecord"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 10L9 12L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>任务记录</span><span class="nav-badge" id="taskRecordBadge"></span></a>
         </nav>
         <div class="sidebar-bottom">
             <div class="user-card"><div class="avatar">U</div><div class="user-info"><span class="user-name">用户</span><span class="user-plan">专业版</span></div></div>
@@ -2961,6 +3266,8 @@
 
         <!-- ===== Scene Landing Page ===== -->
         <div class="tv2-landing" id="tv2Landing">
+            <!-- Active Tasks Bar (shown when tasks are minimized) -->
+            <div class="tv2-active-tasks-bar" id="activeTasksBar"></div>
             <div class="tv2-landing-scroll">
                 <!-- Hero + Primary CTA -->
                 <div class="tv2-landing-hero">
@@ -3090,6 +3397,10 @@
                 </span>
             </div>
             <div class="tv2-topbar-right">
+                <button class="tv2-minimize-btn" id="minimizeTaskBtn" title="收起任务到后台">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 14H14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M4 10L8 6L12 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    收起任务
+                </button>
                 <button class="ev2-btn-export" id="globalExportBtn" style="display:none;">
                     <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2V9M8 9L11 6M8 9L5 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 11V13C3 13.5523 3.44772 14 4 14H12C12.5523 14 13 13.5523 13 13V11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
                     导出
@@ -3602,6 +3913,9 @@
 
         </div>
     </main>
+
+    <!-- Toast Notifications Container -->
+    <div class="tv2-toast-container" id="toastContainer"></div>
 
     <script src="app.js"></script>
     <script>
@@ -5951,6 +6265,274 @@
                 enterEditorWithFile(files[0]);
             }
         });
+    })();
+    </script>
+    <script>
+    // ===== Task Minimize / Restore / Notification System =====
+    (function() {
+        const landing = document.getElementById('tv2Landing');
+        const topbar = document.getElementById('tv2Topbar');
+        const mainView = document.getElementById('tv2Main');
+        const minimizeBtn = document.getElementById('minimizeTaskBtn');
+        const activeTasksBar = document.getElementById('activeTasksBar');
+        const toastContainer = document.getElementById('toastContainer');
+        const taskRecordBadge = document.getElementById('taskRecordBadge');
+
+        if (!landing || !minimizeBtn) return;
+
+        // === Task Store ===
+        let minimizedTasks = []; // { id, fileName, phase, progress, progressStep, timer }
+        let taskIdCounter = 0;
+        let notificationCount = 0;
+
+        // === Minimize Current Task ===
+        minimizeBtn.addEventListener('click', function() {
+            // Get current task info from the page state
+            const filenameEl = document.getElementById('topbarFilename');
+            const fileName = filenameEl ? filenameEl.textContent.replace(/^—\s*/, '').trim() : 'demo_video.mp4';
+
+            // Determine current phase from the global scope
+            // Access the phase variable indirectly through the processing overlay visibility
+            const processingOverlay = document.getElementById('processingOverlay');
+            const isProcessing = processingOverlay && processingOverlay.classList.contains('active');
+            const pvBar = document.getElementById('pvBar');
+            const pvText = document.getElementById('pvText');
+            const currentProgress = pvBar ? parseInt(pvBar.style.width) || 0 : 0;
+            const currentStepText = pvText ? pvText.textContent : '';
+
+            // Determine phase from phase indicator
+            const phaseIndicator = document.getElementById('phaseIndicator');
+            let taskPhase = 'config';
+            if (phaseIndicator) {
+                if (phaseIndicator.classList.contains('phase-done')) taskPhase = 'done';
+                else if (phaseIndicator.classList.contains('phase-processing') || isProcessing) taskPhase = 'processing';
+                else if (phaseIndicator.classList.contains('phase-finetune')) taskPhase = 'config';
+                else taskPhase = 'config';
+            }
+
+            const taskId = 'task_' + (++taskIdCounter);
+            const task = {
+                id: taskId,
+                fileName: fileName || '未命名视频.mp4',
+                phase: taskPhase,
+                progress: currentProgress,
+                progressStep: currentStepText,
+                timer: null
+            };
+
+            minimizedTasks.push(task);
+
+            // If processing, simulate background progress
+            if (task.phase === 'processing') {
+                startBackgroundProcessing(task);
+            }
+
+            // Transition back to landing
+            topbar.style.display = 'none';
+            mainView.style.display = 'none';
+
+            // Exit immersive mode
+            document.body.classList.remove('tv2-immersive');
+
+            // Show landing
+            landing.style.display = '';
+            landing.style.opacity = '0';
+            landing.style.transform = 'translateY(20px)';
+            landing.style.transition = 'opacity 0.35s, transform 0.35s';
+            requestAnimationFrame(function() {
+                landing.style.opacity = '1';
+                landing.style.transform = 'translateY(0)';
+            });
+
+            // Render tasks bar
+            renderActiveTasksBar();
+        });
+
+        // === Background Processing Simulation ===
+        function startBackgroundProcessing(task) {
+            let progress = task.progress;
+            task.timer = setInterval(function() {
+                progress += Math.random() * 8 + 2;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(task.timer);
+                    task.timer = null;
+                    task.phase = 'done';
+                    task.progress = 100;
+                    task.progressStep = '译制完成！';
+
+                    // Show toast notification
+                    showToast(task);
+
+                    // Update badge on "任务记录"
+                    notificationCount++;
+                    updateBadge();
+
+                    // Re-render tasks bar
+                    renderActiveTasksBar();
+                    return;
+                }
+                task.progress = Math.min(Math.round(progress), 99);
+
+                // Rotate step text
+                if (progress < 30) task.progressStep = '正在擦除字幕...';
+                else if (progress < 60) task.progressStep = '正在翻译字幕...';
+                else if (progress < 85) task.progressStep = '正在生成配音...';
+                else task.progressStep = '正在合成视频...';
+
+                renderActiveTasksBar();
+            }, 1500);
+        }
+
+        // === Render Active Tasks Bar (Landing Top) ===
+        function renderActiveTasksBar() {
+            if (minimizedTasks.length === 0) {
+                activeTasksBar.classList.remove('visible');
+                activeTasksBar.innerHTML = '';
+                return;
+            }
+
+            activeTasksBar.classList.add('visible');
+            activeTasksBar.innerHTML = minimizedTasks.map(function(task) {
+                const isDone = task.phase === 'done';
+                const isProcessing = task.phase === 'processing';
+                const cardClass = isDone ? 'task-done' : (isProcessing ? 'task-processing' : '');
+                const iconClass = isDone ? 'icon-done' : (isProcessing ? 'icon-processing' : 'icon-config');
+                const iconEmoji = isDone ? '✅' : (isProcessing ? '⏳' : '🔧');
+                const statusText = isDone ? '译制完成' : (isProcessing ? task.progressStep : '配置中');
+                const actionText = isDone ? '查看结果' : '展开';
+                const actionClass = isDone ? 'action-done' : '';
+
+                let progressHtml = '';
+                if (isProcessing) {
+                    progressHtml = '<div class="tv2-atc-progress"><div class="tv2-atc-progress-fill" style="width:' + task.progress + '%"></div></div>';
+                } else if (isDone) {
+                    progressHtml = '<div class="tv2-atc-progress"><div class="tv2-atc-progress-fill done" style="width:100%"></div></div>';
+                }
+
+                return '<div class="tv2-active-task-card ' + cardClass + '" data-task-id="' + task.id + '">' +
+                    '<div class="tv2-atc-icon ' + iconClass + '">' + iconEmoji + '</div>' +
+                    '<div class="tv2-atc-info">' +
+                        '<span class="atc-name">📹 ' + task.fileName + '</span>' +
+                        '<span class="atc-status">' + statusText + (isProcessing ? ' ' + task.progress + '%' : '') + '</span>' +
+                    '</div>' +
+                    progressHtml +
+                    '<button class="tv2-atc-action ' + actionClass + '" data-restore="' + task.id + '">' + actionText + '</button>' +
+                    '<button class="tv2-atc-close" data-dismiss="' + task.id + '" title="关闭任务"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 3L11 11M11 3L3 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>' +
+                '</div>';
+            }).join('');
+
+            // Bind restore and dismiss buttons
+            activeTasksBar.querySelectorAll('[data-restore]').forEach(function(btn) {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    restoreTask(btn.dataset.restore);
+                });
+            });
+            activeTasksBar.querySelectorAll('[data-dismiss]').forEach(function(btn) {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    dismissTask(btn.dataset.dismiss);
+                });
+            });
+            // Click card also restores
+            activeTasksBar.querySelectorAll('.tv2-active-task-card').forEach(function(card) {
+                card.addEventListener('click', function() {
+                    restoreTask(card.dataset.taskId);
+                });
+            });
+        }
+
+        // === Restore Task (go back to editor) ===
+        function restoreTask(taskId) {
+            const idx = minimizedTasks.findIndex(function(t) { return t.id === taskId; });
+            if (idx === -1) return;
+
+            const task = minimizedTasks[idx];
+
+            // Remove from minimized
+            if (task.timer) clearInterval(task.timer);
+            minimizedTasks.splice(idx, 1);
+
+            // Transition to editor
+            landing.style.transition = 'opacity 0.35s, transform 0.35s';
+            landing.style.opacity = '0';
+            landing.style.transform = 'translateY(-20px)';
+            setTimeout(function() {
+                landing.style.display = 'none';
+                if (topbar) topbar.style.display = '';
+                if (mainView) mainView.style.display = '';
+                document.body.classList.add('tv2-immersive');
+
+                // Re-render tasks bar (may still have other tasks)
+                renderActiveTasksBar();
+            }, 350);
+        }
+
+        // === Dismiss Task (remove from list) ===
+        function dismissTask(taskId) {
+            const idx = minimizedTasks.findIndex(function(t) { return t.id === taskId; });
+            if (idx === -1) return;
+            if (minimizedTasks[idx].timer) clearInterval(minimizedTasks[idx].timer);
+            minimizedTasks.splice(idx, 1);
+            renderActiveTasksBar();
+        }
+
+        // === Toast Notification ===
+        function showToast(task) {
+            var toast = document.createElement('div');
+            toast.className = 'tv2-toast';
+            toast.innerHTML = '<div class="tv2-toast-icon">🎬</div>' +
+                '<div class="tv2-toast-content">' +
+                    '<span class="toast-title">' + task.fileName + '</span>' +
+                    '<span class="toast-desc">译制完成！点击查看</span>' +
+                '</div>' +
+                '<button class="tv2-toast-close"><svg width="10" height="10" viewBox="0 0 14 14" fill="none"><path d="M3 3L11 11M11 3L3 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>';
+
+            toastContainer.appendChild(toast);
+
+            // Click toast to restore task
+            toast.addEventListener('click', function(e) {
+                if (e.target.closest('.tv2-toast-close')) {
+                    dismissToast(toast);
+                    return;
+                }
+                restoreTask(task.id);
+                dismissToast(toast);
+            });
+
+            // Auto dismiss after 5 seconds
+            setTimeout(function() {
+                dismissToast(toast);
+            }, 5000);
+        }
+
+        function dismissToast(toast) {
+            if (!toast || !toast.parentNode) return;
+            toast.classList.add('toast-exit');
+            setTimeout(function() {
+                if (toast.parentNode) toast.parentNode.removeChild(toast);
+            }, 300);
+        }
+
+        // === Badge Update ===
+        function updateBadge() {
+            if (notificationCount > 0) {
+                taskRecordBadge.textContent = notificationCount;
+                taskRecordBadge.classList.add('visible');
+            } else {
+                taskRecordBadge.classList.remove('visible');
+            }
+        }
+
+        // Clear badge when clicking "任务记录"
+        var navTaskRecord = document.getElementById('navTaskRecord');
+        if (navTaskRecord) {
+            navTaskRecord.addEventListener('click', function() {
+                notificationCount = 0;
+                updateBadge();
+            });
+        }
     })();
     </script>
 </body>
