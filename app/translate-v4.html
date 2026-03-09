@@ -4212,11 +4212,12 @@
                 iconClass: 'chat-feature-icon--red',
                 badgeClass: 'chat-step-badge--erase',
                 title: '擦除原字幕',
+                autoDesc: '已选择 <strong>高质量 + AI 修复</strong> 模式，正在检测...',
                 preDesc: '先来处理原字幕。需要 AI 自动检测字幕区域，还是手动框选？',
                 autoLabel: '🔍 AI 自动检测',
                 manualLabel: '✋ 手动框选',
                 scanText: '正在检测字幕区域...',
-                scanResultText: '检测完成！发现 <strong>7 处</strong>字幕区域',
+                scanResultText: '检测完成！发现 <strong>7 处</strong>字幕区域，已自动选择 <strong>高质量擦除 + AI 修复填充</strong>',
                 resultDesc: 'AI 检测到 7 处字幕区域，确认擦除配置：',
                 configHtml: `<div class="chat-quick-config">
                     <div class="chat-config-row" data-feature="erase">
@@ -4237,6 +4238,7 @@
                 iconClass: 'chat-feature-icon--blue',
                 badgeClass: 'chat-step-badge--subtitle',
                 title: '文案与字幕',
+                autoDesc: '正在识别语音并翻译为 <strong>英文</strong>...',
                 preDesc: '接下来处理文案。需要 AI 从视频语音中识别文案，还是上传文稿？',
                 autoLabel: '🤖 AI 语音识别',
                 manualLabel: '📄 上传文稿 / SRT',
@@ -4251,11 +4253,12 @@
                 iconClass: 'chat-feature-icon--purple',
                 badgeClass: 'chat-step-badge--voice',
                 title: 'AI 配音',
+                autoDesc: '使用 <strong>原声克隆</strong> 音色，正在生成...',
                 preDesc: '最后一步：AI 配音。',
                 autoLabel: '🎙️ AI 配音',
                 manualLabel: '📁 上传音频',
                 scanText: '正在生成 AI 配音...',
-                scanResultText: '配音生成完成！已准备 <strong>7 段</strong>配音',
+                scanResultText: '配音生成完成！已使用<strong>原声克隆</strong>音色生成 <strong>7 段</strong>英文配音',
                 resultDesc: '配音已准备就绪，确认配音配置：',
                 configHtml: `<div class="chat-quick-config">
                     <div class="chat-config-row" data-feature="voice">
@@ -4299,7 +4302,7 @@
                 <div class="chat-features">
                     <div class="chat-feature-card selected" style="pointer-events:none;">
                         <div class="chat-feature-icon ${meta.iconClass}">${meta.icon}</div>
-                        <div class="chat-feature-info"><h4>${meta.title}</h4><p>AI 自动处理中...</p></div>
+                        <div class="chat-feature-info"><h4>${meta.title}</h4><p>${meta.autoDesc}</p></div>
                     </div>
                 </div>`;
             appendBubble('ai', bubbleHtml, 0);
@@ -4753,7 +4756,7 @@
                     <span class="scan-check">
                         <svg width="10" height="10" viewBox="0 0 14 14" fill="none"><path d="M3 7L6 10L11 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </span>
-                    翻译完成！已生成 <strong>${subtitleItems.length} 条</strong>双语字幕
+                    翻译完成！已生成 <strong>${subtitleItems.length} 条</strong>中文→英文双语字幕
                 </div>
                 <div class="chat-sub-list-inline">
                     ${subListHtml}
@@ -4982,7 +4985,7 @@
             const btns = chatFlow.querySelectorAll(`.chat-step-confirm[data-step="${step}"], .chat-step-skip[data-step="${step}"], .chat-step-ft-entry[data-step="${step}"]`);
             btns.forEach(b => { b.disabled = true; b.style.opacity = '0.4'; b.style.pointerEvents = 'none'; });
 
-            const labelMap = { erase: '擦除', subtitle: '字幕', voice: '配音' };
+            const labelMap = { erase: '擦除设置', subtitle: '字幕翻译', voice: '配音设置' };
             appendBubble('user', `进入${labelMap[step]}精调 →`, 0);
 
             // Unlock tab + show track
@@ -5315,9 +5318,9 @@
         function showStartButton() {
             // AI summary
             const enabledFeats = [];
-            if (features.erase) enabledFeats.push('擦除');
-            if (features.subtitle) enabledFeats.push('字幕翻译');
-            if (features.voice) enabledFeats.push('AI 配音');
+            if (features.erase) enabledFeats.push('擦除 7 处字幕');
+            if (features.subtitle) enabledFeats.push('中→英字幕翻译');
+            if (features.voice) enabledFeats.push('原声克隆配音');
 
             if (enabledFeats.length === 0) {
                 appendBubble('ai', '你跳过了所有步骤，请至少选择一个功能。', 0);
@@ -5326,7 +5329,7 @@
                 return;
             }
 
-            appendBubble('ai', `配置完成！已选择：<strong>${enabledFeats.join('、')}</strong>。可以直接开始，也可以先精调细节。`, 0);
+            appendBubble('ai', `全部配置完成！将为你执行：<strong>${enabledFeats.join(' → ')}</strong>。可以直接开始，也可以先精调细节。`, 0);
 
             const startEl = document.createElement('div');
             startEl.className = 'chat-start-wrap';
