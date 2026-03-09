@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI 生成视频 — FrameX</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
     /* ==============================================
        AI 生成 — Landing + 左右分栏工作区
@@ -42,7 +42,7 @@
     }
     .gen-landing-hero p {
         font-size: 1rem;
-        color: var(--text-muted);
+        color: #64748b;
         max-width: 520px;
         margin: 0 auto 32px;
     }
@@ -62,7 +62,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 0 40px rgba(99,102,241,0.4), 0 0 80px rgba(99,102,241,0.15);
+        box-shadow: 0 0 40px rgba(168,85,247,0.4), 0 0 80px rgba(99,102,241,0.15);
     }
     .gen-hero-orb-ring {
         position: absolute;
@@ -70,7 +70,7 @@
         transform: translate(-50%,-50%);
         width: 80px; height: 80px;
         border-radius: 50%;
-        border: 2px solid rgba(99,102,241,0.15);
+        border: 2px solid rgba(168,85,247,0.15);
         animation: genOrbPulse 3s ease-in-out infinite;
     }
     @keyframes genOrbPulse {
@@ -91,8 +91,8 @@
         overflow: hidden;
     }
     .gen-input-box:focus-within {
-        border-color: rgba(99,102,241,0.35);
-        box-shadow: 0 0 0 4px rgba(99,102,241,0.06), 0 0 40px rgba(99,102,241,0.05);
+        border-color: rgba(168,85,247,0.35);
+        box-shadow: 0 0 0 4px rgba(168,85,247,0.06), 0 0 40px rgba(168,85,247,0.05);
     }
     .gen-input-textarea {
         width: 100%;
@@ -101,14 +101,14 @@
         padding: 16px 18px 8px;
         background: transparent;
         border: none;
-        color: var(--text-primary);
+        color: #e2e8f0;
         font-size: 0.92rem;
         font-family: inherit;
         outline: none;
         resize: none;
         line-height: 1.7;
     }
-    .gen-input-textarea::placeholder { color: var(--text-faint); }
+    .gen-input-textarea::placeholder { color: #475569; }
     .gen-input-toolbar {
         display: flex;
         align-items: center;
@@ -122,7 +122,7 @@
     }
     .gen-char-count {
         font-size: 0.7rem;
-        color: var(--text-faint);
+        color: #475569;
         font-family: 'JetBrains Mono', monospace;
     }
     .gen-submit-btn {
@@ -138,12 +138,12 @@
         border-radius: 12px;
         cursor: pointer;
         font-family: inherit;
-        box-shadow: 0 0 24px rgba(99,102,241,0.25);
+        box-shadow: 0 0 24px rgba(168,85,247,0.25);
         transition: all 0.2s;
         position: relative;
         overflow: hidden;
     }
-    .gen-submit-btn:hover { transform: translateY(-1px); box-shadow: 0 0 40px rgba(99,102,241,0.35); }
+    .gen-submit-btn:hover { transform: translateY(-1px); box-shadow: 0 0 40px rgba(168,85,247,0.35); }
     .gen-submit-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
     .gen-submit-btn::before {
         content: '';
@@ -160,7 +160,7 @@
     .gen-inspo-label {
         font-size: 0.72rem;
         font-weight: 600;
-        color: var(--text-faint);
+        color: #475569;
         margin-bottom: 10px;
     }
     .gen-inspo-chips {
@@ -173,7 +173,7 @@
         padding: 7px 16px;
         font-size: 0.78rem;
         font-weight: 500;
-        color: var(--text-secondary);
+        color: #94a3b8;
         background: rgba(255,255,255,0.04);
         border: 1px solid rgba(255,255,255,0.08);
         border-radius: 100px;
@@ -185,9 +185,9 @@
         font-family: inherit;
     }
     .gen-inspo-chip:hover {
-        color: var(--text-primary);
-        border-color: rgba(99,102,241,0.35);
-        background: rgba(99,102,241,0.06);
+        color: #e2e8f0;
+        border-color: rgba(168,85,247,0.35);
+        background: rgba(168,85,247,0.06);
         transform: translateY(-2px);
     }
 
@@ -203,12 +203,12 @@
         align-items: center;
         gap: 5px;
         font-size: 0.72rem;
-        color: var(--text-faint);
+        color: #475569;
     }
     .gen-cap-dot {
         width: 4px; height: 4px;
         border-radius: 50%;
-        background: rgba(99,102,241,0.4);
+        background: rgba(168,85,247,0.4);
     }
 
     /* ===== 工作区：左右分栏 ===== */
@@ -283,7 +283,7 @@
         transform: translate(-50%,-50%);
         width: 72px; height: 72px;
         border-radius: 50%;
-        border: 2px solid rgba(99,102,241,0.12);
+        border: 2px solid rgba(168,85,247,0.12);
         animation: genOrbPulse 3s ease-in-out infinite;
     }
     .gen-empty-orb .gen-empty-core {
@@ -291,15 +291,15 @@
         transform: translate(-50%,-50%);
         width: 40px; height: 40px;
         border-radius: 50%;
-        background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(99,102,241,0.1));
+        background: linear-gradient(135deg, rgba(168,85,247,0.15), rgba(99,102,241,0.1));
         display: flex; align-items: center; justify-content: center;
-        border: 1px solid rgba(99,102,241,0.15);
+        border: 1px solid rgba(168,85,247,0.15);
     }
     .gen-empty-title {
-        font-size: 0.88rem; font-weight: 600; color: var(--text-faint); margin-bottom: 6px;
+        font-size: 0.88rem; font-weight: 600; color: #475569; margin-bottom: 6px;
     }
     .gen-empty-sub {
-        font-size: 0.75rem; color: var(--text-dim); line-height: 1.5;
+        font-size: 0.75rem; color: #334155; line-height: 1.5;
     }
 
     /* Storyboard grid in canvas */
@@ -319,14 +319,14 @@
         padding: 3px 10px;
         font-size: 0.68rem;
         font-weight: 600;
-        color: #818cf8;
-        background: rgba(99,102,241,0.1);
-        border: 1px solid rgba(99,102,241,0.2);
+        color: #a78bfa;
+        background: rgba(168,85,247,0.1);
+        border: 1px solid rgba(168,85,247,0.2);
         border-radius: 100px;
     }
     .gen-sb-info {
         font-size: 0.72rem;
-        color: var(--text-muted);
+        color: #64748b;
     }
     .gen-sb-grid {
         flex: 1;
@@ -351,12 +351,12 @@
         min-height: 120px;
     }
     .gen-sb-card:hover {
-        border-color: rgba(99,102,241,0.3);
+        border-color: rgba(168,85,247,0.3);
         transform: scale(1.02);
     }
     .gen-sb-card.selected {
-        border-color: rgba(99,102,241,0.5);
-        box-shadow: 0 0 20px rgba(99,102,241,0.15);
+        border-color: rgba(168,85,247,0.5);
+        box-shadow: 0 0 20px rgba(168,85,247,0.15);
     }
     .gen-sb-card canvas { width: 100%; height: 100%; display: block; position: absolute; inset: 0; }
     .gen-sb-card-overlay {
@@ -375,7 +375,7 @@
         border-radius: 7px;
         display: flex; align-items: center; justify-content: center;
         font-size: 0.65rem; font-weight: 700; color: #fff;
-        background: rgba(99,102,241,0.6); backdrop-filter: blur(8px);
+        background: rgba(168,85,247,0.6); backdrop-filter: blur(8px);
     }
     .gen-sb-card-dur {
         position: absolute; top: 8px; right: 8px;
@@ -416,11 +416,11 @@
         position: absolute; top:50%;left:50%; transform:translate(-50%,-50%);
         width:18px;height:18px; border-radius:50%;
         background:linear-gradient(135deg,#a855f7,#06b6d4);
-        box-shadow:0 0 24px rgba(99,102,241,0.5);
+        box-shadow:0 0 24px rgba(168,85,247,0.5);
     }
     @keyframes spin { to { transform: translate(-50%,-50%) rotate(360deg); } }
-    .gen-synth-text { font-size: 0.92rem; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; }
-    .gen-synth-sub { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 20px; }
+    .gen-synth-text { font-size: 0.92rem; font-weight: 600; color: #e2e8f0; margin-bottom: 6px; }
+    .gen-synth-sub { font-size: 0.78rem; color: #64748b; margin-bottom: 20px; }
     .gen-synth-progress {
         width: 220px; height: 3px;
         background: rgba(255,255,255,0.06); border-radius: 2px;
@@ -432,7 +432,7 @@
         border-radius: 2px; width: 0%; transition: width 0.6s ease;
     }
     .gen-synth-clip-info {
-        font-size: 0.72rem; color: var(--text-muted);
+        font-size: 0.72rem; color: #64748b;
         font-family: 'JetBrains Mono', monospace;
     }
     .gen-synth-dots {
@@ -443,20 +443,20 @@
         border-radius: 8px;
         display: flex; align-items: center; justify-content: center;
         font-size: 0.68rem; font-weight: 700;
-        color: var(--text-faint); background: rgba(255,255,255,0.03);
+        color: #475569; background: rgba(255,255,255,0.03);
         border: 1px solid rgba(255,255,255,0.06);
         transition: all 0.3s;
     }
     .gen-synth-dot.active {
-        color: #818cf8;
-        background: rgba(99,102,241,0.12);
-        border-color: rgba(99,102,241,0.3);
-        box-shadow: 0 0 14px rgba(99,102,241,0.15);
+        color: #a78bfa;
+        background: rgba(168,85,247,0.12);
+        border-color: rgba(168,85,247,0.3);
+        box-shadow: 0 0 14px rgba(168,85,247,0.15);
     }
     .gen-synth-dot.completed {
-        color: #10b981;
-        background: rgba(16,185,129,0.1);
-        border-color: rgba(16,185,129,0.25);
+        color: #22c55e;
+        background: rgba(34,197,94,0.1);
+        border-color: rgba(34,197,94,0.25);
     }
 
     /* Player view */
@@ -483,7 +483,7 @@
         border: 1px solid; transition: all 0.3s; cursor: default;
     }
     .gen-tl-seg.active {
-        box-shadow: 0 0 10px rgba(99,102,241,0.2);
+        box-shadow: 0 0 10px rgba(168,85,247,0.2);
         transform: scaleY(1.08);
     }
 
@@ -512,13 +512,13 @@
     .gen-chat-header-icon {
         width: 28px; height: 28px;
         border-radius: 8px;
-        background: rgba(99,102,241,0.12);
+        background: rgba(168,85,247,0.12);
         color: #a855f7;
         display: flex; align-items: center; justify-content: center;
         flex-shrink: 0;
     }
     .gen-chat-header h3 { font-size: 0.85rem; font-weight: 600; }
-    .gen-chat-header p { font-size: 0.68rem; color: var(--text-muted); }
+    .gen-chat-header p { font-size: 0.68rem; color: #64748b; }
 
     /* Chat body */
     .gen-chat-body {
@@ -554,7 +554,7 @@
         font-size: 0.75rem; font-weight: 600;
     }
     .gen-bubble--ai .gen-bubble-avatar {
-        background: rgba(99,102,241,0.12); color: #a855f7;
+        background: rgba(168,85,247,0.12); color: #a855f7;
     }
     .gen-bubble--user .gen-bubble-avatar {
         background: rgba(59,130,246,0.12); color: #60a5fa;
@@ -572,9 +572,9 @@
         color: #cbd5e1;
     }
     .gen-bubble--user .gen-bubble-content {
-        background: rgba(99,102,241,0.12);
-        border: 1px solid rgba(99,102,241,0.2);
-        color: var(--text-primary);
+        background: rgba(168,85,247,0.12);
+        border: 1px solid rgba(168,85,247,0.2);
+        color: #e2e8f0;
     }
 
     /* Typing indicator (three dots) */
@@ -598,18 +598,18 @@
         align-items: center; justify-content: center;
         font-size: 0.62rem; font-weight: 700;
         background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
-        color: var(--text-faint); margin-bottom: 4px; transition: all 0.3s;
+        color: #475569; margin-bottom: 4px; transition: all 0.3s;
     }
     .gen-stepper-item.active .gen-stepper-num {
-        background: rgba(99,102,241,0.15); border-color: rgba(99,102,241,0.4);
-        color: #818cf8; box-shadow: 0 0 10px rgba(99,102,241,0.15);
+        background: rgba(168,85,247,0.15); border-color: rgba(168,85,247,0.4);
+        color: #a78bfa; box-shadow: 0 0 10px rgba(168,85,247,0.15);
     }
     .gen-stepper-item.completed .gen-stepper-num {
-        background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.3); color: #10b981;
+        background: rgba(34,197,94,0.12); border-color: rgba(34,197,94,0.3); color: #22c55e;
     }
-    .gen-stepper-label { display: block; font-size: 0.58rem; color: var(--text-dim); line-height: 1.2; }
-    .gen-stepper-item.active .gen-stepper-label { color: #818cf8; }
-    .gen-stepper-item.completed .gen-stepper-label { color: #10b981; }
+    .gen-stepper-label { display: block; font-size: 0.58rem; color: #334155; line-height: 1.2; }
+    .gen-stepper-item.active .gen-stepper-label { color: #a78bfa; }
+    .gen-stepper-item.completed .gen-stepper-label { color: #22c55e; }
 
     /* Text segment preview cards (步骤2) */
     .gen-text-segments { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
@@ -623,14 +623,14 @@
         display: inline-flex; align-items: center; gap: 5px;
         padding: 2px 8px; border-radius: 5px; font-size: 0.65rem; font-weight: 600;
     }
-    .gen-text-seg-dur { font-size: 0.62rem; color: var(--text-faint); font-family: 'JetBrains Mono', monospace; }
+    .gen-text-seg-dur { font-size: 0.62rem; color: #475569; font-family: 'JetBrains Mono', monospace; }
     .gen-text-seg textarea {
         width: 100%; min-height: 48px; padding: 8px 10px;
         background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
-        border-radius: 8px; color: var(--text-primary); font-size: 0.78rem; font-family: inherit;
+        border-radius: 8px; color: #e2e8f0; font-size: 0.78rem; font-family: inherit;
         outline: none; resize: vertical; line-height: 1.5; transition: border-color 0.2s;
     }
-    .gen-text-seg textarea:focus { border-color: rgba(99,102,241,0.3); }
+    .gen-text-seg textarea:focus { border-color: rgba(168,85,247,0.3); }
 
     /* Storyboard loading animation */
     .gen-sb-card.loading { pointer-events: none; }
@@ -642,10 +642,10 @@
     }
     .gen-sb-card-loading-inner .loading-spinner {
         width: 24px; height: 24px;
-        border: 2px solid rgba(99,102,241,0.15); border-top-color: #a855f7;
+        border: 2px solid rgba(168,85,247,0.15); border-top-color: #a855f7;
         border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 8px;
     }
-    .gen-sb-card-loading-inner .loading-text { font-size: 0.65rem; color: var(--text-faint); }
+    .gen-sb-card-loading-inner .loading-text { font-size: 0.65rem; color: #475569; }
 
     /* Inline action cards in chat */
     .gen-chat-actions {
@@ -658,17 +658,17 @@
         padding: 6px 14px;
         font-size: 0.72rem;
         font-weight: 500;
-        color: #818cf8;
-        background: rgba(99,102,241,0.06);
-        border: 1px solid rgba(99,102,241,0.2);
+        color: #a78bfa;
+        background: rgba(168,85,247,0.06);
+        border: 1px solid rgba(168,85,247,0.2);
         border-radius: 100px;
         cursor: pointer;
         transition: all 0.2s;
         font-family: inherit;
     }
     .gen-chat-action:hover {
-        background: rgba(99,102,241,0.12);
-        border-color: rgba(99,102,241,0.4);
+        background: rgba(168,85,247,0.12);
+        border-color: rgba(168,85,247,0.4);
     }
 
     /* Confirm config button */
@@ -688,10 +688,10 @@
         border-radius: 10px;
         cursor: pointer;
         font-family: inherit;
-        box-shadow: 0 0 20px rgba(99,102,241,0.2);
+        box-shadow: 0 0 20px rgba(168,85,247,0.2);
         transition: all 0.25s;
     }
-    .gen-confirm-config:hover { transform: translateY(-1px); box-shadow: 0 0 30px rgba(99,102,241,0.35); }
+    .gen-confirm-config:hover { transform: translateY(-1px); box-shadow: 0 0 30px rgba(168,85,247,0.35); }
     .gen-confirm-config:active { transform: scale(0.98); }
 
     /* Clip editor in chat */
@@ -705,13 +705,13 @@
         cursor: pointer;
     }
     .gen-clip-editor:hover {
-        border-color: rgba(99,102,241,0.25);
+        border-color: rgba(168,85,247,0.25);
         background: rgba(255,255,255,0.03);
     }
     .gen-clip-editor.highlighted {
-        border-color: rgba(99,102,241,0.5);
-        background: rgba(99,102,241,0.05);
-        box-shadow: 0 0 16px rgba(99,102,241,0.1);
+        border-color: rgba(168,85,247,0.5);
+        background: rgba(168,85,247,0.05);
+        box-shadow: 0 0 16px rgba(168,85,247,0.1);
     }
     .gen-clip-editor-head {
         display: flex; align-items: center; justify-content: space-between;
@@ -724,7 +724,7 @@
         font-size: 0.68rem; font-weight: 600;
     }
     .gen-clip-editor-dur {
-        font-size: 0.65rem; color: var(--text-muted);
+        font-size: 0.65rem; color: #64748b;
         font-family: 'JetBrains Mono', monospace;
     }
     .gen-clip-editor-body {
@@ -755,7 +755,7 @@
         background: rgba(255,255,255,0.03);
         border: 1px solid rgba(255,255,255,0.06);
         border-radius: 8px;
-        color: var(--text-primary);
+        color: #e2e8f0;
         font-size: 0.78rem;
         font-family: inherit;
         outline: none;
@@ -763,8 +763,8 @@
         line-height: 1.5;
         transition: border-color 0.2s;
     }
-    .gen-clip-desc-input:focus { border-color: rgba(99,102,241,0.3); }
-    .gen-clip-desc-input::placeholder { color: var(--text-faint); }
+    .gen-clip-desc-input:focus { border-color: rgba(168,85,247,0.3); }
+    .gen-clip-desc-input::placeholder { color: #475569; }
 
     /* Config card in chat */
     .gen-config-card {
@@ -775,7 +775,7 @@
         padding: 12px;
     }
     .gen-config-label {
-        font-size: 0.68rem; font-weight: 600; color: var(--text-faint);
+        font-size: 0.68rem; font-weight: 600; color: #475569;
         text-transform: uppercase; letter-spacing: 0.5px;
         margin-bottom: 8px;
     }
@@ -791,14 +791,14 @@
         border-radius: 8px; cursor: pointer;
         transition: all 0.2s; font-family: inherit;
     }
-    .gen-style-card:hover { border-color: rgba(99,102,241,0.25); }
+    .gen-style-card:hover { border-color: rgba(168,85,247,0.25); }
     .gen-style-card.active {
-        border-color: rgba(99,102,241,0.5);
-        background: rgba(99,102,241,0.08);
+        border-color: rgba(168,85,247,0.5);
+        background: rgba(168,85,247,0.08);
     }
     .gen-style-card .icon { font-size: 1.1rem; display: block; margin-bottom: 2px; }
-    .gen-style-card .name { font-size: 0.65rem; font-weight: 600; color: var(--text-secondary); }
-    .gen-style-card.active .name { color: #818cf8; }
+    .gen-style-card .name { font-size: 0.65rem; font-weight: 600; color: #94a3b8; }
+    .gen-style-card.active .name { color: #a78bfa; }
 
     /* Ratio chips */
     .gen-ratio-row {
@@ -806,17 +806,17 @@
     }
     .gen-ratio-chip {
         flex: 1; padding: 6px; text-align: center;
-        font-size: 0.68rem; font-weight: 500; color: var(--text-muted);
+        font-size: 0.68rem; font-weight: 500; color: #64748b;
         background: rgba(255,255,255,0.03);
         border: 1px solid rgba(255,255,255,0.06);
         border-radius: 8px; cursor: pointer;
         transition: all 0.2s; font-family: inherit;
     }
-    .gen-ratio-chip:hover { border-color: rgba(99,102,241,0.25); }
+    .gen-ratio-chip:hover { border-color: rgba(168,85,247,0.25); }
     .gen-ratio-chip.active {
-        color: #818cf8;
-        background: rgba(99,102,241,0.08);
-        border-color: rgba(99,102,241,0.4);
+        color: #a78bfa;
+        background: rgba(168,85,247,0.08);
+        border-color: rgba(168,85,247,0.4);
     }
 
     /* Chat input */
@@ -836,17 +836,17 @@
         transition: all 0.3s;
     }
     .gen-chat-input-wrap:focus-within {
-        border-color: rgba(99,102,241,0.35);
-        box-shadow: 0 0 0 3px rgba(99,102,241,0.06);
+        border-color: rgba(168,85,247,0.35);
+        box-shadow: 0 0 0 3px rgba(168,85,247,0.06);
     }
     .gen-chat-input {
         flex: 1;
         background: none; border: none; outline: none;
-        font-size: 0.82rem; color: var(--text-primary);
+        font-size: 0.82rem; color: #e2e8f0;
         padding: 8px 0; font-family: inherit;
         min-width: 0;
     }
-    .gen-chat-input::placeholder { color: var(--text-faint); }
+    .gen-chat-input::placeholder { color: #475569; }
     .gen-chat-send {
         width: 36px; height: 36px;
         border-radius: 10px; border: none;
@@ -855,7 +855,7 @@
         display: flex; align-items: center; justify-content: center;
         cursor: pointer; flex-shrink: 0;
         transition: all 0.2s;
-        box-shadow: 0 0 16px rgba(99,102,241,0.25);
+        box-shadow: 0 0 16px rgba(168,85,247,0.25);
     }
     .gen-chat-send:hover { transform: scale(1.05); }
 
@@ -879,16 +879,16 @@
         font-size: 0.62rem; font-weight: 500;
         background: rgba(255,255,255,0.03);
         border: 1px solid rgba(255,255,255,0.06);
-        color: var(--text-faint); transition: all 0.3s;
+        color: #475569; transition: all 0.3s;
         white-space: nowrap;
     }
-    .gen-pipe-step.active { color: #818cf8; background: rgba(99,102,241,0.1); border-color: rgba(99,102,241,0.25); }
-    .gen-pipe-step.completed { color: #10b981; border-color: rgba(16,185,129,0.25); }
+    .gen-pipe-step.active { color: #a78bfa; background: rgba(168,85,247,0.1); border-color: rgba(168,85,247,0.25); }
+    .gen-pipe-step.completed { color: #22c55e; border-color: rgba(34,197,94,0.25); }
     .gen-pipe-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
     .gen-pipe-step.active .gen-pipe-dot { animation: pulseDot 1.5s infinite; }
     @keyframes pulseDot {
-        0%,100% { box-shadow: 0 0 0 0 rgba(99,102,241,0.4); }
-        50% { box-shadow: 0 0 0 4px rgba(99,102,241,0); }
+        0%,100% { box-shadow: 0 0 0 0 rgba(168,85,247,0.4); }
+        50% { box-shadow: 0 0 0 4px rgba(168,85,247,0); }
     }
     .gen-pipeline-actions { display: flex; gap: 6px; }
 
@@ -899,7 +899,7 @@
     }
     .gen-done-banner svg { margin-bottom: 8px; }
     .gen-done-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 3px; }
-    .gen-done-sub { font-size: 0.72rem; color: var(--text-muted); }
+    .gen-done-sub { font-size: 0.72rem; color: #64748b; }
     .gen-done-actions {
         display: flex;
         flex-direction: column;
@@ -1144,7 +1144,7 @@
         };
 
         const clipLabels = ['开场', '发展', '高潮', '结尾'];
-        const clipColors = ['#a855f7', '#3b82f6', '#06b6d4', '#10b981'];
+        const clipColors = ['#a855f7', '#3b82f6', '#06b6d4', '#22c55e'];
         const clipDurations = [5, 8, 6, 5];
 
         let clips = [];
@@ -1427,7 +1427,7 @@
                 clips.forEach((c, i) => {
                     h += `<div class="gen-clip-editor" data-clip-idx="${i}"><div class="gen-clip-editor-head"><span class="gen-clip-editor-badge" style="background:${c.color}15;color:${c.color};border:1px solid ${c.color}30;">片段 ${c.id} · ${c.title}</span><span class="gen-clip-editor-dur">${c.duration}s</span></div><div class="gen-clip-editor-body"><div class="gen-clip-thumb"><canvas width="160" height="100" data-thumb-idx="${i}"></canvas></div><div class="gen-clip-desc-wrap"><textarea class="gen-clip-desc-input" data-clip-idx="${i}" placeholder="描述画面...">${c.desc}</textarea></div></div></div>`;
                 });
-                h += `<div class="gen-chat-actions" style="margin-top:10px;"><button class="gen-chat-action" id="chatStartGen" style="background:rgba(99,102,241,0.15);border-color:rgba(99,102,241,0.4);font-weight:600;">✨ 确认并开始合成视频</button><button class="gen-chat-action" id="chatAiOptimize">🔮 AI 优化描述</button></div>`;
+                h += `<div class="gen-chat-actions" style="margin-top:10px;"><button class="gen-chat-action" id="chatStartGen" style="background:rgba(168,85,247,0.15);border-color:rgba(168,85,247,0.4);font-weight:600;">✨ 确认并开始合成视频</button><button class="gen-chat-action" id="chatAiOptimize">🔮 AI 优化描述</button></div>`;
                 addBubble('ai', h);
 
                 clips.forEach((c, i) => {
@@ -1545,7 +1545,7 @@
             updatePipeline();
             document.getElementById('exportBtn').style.display = '';
             const sn = { cinematic:'电影感', realistic:'写实', anime:'动画', cyber:'赛博朋克', watercolor:'水彩画', '3d':'3D 渲染' };
-            addBubble('ai', `<div class="gen-done-banner"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="16" stroke="#10b981" stroke-width="2" opacity="0.3"/><path d="M13 20L18 25L28 15" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="gen-done-title">🎉 视频生成完成！</div><div class="gen-done-sub">总时长 ${totalDuration}s · ${clips.length} 个片段 · ${sn[selectedStyle]||selectedStyle} 风格</div><div class="gen-done-actions"><button class="gen-submit-btn" id="chatExportBtn" style="width:100%;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2V8M7 8L10 5M7 8L4 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M2 9V11C2 11.5523 2.44772 12 3 12H11C11.5523 12 12 11.5523 12 11V9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>导出视频</button><div class="gen-chat-actions"><button class="gen-chat-action" id="chatRegen">🔄 重新生成</button><button class="gen-chat-action" id="chatBackEdit">✏️ 返回编辑</button></div></div></div>`);
+            addBubble('ai', `<div class="gen-done-banner"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="16" stroke="#22c55e" stroke-width="2" opacity="0.3"/><path d="M13 20L18 25L28 15" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="gen-done-title">🎉 视频生成完成！</div><div class="gen-done-sub">总时长 ${totalDuration}s · ${clips.length} 个片段 · ${sn[selectedStyle]||selectedStyle} 风格</div><div class="gen-done-actions"><button class="gen-submit-btn" id="chatExportBtn" style="width:100%;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2V8M7 8L10 5M7 8L4 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M2 9V11C2 11.5523 2.44772 12 3 12H11C11.5523 12 12 11.5523 12 11V9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>导出视频</button><div class="gen-chat-actions"><button class="gen-chat-action" id="chatRegen">🔄 重新生成</button><button class="gen-chat-action" id="chatBackEdit">✏️ 返回编辑</button></div></div></div>`);
 
             document.getElementById('chatRegen')?.addEventListener('click', () => { if (animFrame) cancelAnimationFrame(animFrame); startSynth(); });
             document.getElementById('chatBackEdit')?.addEventListener('click', () => { if (animFrame) cancelAnimationFrame(animFrame); enterStoryboard(); });

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>任务记录 — FrameX</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         /* ===== 任务记录页专属样式 ===== */
 
@@ -25,8 +25,8 @@
             cursor: default;
         }
         .stat-card:hover {
-            border-color: rgba(99,102,241,0.2);
-            background: rgba(99,102,241,0.03);
+            border-color: rgba(168,85,247,0.2);
+            background: rgba(168,85,247,0.03);
         }
         .stat-card-top {
             display: flex;
@@ -41,9 +41,9 @@
             align-items: center;
             justify-content: center;
         }
-        .stat-icon--purple { background: rgba(99,102,241,0.12); color: #a855f7; }
+        .stat-icon--purple { background: rgba(168,85,247,0.12); color: #a855f7; }
         .stat-icon--blue { background: rgba(59,130,246,0.12); color: #3b82f6; }
-        .stat-icon--green { background: rgba(16,185,129,0.12); color: #10b981; }
+        .stat-icon--green { background: rgba(34,197,94,0.12); color: #22c55e; }
         .stat-icon--cyan { background: rgba(6,182,212,0.12); color: #06b6d4; }
         .stat-trend {
             display: flex;
@@ -54,7 +54,7 @@
             padding: 3px 8px;
             border-radius: 6px;
         }
-        .stat-trend--up { color: #10b981; background: rgba(16,185,129,0.1); }
+        .stat-trend--up { color: #22c55e; background: rgba(34,197,94,0.1); }
         .stat-trend--down { color: #ef4444; background: rgba(239,68,68,0.1); }
         .stat-value {
             font-size: 1.8rem;
@@ -64,7 +64,7 @@
         }
         .stat-label {
             font-size: 0.78rem;
-            color: var(--text-muted);
+            color: #64748b;
         }
 
         /* 筛选/搜索区 */
@@ -88,15 +88,15 @@
             transition: border-color 0.3s;
         }
         .search-box:focus-within {
-            border-color: rgba(99,102,241,0.4);
+            border-color: rgba(168,85,247,0.4);
         }
-        .search-box svg { color: var(--text-faint); flex-shrink: 0; }
+        .search-box svg { color: #475569; flex-shrink: 0; }
         .search-box input {
             background: none; border: none; outline: none;
-            color: var(--text-primary); font-size: 0.85rem;
+            color: #e2e8f0; font-size: 0.85rem;
             flex: 1; min-width: 0;
         }
-        .search-box input::placeholder { color: var(--text-faint); }
+        .search-box input::placeholder { color: #475569; }
 
         .filter-tabs {
             display: flex;
@@ -110,7 +110,7 @@
             padding: 6px 14px;
             font-size: 0.78rem;
             font-weight: 500;
-            color: var(--text-muted);
+            color: #64748b;
             background: none;
             border: none;
             border-radius: 8px;
@@ -118,11 +118,11 @@
             transition: all 0.2s;
             white-space: nowrap;
         }
-        .filter-tab:hover { color: var(--text-primary); }
+        .filter-tab:hover { color: #e2e8f0; }
         .filter-tab.active {
             color: #fff;
-            background: rgba(99,102,241,0.15);
-            box-shadow: 0 0 10px rgba(99,102,241,0.1);
+            background: rgba(168,85,247,0.15);
+            box-shadow: 0 0 10px rgba(168,85,247,0.1);
         }
         .filter-tab .tab-count {
             display: inline-flex;
@@ -137,7 +137,7 @@
             margin-left: 5px;
         }
         .filter-tab.active .tab-count {
-            background: rgba(99,102,241,0.3);
+            background: rgba(168,85,247,0.3);
             color: #c4b5fd;
         }
 
@@ -148,7 +148,7 @@
             padding: 8px 14px;
             font-size: 0.78rem;
             font-weight: 500;
-            color: var(--text-muted);
+            color: #64748b;
             background: rgba(255,255,255,0.04);
             border: 1px solid rgba(255,255,255,0.06);
             border-radius: 10px;
@@ -156,7 +156,7 @@
             transition: all 0.2s;
             margin-left: auto;
         }
-        .sort-btn:hover { color: var(--text-primary); border-color: rgba(99,102,241,0.3); }
+        .sort-btn:hover { color: #e2e8f0; border-color: rgba(168,85,247,0.3); }
 
         /* 任务列表布局 */
         .tasks-layout {
@@ -195,12 +195,12 @@
             transition: background 0.3s;
         }
         .task-card:hover {
-            border-color: rgba(99,102,241,0.2);
-            background: rgba(99,102,241,0.03);
+            border-color: rgba(168,85,247,0.2);
+            background: rgba(168,85,247,0.03);
         }
         .task-card.selected {
-            border-color: rgba(99,102,241,0.35);
-            background: rgba(99,102,241,0.06);
+            border-color: rgba(168,85,247,0.35);
+            background: rgba(168,85,247,0.06);
         }
         .task-card.selected::before {
             background: var(--grad-main);
@@ -245,7 +245,7 @@
             align-items: center;
             gap: 8px;
             font-size: 0.72rem;
-            color: var(--text-muted);
+            color: #64748b;
         }
 
         .tc-type-badge {
@@ -258,7 +258,7 @@
             border-radius: 6px;
             flex-shrink: 0;
         }
-        .tc-type-badge--translate { color: #818cf8; background: rgba(99,102,241,0.12); }
+        .tc-type-badge--translate { color: #a78bfa; background: rgba(168,85,247,0.12); }
         .tc-type-badge--live { color: #f87171; background: rgba(239,68,68,0.12); }
         .tc-type-badge--generate { color: #22d3ee; background: rgba(6,182,212,0.12); }
 
@@ -272,12 +272,12 @@
             border-radius: 100px;
             flex-shrink: 0;
         }
-        .tc-status--done { color: #10b981; background: rgba(16,185,129,0.1); }
-        .tc-status--done .tc-status-dot { width: 6px; height: 6px; border-radius: 50%; background: #10b981; }
-        .tc-status--processing { color: #818cf8; background: rgba(99,102,241,0.1); }
+        .tc-status--done { color: #22c55e; background: rgba(34,197,94,0.1); }
+        .tc-status--done .tc-status-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; }
+        .tc-status--processing { color: #a78bfa; background: rgba(168,85,247,0.1); }
         .tc-status--processing .tc-status-dot {
             width: 6px; height: 6px;
-            border: 1.5px solid rgba(99,102,241,0.3);
+            border: 1.5px solid rgba(168,85,247,0.3);
             border-top-color: #a855f7;
             border-radius: 50%;
             animation: spin 1s linear infinite;
@@ -287,7 +287,7 @@
 
         .tc-time {
             font-size: 0.72rem;
-            color: var(--text-faint);
+            color: #475569;
             flex-shrink: 0;
             white-space: nowrap;
         }
@@ -339,8 +339,8 @@
             transition: all 0.3s;
         }
         .detail-video-overlay:hover .detail-play-btn {
-            background: rgba(99,102,241,0.4);
-            border-color: rgba(99,102,241,0.5);
+            background: rgba(168,85,247,0.4);
+            border-color: rgba(168,85,247,0.5);
             transform: scale(1.08);
         }
         .detail-duration {
@@ -385,7 +385,7 @@
         }
         .detail-desc {
             font-size: 0.8rem;
-            color: var(--text-muted);
+            color: #64748b;
             line-height: 1.5;
             margin-bottom: 16px;
         }
@@ -403,7 +403,7 @@
         }
         .detail-info-label {
             font-size: 0.68rem;
-            color: var(--text-faint);
+            color: #475569;
             margin-bottom: 2px;
         }
         .detail-info-value {
@@ -427,23 +427,23 @@
             border-radius: 10px;
             border: 1px solid rgba(255,255,255,0.06);
             background: rgba(255,255,255,0.03);
-            color: var(--text-primary);
+            color: #e2e8f0;
             cursor: pointer;
             transition: all 0.2s;
         }
         .detail-btn:hover {
-            border-color: rgba(99,102,241,0.3);
-            background: rgba(99,102,241,0.06);
+            border-color: rgba(168,85,247,0.3);
+            background: rgba(168,85,247,0.06);
         }
         .detail-btn--primary {
             background: var(--grad-main);
             border: none;
             color: #fff;
-            box-shadow: 0 0 20px rgba(99,102,241,0.2);
+            box-shadow: 0 0 20px rgba(168,85,247,0.2);
         }
         .detail-btn--primary:hover {
             transform: translateY(-1px);
-            box-shadow: 0 0 30px rgba(99,102,241,0.35);
+            box-shadow: 0 0 30px rgba(168,85,247,0.35);
         }
 
         /* 空选择状态 */
@@ -459,22 +459,22 @@
         .detail-empty-icon {
             width: 64px; height: 64px;
             border-radius: 16px;
-            background: rgba(99,102,241,0.08);
+            background: rgba(168,85,247,0.08);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text-faint);
+            color: #475569;
             margin-bottom: 16px;
         }
         .detail-empty h3 {
             font-size: 0.95rem;
             font-weight: 600;
-            color: var(--text-muted);
+            color: #64748b;
             margin-bottom: 4px;
         }
         .detail-empty p {
             font-size: 0.78rem;
-            color: var(--text-dim);
+            color: #334155;
         }
 
         /* 进度条 */
@@ -498,8 +498,8 @@
             align-items: center;
             gap: 12px;
             padding: 10px 18px;
-            background: rgba(99,102,241,0.08);
-            border: 1px solid rgba(99,102,241,0.2);
+            background: rgba(168,85,247,0.08);
+            border: 1px solid rgba(168,85,247,0.2);
             border-radius: 12px;
             margin-bottom: 16px;
             animation: fadeInUp 0.3s ease-out;
@@ -508,7 +508,7 @@
         .batch-count {
             font-size: 0.82rem;
             font-weight: 600;
-            color: #818cf8;
+            color: #a78bfa;
         }
         .batch-actions {
             display: flex;
@@ -522,14 +522,14 @@
             padding: 6px 14px;
             font-size: 0.75rem;
             font-weight: 500;
-            color: var(--text-primary);
+            color: #e2e8f0;
             background: rgba(255,255,255,0.06);
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s;
         }
-        .batch-btn:hover { border-color: rgba(99,102,241,0.3); }
+        .batch-btn:hover { border-color: rgba(168,85,247,0.3); }
         .batch-btn--danger { color: #f87171; }
         .batch-btn--danger:hover { border-color: rgba(239,68,68,0.3); background: rgba(239,68,68,0.06); }
 
@@ -967,7 +967,7 @@
                 const r = 1.5 + Math.sin(t + i) * 0.8;
                 ctx.beginPath();
                 ctx.arc(px, py, r, 0, Math.PI * 2);
-                ctx.fillStyle = '#818cf8';
+                ctx.fillStyle = '#a78bfa';
                 ctx.fill();
             }
             ctx.globalAlpha = 1;

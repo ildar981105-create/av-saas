@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>视频译制 — FrameX</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
     /* ==============================================
        V2 左右分栏 — 左视频+时间轴 / 右对话配置
@@ -42,19 +42,19 @@
         gap: 6px;
         font-size: 0.78rem;
         font-weight: 500;
-        color: var(--text-muted);
+        color: #64748b;
         transition: color 0.2s;
         text-decoration: none;
     }
-    .tv2-back:hover { color: var(--text-primary); }
+    .tv2-back:hover { color: #e2e8f0; }
     .tv2-topbar-title {
         font-size: 0.85rem;
         font-weight: 600;
-        color: var(--text-primary);
+        color: #e2e8f0;
     }
     .tv2-topbar-title .subtitle {
         font-weight: 400;
-        color: var(--text-faint);
+        color: #475569;
         font-size: 0.72rem;
         margin-left: 8px;
     }
@@ -148,21 +148,21 @@
         border-radius: 16px;
         cursor: pointer;
         transition: all 0.3s;
-        border: 2px dashed rgba(99,102,241,0.2);
+        border: 2px dashed rgba(168,85,247,0.2);
     }
     .tv2-upload-overlay:hover {
-        border-color: rgba(99,102,241,0.4);
+        border-color: rgba(168,85,247,0.4);
         background: rgba(6,6,10,0.75);
     }
     .tv2-upload-overlay.drag-over {
-        border-color: rgba(99,102,241,0.6);
-        background: rgba(99,102,241,0.06);
+        border-color: rgba(168,85,247,0.6);
+        background: rgba(168,85,247,0.06);
     }
     .tv2-upload-overlay.hidden { display: none; }
     .tv2-upload-icon {
         width: 56px; height: 56px;
         border-radius: 50%;
-        background: rgba(99,102,241,0.1);
+        background: rgba(168,85,247,0.1);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -174,7 +174,7 @@
         position: absolute;
         inset: -6px;
         border-radius: 50%;
-        border: 2px solid rgba(99,102,241,0.15);
+        border: 2px solid rgba(168,85,247,0.15);
         animation: tv2UploadPulse 2s ease-in-out infinite;
     }
     @keyframes tv2UploadPulse {
@@ -184,11 +184,11 @@
     .tv2-upload-overlay h3 {
         font-size: 0.92rem;
         font-weight: 600;
-        color: var(--text-primary);
+        color: #e2e8f0;
     }
     .tv2-upload-overlay p {
         font-size: 0.75rem;
-        color: var(--text-muted);
+        color: #64748b;
     }
     .tv2-upload-btn {
         display: inline-flex;
@@ -203,20 +203,20 @@
         border-radius: 10px;
         cursor: pointer;
         font-family: inherit;
-        box-shadow: 0 0 24px rgba(99,102,241,0.25);
+        box-shadow: 0 0 24px rgba(168,85,247,0.25);
         transition: all 0.2s;
         margin-top: 4px;
     }
     .tv2-upload-btn:hover {
         transform: translateY(-1px);
-        box-shadow: 0 0 36px rgba(99,102,241,0.35);
+        box-shadow: 0 0 36px rgba(168,85,247,0.35);
     }
     .tv2-upload-formats {
         display: flex;
         align-items: center;
         gap: 6px;
         font-size: 0.68rem;
-        color: var(--text-dim);
+        color: #334155;
         margin-top: 4px;
     }
     .tv2-upload-formats .ftag {
@@ -226,7 +226,7 @@
         border: 1px solid rgba(255,255,255,0.06);
         font-family: 'JetBrains Mono', monospace;
         font-size: 0.62rem;
-        color: var(--text-faint);
+        color: #475569;
     }
 
     /* Processing overlay on video */
@@ -257,10 +257,10 @@
         position: absolute; top:50%;left:50%; transform:translate(-50%,-50%);
         width:12px;height:12px; border-radius:50%;
         background:linear-gradient(135deg,#a855f7,#06b6d4);
-        box-shadow:0 0 18px rgba(99,102,241,0.5);
+        box-shadow:0 0 18px rgba(168,85,247,0.5);
     }
     @keyframes spin { to { transform: translate(-50%,-50%) rotate(360deg); } }
-    .pv-text { font-size: 0.85rem; color: var(--text-secondary); }
+    .pv-text { font-size: 0.85rem; color: #94a3b8; }
     .pv-bar-wrap { width: 200px; height: 3px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
     .pv-bar { height: 100%; background: linear-gradient(90deg, #a855f7, #06b6d4); border-radius: 2px; width: 0%; transition: width 0.8s ease; }
 
@@ -328,8 +328,8 @@
         align-items: center;
         gap: 5px;
         padding: 3px 8px;
-        background: rgba(99,102,241,0.15);
-        border: 1px solid rgba(99,102,241,0.3);
+        background: rgba(168,85,247,0.15);
+        border: 1px solid rgba(168,85,247,0.3);
         border-radius: 10px;
         pointer-events: none;
         z-index: 9;
@@ -393,7 +393,7 @@
         left: 0; right: 0;
         height: 2px;
         background: linear-gradient(90deg, transparent, #a855f7 20%, #06b6d4 80%, transparent);
-        box-shadow: 0 0 20px 4px rgba(99,102,241,0.4), 0 0 60px 8px rgba(6,182,212,0.2);
+        box-shadow: 0 0 20px 4px rgba(168,85,247,0.4), 0 0 60px 8px rgba(6,182,212,0.2);
         animation: scanSweep 1.6s ease-in-out infinite;
         z-index: 2;
     }
@@ -414,7 +414,7 @@
         z-index: 1;
     }
     .tv2-scan-cell {
-        border: 1px solid rgba(99,102,241,0.15);
+        border: 1px solid rgba(168,85,247,0.15);
         border-radius: 6px;
         animation: cellPulse 2s ease-in-out infinite;
     }
@@ -425,8 +425,8 @@
     .tv2-scan-cell:nth-child(5) { animation-delay: 1.2s; }
     .tv2-scan-cell:nth-child(6) { animation-delay: 0.15s; }
     @keyframes cellPulse {
-        0%, 100% { background: rgba(99,102,241,0.03); border-color: rgba(99,102,241,0.1); }
-        50% { background: rgba(99,102,241,0.08); border-color: rgba(99,102,241,0.3); }
+        0%, 100% { background: rgba(168,85,247,0.03); border-color: rgba(168,85,247,0.1); }
+        50% { background: rgba(168,85,247,0.08); border-color: rgba(168,85,247,0.3); }
     }
     .tv2-scan-label {
         position: absolute;
@@ -439,7 +439,7 @@
         padding: 6px 16px;
         background: rgba(10,10,22,0.8);
         backdrop-filter: blur(8px);
-        border: 1px solid rgba(99,102,241,0.3);
+        border: 1px solid rgba(168,85,247,0.3);
         border-radius: 20px;
         font-size: 0.72rem;
         font-weight: 600;
@@ -458,9 +458,9 @@
         to { opacity: 0.4; transform: scale(0.7); }
     }
     .tv2-scan-overlay.done .tv2-scan-line { display: none; }
-    .tv2-scan-overlay.done .tv2-scan-cell { animation: none; background: rgba(16,185,129,0.06); border-color: rgba(16,185,129,0.2); }
-    .tv2-scan-overlay.done .tv2-scan-label-dot { background: #10b981; animation: none; }
-    .tv2-scan-overlay.done .tv2-scan-label { color: #86efac; border-color: rgba(16,185,129,0.3); }
+    .tv2-scan-overlay.done .tv2-scan-cell { animation: none; background: rgba(34,197,94,0.06); border-color: rgba(34,197,94,0.2); }
+    .tv2-scan-overlay.done .tv2-scan-label-dot { background: #22c55e; animation: none; }
+    .tv2-scan-overlay.done .tv2-scan-label { color: #86efac; border-color: rgba(34,197,94,0.3); }
 
     /* ===== Finetune Mode Visual Enhancements ===== */
 
@@ -469,27 +469,27 @@
         transition: border-color 0.5s ease, box-shadow 0.5s ease;
     }
     .tv2-video-container.finetune-active {
-        border-color: rgba(99,102,241,0.55);
+        border-color: rgba(168,85,247,0.55);
         box-shadow:
-            0 0 24px rgba(99,102,241,0.2),
-            0 0 60px rgba(99,102,241,0.1),
-            inset 0 0 24px rgba(99,102,241,0.04);
+            0 0 24px rgba(168,85,247,0.2),
+            0 0 60px rgba(168,85,247,0.1),
+            inset 0 0 24px rgba(168,85,247,0.04);
         animation: finetuneGlow 3s ease-in-out infinite;
     }
     @keyframes finetuneGlow {
         0%, 100% {
             box-shadow:
-                0 0 24px rgba(99,102,241,0.2),
-                0 0 60px rgba(99,102,241,0.1),
-                inset 0 0 24px rgba(99,102,241,0.04);
-            border-color: rgba(99,102,241,0.55);
+                0 0 24px rgba(168,85,247,0.2),
+                0 0 60px rgba(168,85,247,0.1),
+                inset 0 0 24px rgba(168,85,247,0.04);
+            border-color: rgba(168,85,247,0.55);
         }
         50% {
             box-shadow:
-                0 0 36px rgba(99,102,241,0.3),
-                0 0 90px rgba(99,102,241,0.15),
-                inset 0 0 36px rgba(99,102,241,0.06);
-            border-color: rgba(99,102,241,0.7);
+                0 0 36px rgba(168,85,247,0.3),
+                0 0 90px rgba(168,85,247,0.15),
+                inset 0 0 36px rgba(168,85,247,0.06);
+            border-color: rgba(168,85,247,0.7);
         }
     }
 
@@ -503,8 +503,8 @@
         border-radius: 16px;
         font-size: 0.7rem;
         font-weight: 600;
-        background: rgba(99,102,241,0.15);
-        border: 1px solid rgba(99,102,241,0.35);
+        background: rgba(168,85,247,0.15);
+        border: 1px solid rgba(168,85,247,0.35);
         color: #c4b5fd;
         white-space: nowrap;
         transition: opacity 0.3s ease;
@@ -527,8 +527,8 @@
         animation: ftbDotPulse 1.5s ease-in-out infinite;
     }
     @keyframes ftbDotPulse {
-        0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(99,102,241,0.4); }
-        50% { opacity: 0.6; box-shadow: 0 0 0 4px rgba(99,102,241,0); }
+        0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(168,85,247,0.4); }
+        50% { opacity: 0.6; box-shadow: 0 0 0 4px rgba(168,85,247,0); }
     }
 
     /* Finetune mode: hint text below video */
@@ -545,10 +545,10 @@
         border-radius: 20px;
         font-size: 0.68rem;
         font-weight: 500;
-        background: rgba(99,102,241,0.12);
+        background: rgba(168,85,247,0.12);
         backdrop-filter: blur(8px);
-        border: 1px solid rgba(99,102,241,0.2);
-        color: #818cf8;
+        border: 1px solid rgba(168,85,247,0.2);
+        color: #a78bfa;
         opacity: 0;
         transition: opacity 0.4s ease 0.15s, transform 0.4s ease 0.15s;
         pointer-events: none;
@@ -608,7 +608,7 @@
         opacity: 0;
         transition: opacity 0.15s, transform 0.15s;
         pointer-events: none;
-        box-shadow: 0 0 8px rgba(99,102,241,0.5);
+        box-shadow: 0 0 8px rgba(168,85,247,0.5);
         z-index: 2;
     }
     .tv2-scrubber.dragging .tv2-scrubber-thumb {
@@ -626,7 +626,7 @@
         border-radius: 50%;
         border: none;
         background: rgba(255,255,255,0.08);
-        color: var(--text-primary);
+        color: #e2e8f0;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -635,23 +635,23 @@
         transition: background 0.2s;
     }
     .tv2-scrubber-play:hover {
-        background: rgba(99,102,241,0.3);
+        background: rgba(168,85,247,0.3);
     }
     .tv2-scrubber-time {
         font-size: 0.66rem;
         font-family: 'JetBrains Mono', monospace;
-        color: var(--text-muted);
+        color: #64748b;
     }
     .tv2-scrubber-time .st-cur {
-        color: var(--text-primary);
+        color: #e2e8f0;
         font-weight: 500;
     }
 
     /* Timeline enhanced state in finetune */
     .tv2-timeline.finetune-mode {
-        border-top: 2px solid rgba(99,102,241,0.5);
-        background: linear-gradient(180deg, rgba(99,102,241,0.08) 0%, rgba(10,10,16,0.98) 50%);
-        box-shadow: 0 -6px 30px rgba(99,102,241,0.12);
+        border-top: 2px solid rgba(168,85,247,0.5);
+        background: linear-gradient(180deg, rgba(168,85,247,0.08) 0%, rgba(10,10,16,0.98) 50%);
+        box-shadow: 0 -6px 30px rgba(168,85,247,0.12);
         padding-bottom: 6px;
     }
     .tv2-timeline.finetune-mode.visible {
@@ -732,7 +732,7 @@
     }
     .tv2-tl-ruler-mark .tick-label {
         font-size: 0.58rem; font-family: 'JetBrains Mono', monospace;
-        color: var(--text-muted); margin-bottom: 2px;
+        color: #64748b; margin-bottom: 2px;
     }
     .tv2-tl-ruler-mark.major .tick {
         height: 12px; background: rgba(255,255,255,0.15);
@@ -758,7 +758,7 @@
         gap: 4px;
         padding: 0 4px 0 8px;
         font-size: 0.6rem;
-        color: var(--text-muted);
+        color: #64748b;
         white-space: nowrap;
         user-select: none;
         z-index: 2;
@@ -780,12 +780,12 @@
     }
     .tv2-tl-track-label .tl-label-btn {
         width: 16px; height: 16px; border: none; border-radius: 3px;
-        background: transparent; color: var(--text-faint); cursor: pointer;
+        background: transparent; color: #475569; cursor: pointer;
         display: flex; align-items: center; justify-content: center;
         padding: 0; transition: all 0.15s;
     }
     .tv2-tl-track-label .tl-label-btn:hover {
-        background: rgba(255,255,255,0.06); color: var(--text-secondary);
+        background: rgba(255,255,255,0.06); color: #94a3b8;
     }
     .tv2-tl-track-label .tl-label-btn.active {
         color: #f59e0b;
@@ -820,7 +820,7 @@
     }
     .tv2-tl-segment--erase { background: rgba(239,68,68,0.2); border: 1px solid rgba(239,68,68,0.35); color: #ef4444; }
     .tv2-tl-segment--subtitle { background: rgba(59,130,246,0.2); border: 1px solid rgba(59,130,246,0.35); color: #3b82f6; }
-    .tv2-tl-segment--voice { background: rgba(99,102,241,0.2); border: 1px solid rgba(99,102,241,0.35); color: #a855f7; }
+    .tv2-tl-segment--voice { background: rgba(168,85,247,0.2); border: 1px solid rgba(168,85,247,0.35); color: #a855f7; }
 
     .tv2-tl-playhead {
         position: absolute; top: 0; bottom: 0; width: 2px; z-index: 10;
@@ -829,24 +829,24 @@
     .tv2-tl-playhead-line {
         position: absolute; top: 0; bottom: 0; left: 0; width: 2px;
         background: #a855f7;
-        box-shadow: 0 0 8px rgba(99,102,241,0.6), 0 0 16px rgba(99,102,241,0.3);
+        box-shadow: 0 0 8px rgba(168,85,247,0.6), 0 0 16px rgba(168,85,247,0.3);
     }
     .tv2-tl-playhead-head {
         position: absolute; top: -4px; left: 50%; transform: translateX(-50%);
         width: 10px; height: 10px; background: #a855f7;
         border-radius: 2px 2px 50% 50%;
-        box-shadow: 0 0 6px rgba(99,102,241,0.5);
+        box-shadow: 0 0 6px rgba(168,85,247,0.5);
     }
     .tv2-tl-controls {
         display: none;
     }
     .tv2-tl-play {
         width: 26px; height: 26px; border-radius: 50%; border: none;
-        background: rgba(255,255,255,0.08); color: var(--text-primary);
+        background: rgba(255,255,255,0.08); color: #e2e8f0;
         display: flex; align-items: center; justify-content: center;
         cursor: pointer; flex-shrink: 0; transition: background 0.2s;
     }
-    .tv2-tl-play:hover { background: rgba(99,102,241,0.3); }
+    .tv2-tl-play:hover { background: rgba(168,85,247,0.3); }
     .tv2-tl-play.playing svg { display: none; }
     .tv2-tl-play.playing::after {
         content: ''; width: 8px; height: 10px;
@@ -854,9 +854,9 @@
     }
     .tv2-tl-time {
         font-size: 0.66rem; font-family: 'JetBrains Mono', monospace;
-        color: var(--text-muted);
+        color: #64748b;
     }
-    .tv2-tl-time .current { color: var(--text-primary); font-weight: 500; }
+    .tv2-tl-time .current { color: #e2e8f0; font-weight: 500; }
 
     /* Processing steps indicator below timeline */
     .tv2-steps {
@@ -872,15 +872,15 @@
         font-size: 0.7rem; font-weight: 500;
         background: rgba(255,255,255,0.03);
         border: 1px solid rgba(255,255,255,0.06);
-        color: var(--text-faint); transition: all 0.3s;
+        color: #475569; transition: all 0.3s;
     }
-    .pstep.active { color: #818cf8; background: rgba(99,102,241,0.1); border-color: rgba(99,102,241,0.25); }
-    .pstep.done { color: #10b981; border-color: rgba(16,185,129,0.25); }
+    .pstep.active { color: #a78bfa; background: rgba(168,85,247,0.1); border-color: rgba(168,85,247,0.25); }
+    .pstep.done { color: #22c55e; border-color: rgba(34,197,94,0.25); }
     .pstep-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
     .pstep.active .pstep-dot { animation: pulse-step 1.5s infinite; }
     @keyframes pulse-step {
-        0%,100% { box-shadow: 0 0 0 0 rgba(99,102,241,0.4); }
-        50% { box-shadow: 0 0 0 4px rgba(99,102,241,0); }
+        0%,100% { box-shadow: 0 0 0 0 rgba(168,85,247,0.4); }
+        50% { box-shadow: 0 0 0 4px rgba(168,85,247,0); }
     }
 
     /* ===== Right: Chat Panel ===== */
@@ -922,8 +922,8 @@
         padding: 14px 16px;
         border-bottom: 1px solid rgba(255,255,255,0.05);
         flex-shrink: 0;
-        background: linear-gradient(135deg, rgba(99,102,241,0.1) 0%, rgba(6,182,212,0.06) 100%);
-        border-bottom: 1px solid rgba(99,102,241,0.15);
+        background: linear-gradient(135deg, rgba(168,85,247,0.1) 0%, rgba(6,182,212,0.06) 100%);
+        border-bottom: 1px solid rgba(168,85,247,0.15);
     }
     .tv2-middle-header-icon {
         width: 28px; height: 28px;
@@ -931,11 +931,11 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: rgba(99,102,241,0.12);
+        background: rgba(168,85,247,0.12);
         color: #a855f7;
     }
     .tv2-middle-header h3 { font-size: 0.85rem; font-weight: 600; }
-    .tv2-middle-header p { font-size: 0.68rem; color: var(--text-muted); }
+    .tv2-middle-header p { font-size: 0.68rem; color: #64748b; }
 
     .tv2-chat-header {
         display: flex;
@@ -948,8 +948,8 @@
     }
     /* Finetune mode header enhancement */
     .tv2-chat-header.finetune-header {
-        background: linear-gradient(135deg, rgba(99,102,241,0.12) 0%, rgba(99,42,186,0.08) 100%);
-        border-bottom-color: rgba(99,102,241,0.2);
+        background: linear-gradient(135deg, rgba(168,85,247,0.12) 0%, rgba(99,42,186,0.08) 100%);
+        border-bottom-color: rgba(168,85,247,0.2);
     }
     .tv2-ft-mode-tag {
         display: none;
@@ -961,8 +961,8 @@
         font-size: 0.62rem;
         font-weight: 600;
         color: #c4b5fd;
-        background: rgba(99,102,241,0.15);
-        border: 1px solid rgba(99,102,241,0.3);
+        background: rgba(168,85,247,0.15);
+        border: 1px solid rgba(168,85,247,0.3);
         white-space: nowrap;
         letter-spacing: 0.5px;
     }
@@ -977,13 +977,13 @@
         animation: ftmDotPulse 1.8s ease-in-out infinite;
     }
     @keyframes ftmDotPulse {
-        0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(99,102,241,0.5); }
-        50% { opacity: 0.5; box-shadow: 0 0 0 4px rgba(99,102,241,0); }
+        0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(168,85,247,0.5); }
+        50% { opacity: 0.5; box-shadow: 0 0 0 4px rgba(168,85,247,0); }
     }
     .tv2-chat-header-icon {
         width: 28px; height: 28px;
         border-radius: 8px;
-        background: rgba(99,102,241,0.12);
+        background: rgba(168,85,247,0.12);
         color: #a855f7;
         display: flex;
         align-items: center;
@@ -996,7 +996,7 @@
     }
     .tv2-chat-header p {
         font-size: 0.68rem;
-        color: var(--text-muted);
+        color: #64748b;
     }
 
     /* Chat scroll area */
@@ -1030,9 +1030,9 @@
 
     .chat-bubble--ai {
         align-self: flex-start;
-        background: rgba(99,102,241,0.06);
-        border: 1px solid rgba(99,102,241,0.12);
-        color: var(--text-primary);
+        background: rgba(168,85,247,0.06);
+        border: 1px solid rgba(168,85,247,0.12);
+        color: #e2e8f0;
         border-bottom-left-radius: 4px;
     }
     .chat-bubble--ai .bubble-avatar {
@@ -1041,14 +1041,14 @@
         gap: 5px;
         font-size: 0.68rem;
         font-weight: 600;
-        color: #818cf8;
+        color: #a78bfa;
         margin-bottom: 6px;
     }
     .chat-bubble--user {
         align-self: flex-end;
         background: rgba(255,255,255,0.05);
         border: 1px solid rgba(255,255,255,0.07);
-        color: var(--text-secondary);
+        color: #94a3b8;
         border-bottom-right-radius: 4px;
     }
 
@@ -1071,8 +1071,8 @@
     }
     .bubble-video-thumb video { width: 100%; height: 100%; display: block; object-fit: cover; }
     .bubble-video-meta { font-size: 0.7rem; }
-    .bubble-video-meta .vname { color: var(--text-primary); font-weight: 600; display: block; }
-    .bubble-video-meta .vmeta { color: var(--text-faint); font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; }
+    .bubble-video-meta .vname { color: #e2e8f0; font-weight: 600; display: block; }
+    .bubble-video-meta .vmeta { color: #475569; font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; }
 
     /* Feature cards in bubble */
     .chat-features {
@@ -1093,12 +1093,12 @@
         transition: all 0.25s;
     }
     .chat-feature-card:hover {
-        border-color: rgba(99,102,241,0.2);
-        background: rgba(99,102,241,0.03);
+        border-color: rgba(168,85,247,0.2);
+        background: rgba(168,85,247,0.03);
     }
     .chat-feature-card.selected {
-        border-color: rgba(99,102,241,0.3);
-        background: rgba(99,102,241,0.05);
+        border-color: rgba(168,85,247,0.3);
+        background: rgba(168,85,247,0.05);
     }
     .chat-feature-icon {
         width: 30px; height: 30px;
@@ -1110,10 +1110,10 @@
     }
     .chat-feature-icon--red { background: rgba(239,68,68,0.12); color: #ef4444; }
     .chat-feature-icon--blue { background: rgba(59,130,246,0.12); color: #3b82f6; }
-    .chat-feature-icon--purple { background: rgba(99,102,241,0.12); color: #a855f7; }
+    .chat-feature-icon--purple { background: rgba(168,85,247,0.12); color: #a855f7; }
     .chat-feature-info { flex: 1; min-width: 0; }
     .chat-feature-info h4 { font-size: 0.78rem; font-weight: 600; margin-bottom: 1px; }
-    .chat-feature-info p { font-size: 0.66rem; color: var(--text-muted); }
+    .chat-feature-info p { font-size: 0.66rem; color: #64748b; }
     .chat-feature-check {
         width: 20px; height: 20px;
         border-radius: 5px;
@@ -1127,8 +1127,8 @@
         color: transparent;
     }
     .chat-feature-card.selected .chat-feature-check {
-        background: rgba(99,102,241,0.2);
-        border-color: rgba(99,102,241,0.5);
+        background: rgba(168,85,247,0.2);
+        border-color: rgba(168,85,247,0.5);
         color: #a855f7;
     }
 
@@ -1155,7 +1155,7 @@
     .chat-config-row .ccr-label {
         font-size: 0.72rem;
         font-weight: 500;
-        color: var(--text-secondary);
+        color: #94a3b8;
         width: 42px;
         flex-shrink: 0;
     }
@@ -1165,7 +1165,7 @@
         background: rgba(255,255,255,0.04);
         border: 1px solid rgba(255,255,255,0.07);
         border-radius: 6px;
-        color: var(--text-primary);
+        color: #e2e8f0;
         font-size: 0.72rem;
         font-family: inherit;
         outline: none;
@@ -1175,7 +1175,7 @@
         background-position: right 8px center;
         padding-right: 24px;
     }
-    .chat-config-row select option { background: #16162a; color: var(--text-primary); }
+    .chat-config-row select option { background: #16162a; color: #e2e8f0; }
     .chat-config-row[data-feature="erase"] .ccr-icon { background: #ef4444; }
     .chat-config-row[data-feature="subtitle"] .ccr-icon { background: #3b82f6; }
     .chat-config-row[data-feature="voice"] .ccr-icon { background: #a855f7; }
@@ -1204,12 +1204,12 @@
         transition: all 0.2s;
         order: 3;
     }
-    .chat-step-confirm:hover { transform: translateY(-1px); box-shadow: 0 0 16px rgba(99,102,241,0.3); }
+    .chat-step-confirm:hover { transform: translateY(-1px); box-shadow: 0 0 16px rgba(168,85,247,0.3); }
     .chat-step-skip {
         padding: 7px 10px;
         font-size: 0.72rem;
         font-weight: 500;
-        color: var(--text-muted);
+        color: #64748b;
         background: rgba(255,255,255,0.04);
         border: 1px solid rgba(255,255,255,0.08);
         border-radius: 8px;
@@ -1218,7 +1218,7 @@
         transition: all 0.2s;
         order: 1;
     }
-    .chat-step-skip:hover { color: var(--text-secondary); border-color: rgba(255,255,255,0.15); }
+    .chat-step-skip:hover { color: #94a3b8; border-color: rgba(255,255,255,0.15); }
 
     /* "先精调" entry button in step actions */
     .chat-step-ft-entry {
@@ -1226,9 +1226,9 @@
         padding: 7px 12px;
         font-size: 0.72rem;
         font-weight: 500;
-        color: #818cf8;
-        background: rgba(99,102,241,0.06);
-        border: 1px solid rgba(99,102,241,0.25);
+        color: #a78bfa;
+        background: rgba(168,85,247,0.06);
+        border: 1px solid rgba(168,85,247,0.25);
         border-radius: 8px;
         cursor: pointer;
         font-family: inherit;
@@ -1240,10 +1240,10 @@
         order: 2;
     }
     .chat-step-ft-entry:hover {
-        background: rgba(99,102,241,0.12);
-        border-color: rgba(99,102,241,0.4);
+        background: rgba(168,85,247,0.12);
+        border-color: rgba(168,85,247,0.4);
         transform: translateY(-1px);
-        box-shadow: 0 0 12px rgba(99,102,241,0.2);
+        box-shadow: 0 0 12px rgba(168,85,247,0.2);
     }
     .chat-step-ft-entry svg { flex-shrink: 0; }
 
@@ -1264,9 +1264,9 @@
         padding: 11px 16px;
         font-size: 0.82rem;
         font-weight: 600;
-        color: #818cf8;
-        background: rgba(99,102,241,0.06);
-        border: 1px solid rgba(99,102,241,0.25);
+        color: #a78bfa;
+        background: rgba(168,85,247,0.06);
+        border: 1px solid rgba(168,85,247,0.25);
         border-radius: 12px;
         cursor: pointer;
         font-family: inherit;
@@ -1274,10 +1274,10 @@
         white-space: nowrap;
     }
     .chat-start-ft:hover {
-        background: rgba(99,102,241,0.12);
-        border-color: rgba(99,102,241,0.4);
+        background: rgba(168,85,247,0.12);
+        border-color: rgba(168,85,247,0.4);
         transform: translateY(-1px);
-        box-shadow: 0 0 16px rgba(99,102,241,0.2);
+        box-shadow: 0 0 16px rgba(168,85,247,0.2);
     }
     .chat-start-ft svg { flex-shrink: 0; }
     .chat-start-btn {
@@ -1296,12 +1296,12 @@
         border: none;
         border-radius: 12px;
         cursor: pointer;
-        box-shadow: 0 0 30px rgba(99,102,241,0.25);
+        box-shadow: 0 0 30px rgba(168,85,247,0.25);
         transition: all 0.3s;
         font-family: inherit;
     }
     @keyframes gradShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-    .chat-start-btn:hover { transform: translateY(-1px); box-shadow: 0 0 40px rgba(99,102,241,0.35); }
+    .chat-start-btn:hover { transform: translateY(-1px); box-shadow: 0 0 40px rgba(168,85,247,0.35); }
 
     /* Result actions in chat */
     .chat-result-actions {
@@ -1328,12 +1328,12 @@
         border: none;
         border-radius: 10px;
         cursor: pointer;
-        box-shadow: 0 0 20px rgba(99,102,241,0.25);
+        box-shadow: 0 0 20px rgba(168,85,247,0.25);
         transition: all 0.2s;
         font-family: inherit;
         white-space: nowrap;
     }
-    .ra-btn-export:hover { transform: translateY(-1px); box-shadow: 0 0 30px rgba(99,102,241,0.35); }
+    .ra-btn-export:hover { transform: translateY(-1px); box-shadow: 0 0 30px rgba(168,85,247,0.35); }
     .ra-btn-re-finetune {
         flex: 1;
         display: inline-flex;
@@ -1343,9 +1343,9 @@
         padding: 10px 14px;
         font-size: 0.78rem;
         font-weight: 500;
-        color: #818cf8;
-        background: rgba(99,102,241,0.06);
-        border: 1px solid rgba(99,102,241,0.2);
+        color: #a78bfa;
+        background: rgba(168,85,247,0.06);
+        border: 1px solid rgba(168,85,247,0.2);
         border-radius: 10px;
         cursor: pointer;
         transition: all 0.2s;
@@ -1353,10 +1353,10 @@
         white-space: nowrap;
     }
     .ra-btn-re-finetune:hover {
-        background: rgba(99,102,241,0.12);
-        border-color: rgba(99,102,241,0.4);
+        background: rgba(168,85,247,0.12);
+        border-color: rgba(168,85,247,0.4);
         transform: translateY(-1px);
-        box-shadow: 0 0 12px rgba(99,102,241,0.2);
+        box-shadow: 0 0 12px rgba(168,85,247,0.2);
     }
     .ra-btn-finetune {
         flex: 1;
@@ -1367,7 +1367,7 @@
         padding: 10px 18px;
         font-size: 0.8rem;
         font-weight: 500;
-        color: var(--text-secondary);
+        color: #94a3b8;
         background: rgba(255,255,255,0.04);
         border: 1px solid rgba(255,255,255,0.08);
         border-radius: 10px;
@@ -1376,7 +1376,7 @@
         font-family: inherit;
         text-decoration: none;
     }
-    .ra-btn-finetune:hover { color: var(--text-primary); border-color: rgba(99,102,241,0.3); background: rgba(99,102,241,0.06); }
+    .ra-btn-finetune:hover { color: #e2e8f0; border-color: rgba(168,85,247,0.3); background: rgba(168,85,247,0.06); }
 
     /* Phase state — contextual status indicator (top-left of video) */
     .tv2-phase-indicator {
@@ -1394,14 +1394,14 @@
         background: rgba(10,10,20,0.85);
         backdrop-filter: blur(10px);
         border: 1px solid rgba(255,255,255,0.08);
-        color: var(--text-secondary);
+        color: #94a3b8;
         transition: background 0.3s, border-color 0.3s, color 0.3s;
     }
     .tv2-phase-indicator.hidden { display: none; }
     /* Finetune state: purple tint */
     .tv2-phase-indicator.phase-finetune {
-        background: rgba(99,102,241,0.12);
-        border-color: rgba(99,102,241,0.3);
+        background: rgba(168,85,247,0.12);
+        border-color: rgba(168,85,247,0.3);
         color: #c4b5fd;
     }
     /* Processing state: amber tint */
@@ -1412,8 +1412,8 @@
     }
     /* Done state: green tint */
     .tv2-phase-indicator.phase-done {
-        background: rgba(16,185,129,0.1);
-        border-color: rgba(16,185,129,0.25);
+        background: rgba(34,197,94,0.1);
+        border-color: rgba(34,197,94,0.25);
         color: #86efac;
     }
     .tv2-phase-dot {
@@ -1421,7 +1421,7 @@
         border-radius: 50%;
         background: #64748b;
     }
-    .tv2-phase-dot.live { background: #10b981; animation: pulse-step 1.5s infinite; }
+    .tv2-phase-dot.live { background: #22c55e; animation: pulse-step 1.5s infinite; }
     .tv2-phase-dot.processing { background: #a855f7; animation: pulse-step 1.2s infinite; }
 
     /* ===== Progress Tabs (Persistent Navigation) ===== */
@@ -1445,7 +1445,7 @@
         border-radius: 8px;
         font-size: 0.74rem;
         font-weight: 500;
-        color: var(--text-dim);
+        color: #334155;
         background: transparent;
         border: 1px solid transparent;
         cursor: default;
@@ -1488,9 +1488,9 @@
         100% { transform: scale(1); opacity: 1; }
     }
     @keyframes tabGlow {
-        0% { box-shadow: 0 0 0 0 rgba(99,102,241,0.4); }
-        70% { box-shadow: 0 0 0 8px rgba(99,102,241,0); }
-        100% { box-shadow: 0 0 0 0 rgba(99,102,241,0); }
+        0% { box-shadow: 0 0 0 0 rgba(168,85,247,0.4); }
+        70% { box-shadow: 0 0 0 8px rgba(168,85,247,0); }
+        100% { box-shadow: 0 0 0 0 rgba(168,85,247,0); }
     }
     @keyframes tabCheckPop {
         0% { transform: scale(0); opacity: 0; }
@@ -1499,7 +1499,7 @@
     }
     /* Unlocked/done state */
     .tv2-tab-item.unlocked {
-        color: var(--text-secondary);
+        color: #94a3b8;
         cursor: pointer;
         animation: tabUnlock 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;
     }
@@ -1509,24 +1509,24 @@
     .tv2-tab-item.unlocked .tab-status {
         opacity: 1;
         transform: scale(1);
-        background: #10b981;
+        background: #22c55e;
         animation: tabCheckPop 0.4s cubic-bezier(0.34,1.56,0.64,1) 0.2s both;
     }
     .tv2-tab-item.unlocked:hover {
-        color: var(--text-primary);
+        color: #e2e8f0;
         background: rgba(255,255,255,0.04);
         border-color: rgba(255,255,255,0.08);
     }
     /* Active tab (currently viewing finetune) */
     .tv2-tab-item.active {
-        color: #818cf8;
-        background: rgba(99,102,241,0.08);
-        border-color: rgba(99,102,241,0.25);
+        color: #a78bfa;
+        background: rgba(168,85,247,0.08);
+        border-color: rgba(168,85,247,0.25);
         cursor: pointer;
         animation: tabGlow 0.6s ease-out;
     }
     .tv2-tab-item.active .tab-icon {
-        background: rgba(99,102,241,0.15);
+        background: rgba(168,85,247,0.15);
         color: #a855f7;
     }
     .tv2-tab-item.active .tab-status {
@@ -1550,7 +1550,7 @@
 
     .tv2-tab-item[data-tab="voice"].unlocked .tab-icon,
     .tv2-tab-item[data-tab="voice"].active .tab-icon { color: #a855f7; }
-    .tv2-tab-item[data-tab="voice"].active .tab-icon { background: rgba(99,102,241,0.15); }
+    .tv2-tab-item[data-tab="voice"].active .tab-icon { background: rgba(168,85,247,0.15); }
     .tv2-tab-item[data-tab="voice"].active .tab-status { background: #a855f7; }
 
     /* Separator between tabs */
@@ -1600,16 +1600,16 @@
     }
     .ft-section-icon--red { background: rgba(239,68,68,0.12); color: #ef4444; }
     .ft-section-icon--blue { background: rgba(59,130,246,0.12); color: #3b82f6; }
-    .ft-section-icon--purple { background: rgba(99,102,241,0.12); color: #a855f7; }
+    .ft-section-icon--purple { background: rgba(168,85,247,0.12); color: #a855f7; }
     .ft-section-header h3 { font-size: 0.85rem; font-weight: 600; }
-    .ft-section-header p { font-size: 0.68rem; color: var(--text-muted); }
+    .ft-section-header p { font-size: 0.68rem; color: #64748b; }
 
     .ft-config-group { margin-bottom: 14px; }
     .ft-config-label {
         display: block;
         font-size: 0.7rem;
         font-weight: 600;
-        color: var(--text-muted);
+        color: #64748b;
         text-transform: uppercase;
         letter-spacing: 0.5px;
         margin-bottom: 8px;
@@ -1623,7 +1623,7 @@
         display: block;
         font-size: 0.68rem;
         font-weight: 500;
-        color: var(--text-secondary);
+        color: #94a3b8;
         margin-bottom: 4px;
     }
     .ft-config-field select {
@@ -1632,7 +1632,7 @@
         background: rgba(255,255,255,0.04);
         border: 1px solid rgba(255,255,255,0.07);
         border-radius: 8px;
-        color: var(--text-primary);
+        color: #e2e8f0;
         font-size: 0.76rem;
         outline: none;
         -webkit-appearance: none;
@@ -1643,8 +1643,8 @@
         background-position: right 10px center;
         padding-right: 28px;
     }
-    .ft-config-field select:focus { border-color: rgba(99,102,241,0.4); }
-    .ft-config-field select option { background: #16162a; color: var(--text-primary); }
+    .ft-config-field select:focus { border-color: rgba(168,85,247,0.4); }
+    .ft-config-field select option { background: #16162a; color: #e2e8f0; }
 
     /* Erase region list in finetune */
     .ft-region-list-label {
@@ -1653,7 +1653,7 @@
         gap: 6px;
         font-size: 0.7rem;
         font-weight: 600;
-        color: var(--text-secondary);
+        color: #94a3b8;
         margin-bottom: 8px;
     }
     .ft-region-list-label .ft-region-count {
@@ -1691,7 +1691,7 @@
         border-color: rgba(239,68,68,0.3);
     }
     .ft-region-card.in-range {
-        border-left: 2px solid #10b981;
+        border-left: 2px solid #22c55e;
     }
     .ft-region-card .ft-region-idx {
         display: flex;
@@ -1711,19 +1711,19 @@
         display: block;
         font-size: 0.72rem;
         font-weight: 600;
-        color: var(--text-primary);
+        color: #e2e8f0;
         margin-bottom: 1px;
     }
     .ft-region-card .ft-region-meta {
         display: flex;
         gap: 8px;
         font-size: 0.6rem;
-        color: var(--text-muted);
+        color: #64748b;
         font-family: 'JetBrains Mono', monospace;
     }
     .ft-region-card .ft-region-time {
         font-size: 0.62rem;
-        color: var(--text-secondary);
+        color: #94a3b8;
         font-family: 'JetBrains Mono', monospace;
         white-space: nowrap;
         flex-shrink: 0;
@@ -1854,7 +1854,7 @@
     .ft-mode-row label {
         font-size: 0.73rem;
         font-weight: 500;
-        color: var(--text-secondary);
+        color: #94a3b8;
         flex-shrink: 0;
     }
     .ft-mode-chips { display: flex; gap: 6px; }
@@ -1862,7 +1862,7 @@
         padding: 5px 12px;
         font-size: 0.7rem;
         font-weight: 500;
-        color: var(--text-muted);
+        color: #64748b;
         background: rgba(255,255,255,0.03);
         border: 1px solid rgba(255,255,255,0.06);
         border-radius: 100px;
@@ -1870,11 +1870,11 @@
         transition: all 0.2s;
         font-family: inherit;
     }
-    .ft-mode-chip:hover { color: var(--text-primary); border-color: rgba(99,102,241,0.3); }
+    .ft-mode-chip:hover { color: #e2e8f0; border-color: rgba(168,85,247,0.3); }
     .ft-mode-chip.active {
-        color: #818cf8;
-        background: rgba(99,102,241,0.1);
-        border-color: rgba(99,102,241,0.35);
+        color: #a78bfa;
+        background: rgba(168,85,247,0.1);
+        border-color: rgba(168,85,247,0.35);
     }
 
     /* Subtitle list in finetune */
@@ -1897,20 +1897,20 @@
     .ft-sub-time {
         font-size: 0.64rem;
         font-family: 'JetBrains Mono', monospace;
-        color: var(--text-faint);
+        color: #475569;
         flex-shrink: 0;
         margin-top: 2px;
         min-width: 32px;
     }
     .ft-sub-texts { min-width: 0; flex: 1; }
-    .ft-sub-orig { display: block; font-size: 0.74rem; color: var(--text-secondary); margin-bottom: 1px; line-height: 1.4; }
-    .ft-sub-trans { display: block; font-size: 0.74rem; color: #818cf8; line-height: 1.4; }
+    .ft-sub-orig { display: block; font-size: 0.74rem; color: #94a3b8; margin-bottom: 1px; line-height: 1.4; }
+    .ft-sub-trans { display: block; font-size: 0.74rem; color: #a78bfa; line-height: 1.4; }
     .ft-sub-edit-btn {
         width: 22px; height: 22px;
         border-radius: 5px;
         border: none;
         background: transparent;
-        color: var(--text-faint);
+        color: #475569;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1933,18 +1933,18 @@
         transition: background 0.2s;
     }
     .ft-voice-item:hover { background: rgba(255,255,255,0.03); }
-    .ft-voice-item.active { background: rgba(99,102,241,0.06); }
+    .ft-voice-item.active { background: rgba(168,85,247,0.06); }
     .ft-voice-time {
         font-size: 0.64rem;
         font-family: 'JetBrains Mono', monospace;
-        color: var(--text-faint);
+        color: #475569;
         flex-shrink: 0;
         min-width: 32px;
     }
     .ft-voice-text {
         flex: 1;
         font-size: 0.74rem;
-        color: var(--text-primary);
+        color: #e2e8f0;
         min-width: 0;
         white-space: nowrap;
         overflow: hidden;
@@ -1955,7 +1955,7 @@
         border-radius: 50%;
         border: 1px solid rgba(255,255,255,0.08);
         background: rgba(255,255,255,0.03);
-        color: var(--text-secondary);
+        color: #94a3b8;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1965,8 +1965,8 @@
     }
     .ft-voice-play:hover {
         color: #a855f7;
-        border-color: rgba(99,102,241,0.35);
-        background: rgba(99,102,241,0.1);
+        border-color: rgba(168,85,247,0.35);
+        background: rgba(168,85,247,0.1);
     }
 
     /* "进入精调" button inside chat step */
@@ -1977,9 +1977,9 @@
         padding: 6px 14px;
         font-size: 0.74rem;
         font-weight: 600;
-        color: #818cf8;
-        background: rgba(99,102,241,0.08);
-        border: 1px solid rgba(99,102,241,0.2);
+        color: #a78bfa;
+        background: rgba(168,85,247,0.08);
+        border: 1px solid rgba(168,85,247,0.2);
         border-radius: 8px;
         cursor: pointer;
         font-family: inherit;
@@ -1987,14 +1987,14 @@
         margin-top: 6px;
     }
     .chat-step-finetune:hover {
-        background: rgba(99,102,241,0.15);
-        border-color: rgba(99,102,241,0.4);
+        background: rgba(168,85,247,0.15);
+        border-color: rgba(168,85,247,0.4);
         transform: translateY(-1px);
     }
     .chat-step-finetune.done {
-        color: #10b981;
-        background: rgba(16,185,129,0.08);
-        border-color: rgba(16,185,129,0.2);
+        color: #22c55e;
+        background: rgba(34,197,94,0.08);
+        border-color: rgba(34,197,94,0.2);
         pointer-events: none;
     }
 
@@ -2060,20 +2060,20 @@
         font-family: 'JetBrains Mono', monospace;
         flex-shrink: 0;
         border: 1.5px solid rgba(255,255,255,0.1);
-        color: var(--text-muted);
+        color: #64748b;
         background: rgba(255,255,255,0.03);
         transition: all 0.3s;
     }
     .chat-ov-step[data-ov="erase"] .chat-ov-num { border-color: rgba(239,68,68,0.3); color: #ef4444; background: rgba(239,68,68,0.08); }
     .chat-ov-step[data-ov="subtitle"] .chat-ov-num { border-color: rgba(59,130,246,0.3); color: #3b82f6; background: rgba(59,130,246,0.08); }
-    .chat-ov-step[data-ov="voice"] .chat-ov-num { border-color: rgba(99,102,241,0.3); color: #a855f7; background: rgba(99,102,241,0.08); }
+    .chat-ov-step[data-ov="voice"] .chat-ov-num { border-color: rgba(168,85,247,0.3); color: #a855f7; background: rgba(168,85,247,0.08); }
     .chat-ov-info {
         min-width: 0;
     }
     .chat-ov-info h5 {
         font-size: 0.72rem;
         font-weight: 600;
-        color: var(--text-primary);
+        color: #e2e8f0;
         margin: 0;
         white-space: nowrap;
         overflow: hidden;
@@ -2081,7 +2081,7 @@
     }
     .chat-ov-info p {
         font-size: 0.6rem;
-        color: var(--text-faint);
+        color: #475569;
         margin: 0;
         white-space: nowrap;
     }
@@ -2114,7 +2114,7 @@
         transition: all 0.25s;
     }
     .chat-ov-toggle:checked {
-        background: rgba(99,102,241,0.4);
+        background: rgba(168,85,247,0.4);
     }
     .chat-ov-toggle:checked::after {
         left: 16px;
@@ -2125,7 +2125,7 @@
     }
     .chat-ov-step.ov-disabled .chat-ov-num {
         border-color: rgba(255,255,255,0.1) !important;
-        color: var(--text-faint) !important;
+        color: #475569 !important;
         background: transparent !important;
     }
     /* Confirm button inside overview bubble */
@@ -2185,32 +2185,32 @@
     }
     .chat-pre-btn--auto {
         color: #fff;
-        background: linear-gradient(135deg, rgba(99,102,241,0.25), rgba(99,102,241,0.2));
-        border-color: rgba(99,102,241,0.35);
+        background: linear-gradient(135deg, rgba(168,85,247,0.25), rgba(99,102,241,0.2));
+        border-color: rgba(168,85,247,0.35);
     }
     .chat-pre-btn--auto:hover {
-        background: linear-gradient(135deg, rgba(99,102,241,0.35), rgba(99,102,241,0.3));
+        background: linear-gradient(135deg, rgba(168,85,247,0.35), rgba(99,102,241,0.3));
         transform: translateY(-1px);
-        box-shadow: 0 0 16px rgba(99,102,241,0.2);
+        box-shadow: 0 0 16px rgba(168,85,247,0.2);
     }
     .chat-pre-btn--manual {
-        color: #818cf8;
-        background: rgba(99,102,241,0.06);
-        border-color: rgba(99,102,241,0.2);
+        color: #a78bfa;
+        background: rgba(168,85,247,0.06);
+        border-color: rgba(168,85,247,0.2);
     }
     .chat-pre-btn--manual:hover {
-        background: rgba(99,102,241,0.12);
-        border-color: rgba(99,102,241,0.35);
+        background: rgba(168,85,247,0.12);
+        border-color: rgba(168,85,247,0.35);
         transform: translateY(-1px);
     }
     .chat-pre-btn--skip {
-        color: var(--text-muted);
+        color: #64748b;
         background: rgba(255,255,255,0.03);
         border-color: rgba(255,255,255,0.06);
         flex: 0 0 auto;
     }
     .chat-pre-btn--skip:hover {
-        color: var(--text-secondary);
+        color: #94a3b8;
         border-color: rgba(255,255,255,0.12);
     }
     .chat-pre-btn svg { flex-shrink: 0; }
@@ -2222,8 +2222,8 @@
         gap: 10px;
         padding: 10px 14px;
         margin: 6px 0;
-        background: rgba(99,102,241,0.04);
-        border: 1px solid rgba(99,102,241,0.1);
+        background: rgba(168,85,247,0.04);
+        border: 1px solid rgba(168,85,247,0.1);
         border-radius: 10px;
     }
     .scan-dots {
@@ -2245,7 +2245,7 @@
     }
     .scan-text {
         font-size: 0.76rem;
-        color: #818cf8;
+        color: #a78bfa;
         font-weight: 500;
     }
 
@@ -2256,22 +2256,22 @@
         gap: 8px;
         padding: 8px 12px;
         margin: 6px 0;
-        background: rgba(16,185,129,0.06);
-        border: 1px solid rgba(16,185,129,0.15);
+        background: rgba(34,197,94,0.06);
+        border: 1px solid rgba(34,197,94,0.15);
         border-radius: 10px;
         font-size: 0.76rem;
-        color: #34d399;
+        color: #4ade80;
         font-weight: 500;
     }
     .chat-scan-result .scan-check {
         width: 18px; height: 18px;
         border-radius: 50%;
-        background: rgba(16,185,129,0.15);
+        background: rgba(34,197,94,0.15);
         display: flex;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
-        color: #10b981;
+        color: #22c55e;
     }
 
     /* Step indicator badge in bubble */
@@ -2287,7 +2287,7 @@
     }
     .chat-step-badge--erase { background: rgba(239,68,68,0.1); color: #ef4444; border: 1px solid rgba(239,68,68,0.2); }
     .chat-step-badge--subtitle { background: rgba(59,130,246,0.1); color: #3b82f6; border: 1px solid rgba(59,130,246,0.2); }
-    .chat-step-badge--voice { background: rgba(99,102,241,0.1); color: #a855f7; border: 1px solid rgba(99,102,241,0.2); }
+    .chat-step-badge--voice { background: rgba(168,85,247,0.1); color: #a855f7; border: 1px solid rgba(168,85,247,0.2); }
 
     /* ===== Transcript Preview List (collapsible) ===== */
     .chat-transcript-preview {
@@ -2315,7 +2315,7 @@
         gap: 6px;
         font-size: 0.72rem;
         font-weight: 600;
-        color: var(--text-secondary);
+        color: #94a3b8;
     }
     .chat-transcript-toggle .ctt-count {
         font-size: 0.6rem;
@@ -2326,7 +2326,7 @@
         border-radius: 100px;
     }
     .chat-transcript-toggle .ctt-arrow {
-        color: var(--text-faint);
+        color: #475569;
         transition: transform 0.3s;
         font-size: 0.7rem;
     }
@@ -2355,7 +2355,7 @@
         font-size: 0.6rem;
         font-weight: 700;
         font-family: 'JetBrains Mono', monospace;
-        color: var(--text-faint);
+        color: #475569;
         flex-shrink: 0;
         min-width: 16px;
         text-align: right;
@@ -2363,7 +2363,7 @@
     }
     .chat-transcript-item .cti-text {
         font-size: 0.72rem;
-        color: var(--text-secondary);
+        color: #94a3b8;
         line-height: 1.5;
     }
 
@@ -2396,7 +2396,7 @@
     .chat-sub-line .csl-time {
         font-size: 0.58rem;
         font-family: 'JetBrains Mono', monospace;
-        color: var(--text-muted);
+        color: #64748b;
         white-space: nowrap;
         flex-shrink: 0;
         min-width: 76px;
@@ -2445,20 +2445,20 @@
     .chat-erase-line .cel-time {
         font-size: 0.58rem;
         font-family: 'JetBrains Mono', monospace;
-        color: var(--text-muted);
+        color: #64748b;
         white-space: nowrap;
         flex-shrink: 0;
         min-width: 76px;
     }
     .chat-erase-line .cel-meta {
         font-size: 0.62rem;
-        color: var(--text-secondary);
+        color: #94a3b8;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
     .chat-erase-line .cel-meta span {
-        color: var(--text-muted);
+        color: #64748b;
         margin-right: 6px;
     }
 
@@ -2475,18 +2475,18 @@
         gap: 8px;
         padding: 6px 10px;
         border-radius: 8px;
-        background: rgba(99,102,241,0.04);
-        border: 1px solid rgba(99,102,241,0.08);
+        background: rgba(168,85,247,0.04);
+        border: 1px solid rgba(168,85,247,0.08);
         cursor: pointer;
         transition: all 0.15s;
     }
     .chat-voice-line:hover {
-        background: rgba(99,102,241,0.1);
-        border-color: rgba(99,102,241,0.2);
+        background: rgba(168,85,247,0.1);
+        border-color: rgba(168,85,247,0.2);
     }
     .chat-voice-line.active {
-        background: rgba(99,102,241,0.12);
-        border-color: rgba(99,102,241,0.3);
+        background: rgba(168,85,247,0.12);
+        border-color: rgba(168,85,247,0.3);
     }
     .chat-voice-line .cvl-id {
         font-size: 0.58rem;
@@ -2500,14 +2500,14 @@
     .chat-voice-line .cvl-time {
         font-size: 0.58rem;
         font-family: 'JetBrains Mono', monospace;
-        color: var(--text-muted);
+        color: #64748b;
         white-space: nowrap;
         flex-shrink: 0;
         min-width: 76px;
     }
     .chat-voice-line .cvl-text {
         font-size: 0.62rem;
-        color: var(--text-secondary);
+        color: #94a3b8;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -2543,9 +2543,9 @@
         margin: 6px 0;
     }
     .chat-source-tag--ok {
-        background: rgba(16,185,129,0.08);
-        border: 1px solid rgba(16,185,129,0.2);
-        color: #34d399;
+        background: rgba(34,197,94,0.08);
+        border: 1px solid rgba(34,197,94,0.2);
+        color: #4ade80;
     }
     .chat-source-tag--warn {
         background: rgba(245,158,11,0.08);
@@ -2667,7 +2667,7 @@
     }
     .tv2-landing-hero p {
         font-size: 1rem;
-        color: var(--text-muted);
+        color: #64748b;
         max-width: 720px;
         margin: 0 auto 24px;
     }
@@ -2689,80 +2689,23 @@
         justify-content: center;
         gap: 20px;
         padding: 64px 40px;
-        background: rgba(99,102,241,0.04);
-        border: 2px dashed rgba(99,102,241,0.25);
+        background: rgba(168,85,247,0.04);
+        border: 2px dashed rgba(168,85,247,0.25);
         border-radius: 20px;
         cursor: pointer;
         transition: all 0.3s;
         min-height: 320px;
     }
     .tv2-upload-zone:hover {
-        border-color: rgba(99,102,241,0.5);
-        background: rgba(99,102,241,0.08);
-        box-shadow: 0 0 40px rgba(99,102,241,0.06);
+        border-color: rgba(168,85,247,0.5);
+        background: rgba(168,85,247,0.08);
+        box-shadow: 0 0 40px rgba(168,85,247,0.06);
     }
     .tv2-upload-zone.dragover {
         border-color: #a855f7;
-        background: rgba(99,102,241,0.12);
+        background: rgba(168,85,247,0.12);
         transform: scale(1.01);
     }
-
-    /* ===== Mode Tabs (紧凑 segment 切换) ===== */
-    .tv2-mode-tabs {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        padding: 4px;
-        background: rgba(255,255,255,0.03);
-        border: 1px solid rgba(255,255,255,0.06);
-        border-radius: 12px;
-        margin-bottom: 28px;
-    }
-    .tv2-mode-tab {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 8px 18px;
-        font-size: 0.82rem;
-        font-weight: 500;
-        color: var(--text-muted);
-        background: transparent;
-        border: 1px solid transparent;
-        border-radius: 9px;
-        cursor: pointer;
-        transition: all 0.25s cubic-bezier(.4,0,.2,1);
-        font-family: inherit;
-        white-space: nowrap;
-    }
-    .tv2-mode-tab svg {
-        flex-shrink: 0;
-        opacity: 0.5;
-        transition: opacity 0.25s;
-    }
-    .tv2-mode-tab:hover {
-        color: var(--text-secondary);
-        background: rgba(255,255,255,0.04);
-    }
-    .tv2-mode-tab:hover svg {
-        opacity: 0.7;
-    }
-    .tv2-mode-tab.active {
-        color: var(--text-primary);
-        background: rgba(99,102,241,0.1);
-        border-color: rgba(99,102,241,0.2);
-        box-shadow: 0 2px 12px rgba(99,102,241,0.1);
-    }
-    .tv2-mode-tab.active svg {
-        opacity: 1;
-        color: #a855f7;
-    }
-    @media (max-width: 560px) {
-        .tv2-mode-tabs {
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-    }
-
     .tv2-upload-icon {
         flex-shrink: 0;
         width: 80px;
@@ -2770,7 +2713,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: rgba(99,102,241,0.1);
+        background: rgba(168,85,247,0.1);
         border-radius: 20px;
     }
     .tv2-upload-text {
@@ -2782,7 +2725,7 @@
     .tv2-upload-main {
         font-size: 1.1rem;
         font-weight: 600;
-        color: var(--text-primary);
+        color: #e2e8f0;
     }
     .tv2-upload-main em {
         font-style: normal;
@@ -2792,7 +2735,7 @@
     }
     .tv2-upload-hint {
         font-size: 0.8rem;
-        color: var(--text-faint);
+        color: #475569;
     }
 
     /* ===== Three Steps Section ===== */
@@ -2806,12 +2749,12 @@
     .tv2-section-header h2 {
         font-size: 1.5rem;
         font-weight: 700;
-        color: var(--text-primary);
+        color: #e2e8f0;
         margin-bottom: 8px;
     }
     .tv2-section-header p {
         font-size: 0.88rem;
-        color: var(--text-muted);
+        color: #64748b;
     }
     .tv2-steps-row {
         display: grid;
@@ -2828,10 +2771,10 @@
         transition: all 0.35s;
     }
     .tv2-step-card:hover {
-        border-color: rgba(99,102,241,0.25);
-        background: rgba(99,102,241,0.04);
+        border-color: rgba(168,85,247,0.25);
+        background: rgba(168,85,247,0.04);
         transform: translateY(-3px);
-        box-shadow: 0 8px 30px rgba(99,102,241,0.06);
+        box-shadow: 0 8px 30px rgba(168,85,247,0.06);
     }
     .tv2-step-num {
         position: absolute;
@@ -2854,7 +2797,7 @@
         height: 56px;
         margin: 0 auto 16px;
         border-radius: 14px;
-        background: rgba(99,102,241,0.08);
+        background: rgba(168,85,247,0.08);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -2862,12 +2805,12 @@
     .tv2-step-card h4 {
         font-size: 1rem;
         font-weight: 600;
-        color: var(--text-primary);
+        color: #e2e8f0;
         margin-bottom: 8px;
     }
     .tv2-step-card p {
         font-size: 0.82rem;
-        color: var(--text-secondary);
+        color: #94a3b8;
         line-height: 1.55;
     }
     .tv2-step-connector {
@@ -2881,7 +2824,7 @@
             right: -12px;
             width: 20px;
             height: 2px;
-            background: linear-gradient(90deg, rgba(99,102,241,0.3), rgba(6,182,212,0.3));
+            background: linear-gradient(90deg, rgba(168,85,247,0.3), rgba(6,182,212,0.3));
             transform: translateY(-50%);
             z-index: 1;
         }
@@ -2912,9 +2855,9 @@
         cursor: default;
     }
     .tv2-scene-card:hover {
-        border-color: rgba(99,102,241,0.3);
+        border-color: rgba(168,85,247,0.3);
         transform: translateY(-3px);
-        box-shadow: 0 8px 30px rgba(99,102,241,0.08);
+        box-shadow: 0 8px 30px rgba(168,85,247,0.08);
     }
     .tv2-scene-img {
         position: relative;
@@ -2945,13 +2888,13 @@
     }
     .tv2-scene-body p {
         font-size: 0.73rem;
-        color: var(--text-muted);
+        color: #64748b;
         line-height: 1.45;
     }
     .tv2-landing-section-title {
         font-size: 0.85rem;
         font-weight: 600;
-        color: var(--text-secondary);
+        color: #94a3b8;
         text-transform: uppercase;
         letter-spacing: 0.5px;
         margin-bottom: 16px;
@@ -3007,7 +2950,7 @@
         padding: 5px 12px;
         font-size: 0.72rem;
         font-weight: 500;
-        color: var(--text-secondary);
+        color: #94a3b8;
         background: rgba(255,255,255,0.04);
         border: 1px solid rgba(255,255,255,0.08);
         border-radius: 8px;
@@ -3017,9 +2960,9 @@
         white-space: nowrap;
     }
     .tv2-minimize-btn:hover {
-        color: var(--text-primary);
-        background: rgba(99,102,241,0.08);
-        border-color: rgba(99,102,241,0.3);
+        color: #e2e8f0;
+        background: rgba(168,85,247,0.08);
+        border-color: rgba(168,85,247,0.3);
     }
     .tv2-minimize-btn svg { flex-shrink: 0; }
 
@@ -3053,8 +2996,8 @@
         to { opacity: 1; transform: translateY(0) scale(1); }
     }
     .tv2-active-task-card:hover {
-        border-color: rgba(99,102,241,0.3);
-        background: rgba(99,102,241,0.04);
+        border-color: rgba(168,85,247,0.3);
+        background: rgba(168,85,247,0.04);
     }
     .tv2-active-task-card.task-processing {
         border-color: rgba(245,158,11,0.2);
@@ -3064,11 +3007,11 @@
         background: rgba(245,158,11,0.04);
     }
     .tv2-active-task-card.task-done {
-        border-color: rgba(16,185,129,0.2);
+        border-color: rgba(34,197,94,0.2);
     }
     .tv2-active-task-card.task-done:hover {
-        border-color: rgba(16,185,129,0.4);
-        background: rgba(16,185,129,0.04);
+        border-color: rgba(34,197,94,0.4);
+        background: rgba(34,197,94,0.04);
     }
     .tv2-atc-icon {
         width: 36px; height: 36px;
@@ -3097,11 +3040,11 @@
         50% { transform: scale(1.1); opacity: 0; }
     }
     .tv2-atc-icon.icon-done {
-        background: rgba(16,185,129,0.12);
-        color: #10b981;
+        background: rgba(34,197,94,0.12);
+        color: #22c55e;
     }
     .tv2-atc-icon.icon-config {
-        background: rgba(99,102,241,0.12);
+        background: rgba(168,85,247,0.12);
         color: #a855f7;
     }
     .tv2-atc-info {
@@ -3112,7 +3055,7 @@
         display: block;
         font-size: 0.82rem;
         font-weight: 600;
-        color: var(--text-primary);
+        color: #e2e8f0;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -3122,7 +3065,7 @@
         align-items: center;
         gap: 6px;
         font-size: 0.68rem;
-        color: var(--text-muted);
+        color: #64748b;
         margin-top: 2px;
     }
     .tv2-atc-progress {
@@ -3139,15 +3082,15 @@
         transition: width 0.6s ease;
     }
     .tv2-atc-progress-fill.done {
-        background: linear-gradient(90deg, #10b981, #10b981);
+        background: linear-gradient(90deg, #22c55e, #10b981);
     }
     .tv2-atc-action {
         padding: 5px 12px;
         font-size: 0.7rem;
         font-weight: 600;
-        color: #818cf8;
-        background: rgba(99,102,241,0.08);
-        border: 1px solid rgba(99,102,241,0.2);
+        color: #a78bfa;
+        background: rgba(168,85,247,0.08);
+        border: 1px solid rgba(168,85,247,0.2);
         border-radius: 8px;
         cursor: pointer;
         font-family: inherit;
@@ -3156,24 +3099,24 @@
         flex-shrink: 0;
     }
     .tv2-atc-action:hover {
-        background: rgba(99,102,241,0.15);
-        border-color: rgba(99,102,241,0.4);
+        background: rgba(168,85,247,0.15);
+        border-color: rgba(168,85,247,0.4);
     }
     .tv2-atc-action.action-done {
-        color: #34d399;
-        background: rgba(16,185,129,0.08);
-        border-color: rgba(16,185,129,0.2);
+        color: #4ade80;
+        background: rgba(34,197,94,0.08);
+        border-color: rgba(34,197,94,0.2);
     }
     .tv2-atc-action.action-done:hover {
-        background: rgba(16,185,129,0.15);
-        border-color: rgba(16,185,129,0.4);
+        background: rgba(34,197,94,0.15);
+        border-color: rgba(34,197,94,0.4);
     }
     .tv2-atc-close {
         width: 24px; height: 24px;
         border-radius: 6px;
         border: none;
         background: transparent;
-        color: var(--text-faint);
+        color: #475569;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -3235,9 +3178,9 @@
         padding: 12px 16px;
         background: rgba(12,12,20,0.95);
         backdrop-filter: blur(16px);
-        border: 1px solid rgba(16,185,129,0.3);
+        border: 1px solid rgba(34,197,94,0.3);
         border-radius: 12px;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 24px rgba(16,185,129,0.1);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 24px rgba(34,197,94,0.1);
         pointer-events: auto;
         cursor: pointer;
         animation: toastIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
@@ -3245,7 +3188,7 @@
         max-width: 340px;
     }
     .tv2-toast:hover {
-        border-color: rgba(16,185,129,0.5);
+        border-color: rgba(34,197,94,0.5);
         transform: translateX(-4px);
     }
     .tv2-toast.toast-exit {
@@ -3264,7 +3207,7 @@
         justify-content: center;
         flex-shrink: 0;
         font-size: 1rem;
-        background: rgba(16,185,129,0.12);
+        background: rgba(34,197,94,0.12);
     }
     .tv2-toast-content {
         flex: 1;
@@ -3274,7 +3217,7 @@
         display: block;
         font-size: 0.78rem;
         font-weight: 600;
-        color: var(--text-primary);
+        color: #e2e8f0;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -3282,7 +3225,7 @@
     .tv2-toast-content .toast-desc {
         display: block;
         font-size: 0.66rem;
-        color: var(--text-muted);
+        color: #64748b;
         margin-top: 1px;
     }
     .tv2-toast-close {
@@ -3290,7 +3233,7 @@
         border-radius: 5px;
         border: none;
         background: transparent;
-        color: var(--text-faint);
+        color: #475569;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -3301,7 +3244,7 @@
     }
     .tv2-toast-close:hover {
         background: rgba(255,255,255,0.06);
-        color: var(--text-secondary);
+        color: #94a3b8;
     }
 
     </style>
@@ -3316,7 +3259,7 @@
         </a>
         <nav class="sidebar-nav">
             <a href="index.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10L10 3L17 10V17H12V13H8V17H3V10Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span>工作台</span></a>
-            <a href="translate-v4.html" class="nav-item active"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 9H13M7 12H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>视频译制</span></a>
+            <a href="translate-v3.html" class="nav-item active"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 9H13M7 12H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>视频译制</span></a>
             <a href="livestream.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="4" cy="5" r="2" fill="#ef4444"/></svg><span>直播剪辑</span></a>
             <a href="generate.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L12 8H18L13 12L15 18L10 14L5 18L7 12L2 8H8L10 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span>AI 生成</span></a>
             <div class="nav-divider"></div>
@@ -3344,33 +3287,11 @@
             <!-- Active Tasks Bar (shown when tasks are minimized) -->
             <div class="tv2-active-tasks-bar" id="activeTasksBar"></div>
             <div class="tv2-landing-scroll">
-                <!-- Hero + Mode Tabs + Upload -->
+                <!-- Hero + Primary CTA -->
                 <div class="tv2-landing-hero">
-                    <!-- 大标题先出来 -->
-                    <h1 id="tv2HeroTitle">短视频出海，<span class="gradient-text">3 分钟说全球 120+ 语言</span></h1>
-                    <p id="tv2HeroSubtitle">从字幕擦除到原声克隆配音，全程 AI 自动完成</p>
-
-                    <!-- 功能切换 Tabs（紧凑 pill 样式） -->
-                    <div class="tv2-mode-tabs" id="tv2ModeTabs">
-                        <button class="tv2-mode-tab active" data-mode="full">
-                            <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10L8 3L12 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 8H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M10 17L14 10L18 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 15H17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                            <span>一键译制</span>
-                        </button>
-                        <button class="tv2-mode-tab" data-mode="erase">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M17 3H7C5.89543 3 5 3.89543 5 5V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V5C19 3.89543 18.1046 3 17 3Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 8L16 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.6"/></svg>
-                            <span>擦除字幕</span>
-                        </button>
-                        <button class="tv2-mode-tab" data-mode="subtitle">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 18V6C4 4.89543 4.89543 4 6 4H18C19.1046 4 20 4.89543 20 6V18C20 19.1046 19.1046 20 18 20H6C4.89543 20 4 19.1046 4 18Z" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="14" width="12" height="4" rx="1" fill="rgba(6,182,212,0.15)" stroke="currentColor" stroke-width="1"/></svg>
-                            <span>添加字幕</span>
-                        </button>
-                        <button class="tv2-mode-tab" data-mode="voice">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2C10.3431 2 9 3.34315 9 5V12C9 13.6569 10.3431 15 12 15C13.6569 15 15 13.6569 15 12V5C15 3.34315 13.6569 2 12 2Z" stroke="currentColor" stroke-width="1.5"/><path d="M6 10V12C6 15.3137 8.68629 18 12 18C15.3137 18 18 15.3137 18 12V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                            <span>克隆配音</span>
-                        </button>
-                    </div>
-
-                    <!-- 主操作区：上传 -->
+                    <h1>短视频出海，<span class="gradient-text">3 分钟说全球 120+ 语言</span></h1>
+                    <p>从字幕擦除到原声克隆配音，全程 AI 自动完成</p>
+                    <!-- 主操作区：紧跟标题 -->
                     <div class="tv2-landing-primary-action">
                         <div class="tv2-upload-zone" id="tv2UploadZone">
                             <input type="file" id="tv2LandingFileInput" accept="video/*" hidden>
@@ -3378,8 +3299,8 @@
                                 <svg width="56" height="56" viewBox="0 0 36 36" fill="none"><path d="M18 6V22M18 6L24 12M18 6L12 12" stroke="url(#upGrad)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 24V28C6 29.1046 6.89543 30 8 30H28C29.1046 30 30 29.1046 30 28V24" stroke="url(#upGrad)" stroke-width="2.2" stroke-linecap="round"/><defs><linearGradient id="upGrad" x1="6" y1="6" x2="30" y2="30"><stop stop-color="#a855f7"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs></svg>
                             </div>
                             <div class="tv2-upload-text">
-                                <span class="tv2-upload-main" id="tv2UploadMain">拖拽视频到此处，或 <em>点击上传</em></span>
-                                <span class="tv2-upload-hint" id="tv2UploadHint">支持 MP4 / MOV / AVI / MKV 格式，最大 2GB</span>
+                                <span class="tv2-upload-main">拖拽视频到此处，或 <em>点击上传</em></span>
+                                <span class="tv2-upload-hint">支持 MP4 / MOV / AVI / MKV 格式，最大 2GB</span>
                             </div>
                         </div>
                     </div>
@@ -4197,12 +4118,7 @@
             document.body.classList.add('tv2-immersive');
             // Reset step state
             currentStep = -1;
-            const mode = window.workflowMode || 'full';
-            if (mode === 'full') {
-                activeSteps = ['erase', 'subtitle', 'voice'];
-            } else {
-                activeSteps = [mode];
-            }
+            activeSteps = ['erase', 'subtitle', 'voice'];
             features = { erase: false, subtitle: false, voice: false };
             scriptReady = false;
             // Hide all tracks
@@ -4258,15 +4174,7 @@
                         <span class="vmeta">128.5 MB · 1920×1080 · 30fps</span>
                     </div>
                 </div>
-                视频分析完成！检测到语言: <strong>中文</strong> | 时长: <strong>01:30</strong><br>
-                ${(window.workflowMode || 'full') === 'full'
-                    ? '我将自动完成 <strong>擦除字幕 → 文案翻译 → AI 配音</strong> 三步配置，每步完成后你可以确认或去精调。'
-                    : (window.workflowMode === 'erase'
-                        ? '我将为你执行 <strong>擦除字幕</strong> 功能，完成后你可以确认或去精调。'
-                        : window.workflowMode === 'subtitle'
-                            ? '我将为你执行 <strong>添加字幕</strong> 功能，完成后你可以确认或去精调。'
-                            : '我将为你执行 <strong>克隆配音</strong> 功能，完成后你可以确认或去精调。')
-                }`;
+                视频分析完成！检测到语言: <strong>中文</strong> | 时长: <strong>01:30</strong><br>我来帮你逐步配置译制参数。`;
             appendBubble('ai', analysisHtml, 0.3);
 
             // Set thumb to a representative frame
@@ -4277,16 +4185,68 @@
                 }
             }, 100);
 
-            // Set active steps based on workflow mode
-            const mode = window.workflowMode || 'full';
-            if (mode === 'full') {
-                activeSteps = ['erase', 'subtitle', 'voice'];
-            } else {
-                activeSteps = [mode];
-            }
+            // Overview bubble: let user choose which steps to include
             setTimeout(() => {
-                advanceStep();
-            }, 1000);
+                const overviewHtml = `
+                    请选择需要的译制步骤：
+                    <div class="chat-overview-stepper" id="ovStepper">
+                        <div class="chat-ov-step" data-ov="erase">
+                            <span class="chat-ov-num">1</span>
+                            <div class="chat-ov-info"><h5>擦除原字幕</h5><p>AI 检测并清除画面中的原始字幕</p></div>
+                            <div class="chat-ov-toggle-wrap"><input type="checkbox" class="chat-ov-toggle" data-ovstep="erase" checked></div>
+                        </div>
+                        <div class="chat-ov-step" data-ov="subtitle">
+                            <span class="chat-ov-num">2</span>
+                            <div class="chat-ov-info"><h5>文案翻译与字幕</h5><p>语音识别、翻译、新字幕生成</p></div>
+                            <div class="chat-ov-toggle-wrap"><input type="checkbox" class="chat-ov-toggle" data-ovstep="subtitle" checked></div>
+                        </div>
+                        <div class="chat-ov-step" data-ov="voice">
+                            <span class="chat-ov-num">3</span>
+                            <div class="chat-ov-info"><h5>AI 语音克隆配音</h5><p>克隆原声色彩，生成目标语言配音</p></div>
+                            <div class="chat-ov-toggle-wrap"><input type="checkbox" class="chat-ov-toggle" data-ovstep="voice" checked></div>
+                        </div>
+                    </div>
+                    <button class="chat-ov-confirm-btn" id="ovConfirmBtn">确认，开始配置</button>`;
+                appendBubble('ai', overviewHtml, 0);
+                scrollChat();
+
+                // Toggle visual feedback
+                document.querySelectorAll('.chat-ov-toggle').forEach(toggle => {
+                    toggle.addEventListener('change', function() {
+                        const step = this.closest('.chat-ov-step');
+                        step.classList.toggle('ov-disabled', !this.checked);
+                        // Must have at least one step selected
+                        const anyChecked = document.querySelectorAll('.chat-ov-toggle:checked').length > 0;
+                        document.getElementById('ovConfirmBtn').disabled = !anyChecked;
+                    });
+                });
+
+                // Confirm button → record choices, show user response, then start steps
+                document.getElementById('ovConfirmBtn').addEventListener('click', function() {
+                    const chosen = [];
+                    document.querySelectorAll('.chat-ov-toggle').forEach(t => {
+                        const stepName = t.getAttribute('data-ovstep');
+                        if (t.checked) chosen.push(stepName);
+                    });
+                    // Store chosen steps as the active config pipeline
+                    activeSteps = chosen;
+                    // Disable the confirm UI
+                    this.disabled = true;
+                    this.textContent = '已确认';
+                    document.querySelectorAll('.chat-ov-toggle').forEach(t => t.disabled = true);
+                    // User bubble confirming choices
+                    const labels = { erase: '擦除字幕', subtitle: '文案翻译', voice: 'AI 配音' };
+                    const chosenLabels = chosen.map(s => labels[s]).join(' → ');
+                    appendBubble('user', `确认执行：<strong>${chosenLabels}</strong>`, 0.1);
+                    scrollChat();
+                    // AI acknowledges and starts
+                    setTimeout(() => {
+                        appendBubble('ai', `好的，我们按 <strong>${chosen.length} 个步骤</strong>来配置，开始！`, 0);
+                        scrollChat();
+                        setTimeout(() => advanceStep(), 800);
+                    }, 400);
+                });
+            }, 600);
         }
 
         function advanceStep() {
@@ -4308,12 +4268,11 @@
                 iconClass: 'chat-feature-icon--red',
                 badgeClass: 'chat-step-badge--erase',
                 title: '擦除原字幕',
-                autoDesc: '已选择 <strong>高质量 + AI 修复</strong> 模式，正在检测...',
                 preDesc: '先来处理原字幕。需要 AI 自动检测字幕区域，还是手动框选？',
                 autoLabel: '🔍 AI 自动检测',
                 manualLabel: '✋ 手动框选',
                 scanText: '正在检测字幕区域...',
-                scanResultText: '检测完成！发现 <strong>7 处</strong>字幕区域，已自动选择 <strong>高质量擦除 + AI 修复填充</strong>',
+                scanResultText: '检测完成！发现 <strong>7 处</strong>字幕区域',
                 resultDesc: 'AI 检测到 7 处字幕区域，确认擦除配置：',
                 configHtml: `<div class="chat-quick-config">
                     <div class="chat-config-row" data-feature="erase">
@@ -4334,7 +4293,6 @@
                 iconClass: 'chat-feature-icon--blue',
                 badgeClass: 'chat-step-badge--subtitle',
                 title: '文案与字幕',
-                autoDesc: '正在识别语音并翻译为 <strong>英文</strong>...',
                 preDesc: '接下来处理文案。需要 AI 从视频语音中识别文案，还是上传文稿？',
                 autoLabel: '🤖 AI 语音识别',
                 manualLabel: '📄 上传文稿 / SRT',
@@ -4349,12 +4307,11 @@
                 iconClass: 'chat-feature-icon--purple',
                 badgeClass: 'chat-step-badge--voice',
                 title: 'AI 配音',
-                autoDesc: '使用 <strong>原声克隆</strong> 音色，正在生成...',
                 preDesc: '最后一步：AI 配音。',
                 autoLabel: '🎙️ AI 配音',
                 manualLabel: '📁 上传音频',
                 scanText: '正在生成 AI 配音...',
-                scanResultText: '配音生成完成！已使用<strong>原声克隆</strong>音色生成 <strong>7 段</strong>英文配音',
+                scanResultText: '配音生成完成！已准备 <strong>7 段</strong>配音',
                 resultDesc: '配音已准备就绪，确认配音配置：',
                 configHtml: `<div class="chat-quick-config">
                     <div class="chat-config-row" data-feature="voice">
@@ -4377,7 +4334,7 @@
             }
         };
 
-        /* ===== Phase A: Auto-start step (no user choice needed) ===== */
+        /* ===== Phase A: Pre-step choice bubble ===== */
         function showStepPreBubble(step) {
             const meta = stepMeta[step];
             const stepNum = configSteps.indexOf(step) + 1;
@@ -4392,20 +4349,71 @@
                 }
             });
 
-            // Show a brief step header bubble, then auto-start AI scan
+            // Voice step: show script source tag before choices
+            let voiceSourceHtml = '';
+            if (step === 'voice') {
+                if (scriptReady) {
+                    voiceSourceHtml = `<div class="chat-source-tag chat-source-tag--ok">✓ 文案来源：使用步骤2的字幕文案</div>`;
+                } else {
+                    voiceSourceHtml = `<div class="chat-source-tag chat-source-tag--warn">⚠ 暂无文案 — 需要先提供文案才能 AI 配音</div>`;
+                }
+            }
+
             const bubbleHtml = `
                 <div class="chat-step-badge ${meta.badgeClass}">步骤 ${stepNum} / 3</div>
                 <div class="chat-features">
                     <div class="chat-feature-card selected" style="pointer-events:none;">
                         <div class="chat-feature-icon ${meta.iconClass}">${meta.icon}</div>
-                        <div class="chat-feature-info"><h4>${meta.title}</h4><p>${meta.autoDesc}</p></div>
+                        <div class="chat-feature-info"><h4>${meta.title}</h4><p>${meta.preDesc}</p></div>
                     </div>
+                </div>
+                ${voiceSourceHtml}
+                <div class="chat-pre-actions">
+                    <button class="chat-pre-btn chat-pre-btn--auto" data-step="${step}" data-action="auto">
+                        ${meta.autoLabel}
+                    </button>
+                    <button class="chat-pre-btn chat-pre-btn--manual" data-step="${step}" data-action="manual">
+                        ${meta.manualLabel}
+                    </button>
+                    <button class="chat-pre-btn chat-pre-btn--skip" data-step="${step}" data-action="skip">
+                        跳过
+                    </button>
                 </div>`;
             appendBubble('ai', bubbleHtml, 0);
             scrollChat();
 
-            // Auto-start the AI scan flow (no user choice)
-            setTimeout(() => startStepScan(step), 400);
+            // Bind pre-actions
+            setTimeout(() => {
+                chatFlow.querySelectorAll(`.chat-pre-btn[data-step="${step}"]`).forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const action = btn.dataset.action;
+                        // Disable all pre-action buttons
+                        chatFlow.querySelectorAll(`.chat-pre-btn[data-step="${step}"]`).forEach(b => {
+                            b.disabled = true; b.style.opacity = '0.4'; b.style.pointerEvents = 'none';
+                        });
+                        if (action === 'auto') {
+                            appendBubble('user', `${meta.autoLabel.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '').trim()}`, 0);
+                            scrollChat();
+                            startStepScan(step);
+                        } else if (action === 'manual') {
+                            appendBubble('user', `${meta.manualLabel.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, '').trim()}`, 0);
+                            scrollChat();
+                            if (step === 'subtitle') {
+                                // Manual upload for subtitle: simulate upload then go to transcript preview
+                                startSubtitleUpload();
+                            } else if (step === 'voice') {
+                                // Upload audio = go directly to finetune
+                                confirmAndFinetune(step);
+                            } else {
+                                // Erase manual = go directly to finetune
+                                confirmAndFinetune(step);
+                            }
+                        } else if (action === 'skip') {
+                            confirmStep(step, false);
+                        }
+                    });
+                });
+            }, 50);
         }
 
         /* ===== Phase B: Scan animation + result bubble ===== */
@@ -4486,12 +4494,14 @@
                 <div class="chat-erase-list-inline">
                     ${eraseListHtml}
                 </div>
+                ${meta.configHtml}
                 <div class="chat-step-actions">
+                    <button class="chat-step-skip" data-step="${step}">跳过</button>
                     <button class="chat-step-ft-entry" data-step="${step}">
                         <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M2 4H14M2 8H10M2 12H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
                         去精调
                     </button>
-                    <button class="chat-step-confirm" data-step="${step}">✓ 确认，继续</button>
+                    <button class="chat-step-confirm" data-step="${step}">${confirmLabel}</button>
                 </div>`;
                 scrollChat();
 
@@ -4515,8 +4525,10 @@
                 // Bind action buttons + erase region lines
                 setTimeout(() => {
                     const confirmBtn = chatFlow.querySelector(`.chat-step-confirm[data-step="${step}"]:not([data-phase])`);
+                    const skipBtn = chatFlow.querySelector(`.chat-step-skip[data-step="${step}"]:not([data-phase])`);
                     const ftEntryBtn = chatFlow.querySelector(`.chat-step-ft-entry[data-step="${step}"]:not([data-phase])`);
                     if (confirmBtn) confirmBtn.addEventListener('click', () => confirmStep(step, true));
+                    if (skipBtn) skipBtn.addEventListener('click', () => confirmStep(step, false));
                     if (ftEntryBtn) ftEntryBtn.addEventListener('click', () => confirmAndFinetune(step));
 
                     scanEl.querySelectorAll('.chat-erase-line').forEach(line => {
@@ -4534,10 +4546,39 @@
             }, 1800);
         }
 
-        /* ===== Voice Step: Config Phase (auto-start, skip user config) ===== */
+        /* ===== Voice Step: Config Phase (select before generating) ===== */
         function startVoiceConfigPhase() {
-            // Skip config confirmation, auto-start generation with defaults
-            runVoiceGeneration();
+            const meta = stepMeta.voice;
+            const configBubbleHtml = `
+                <div class="chat-translate-config">
+                    <div class="ctc-title">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M10 3V13M7 7V9M13 5V11M4 9V7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                        配音配置
+                    </div>
+                    ${meta.configHtml}
+                </div>
+                <div class="chat-step-actions">
+                    <button class="chat-step-skip" data-step="voice" data-phase="voiceconfig">跳过</button>
+                    <button class="chat-step-confirm" data-step="voice" data-phase="voiceconfig">开始生成配音</button>
+                </div>`;
+            appendBubble('ai', `请先配置配音参数：${configBubbleHtml}`, 0);
+            scrollChat();
+
+            setTimeout(() => {
+                const confirmBtn = chatFlow.querySelector('.chat-step-confirm[data-phase="voiceconfig"]');
+                const skipBtn = chatFlow.querySelector('.chat-step-skip[data-phase="voiceconfig"]');
+
+                if (confirmBtn) confirmBtn.addEventListener('click', () => {
+                    [confirmBtn, skipBtn].forEach(b => { if(b) { b.disabled = true; b.style.opacity = '0.4'; b.style.pointerEvents = 'none'; }});
+                    appendBubble('user', '开始生成配音 →', 0);
+                    scrollChat();
+                    runVoiceGeneration();
+                });
+                if (skipBtn) skipBtn.addEventListener('click', () => {
+                    [confirmBtn, skipBtn].forEach(b => { if(b) { b.disabled = true; b.style.opacity = '0.4'; b.style.pointerEvents = 'none'; }});
+                    confirmStep('voice', false);
+                });
+            }, 100);
         }
 
         /* ===== Voice Step: Run Generation ===== */
@@ -4586,11 +4627,12 @@
                     ${voiceListHtml}
                 </div>
                 <div class="chat-step-actions">
+                    <button class="chat-step-skip" data-step="${step}">跳过</button>
                     <button class="chat-step-ft-entry" data-step="${step}">
                         <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M2 4H14M2 8H10M2 12H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
                         去精调
                     </button>
-                    <button class="chat-step-confirm" data-step="${step}">✓ 确认，继续</button>
+                    <button class="chat-step-confirm" data-step="${step}">确认配音</button>
                 </div>`;
                 scrollChat();
 
@@ -4611,8 +4653,10 @@
                 // Bind buttons + voice line clicks
                 setTimeout(() => {
                     const confirmBtn = chatFlow.querySelector(`.chat-step-confirm[data-step="${step}"]:not([data-phase])`);
+                    const skipBtn = chatFlow.querySelector(`.chat-step-skip[data-step="${step}"]:not([data-phase])`);
                     const ftEntryBtn = chatFlow.querySelector(`.chat-step-ft-entry[data-step="${step}"]:not([data-phase])`);
                     if (confirmBtn) confirmBtn.addEventListener('click', () => confirmStep(step, true));
+                    if (skipBtn) skipBtn.addEventListener('click', () => confirmStep(step, false));
                     if (ftEntryBtn) ftEntryBtn.addEventListener('click', () => confirmAndFinetune(step));
 
                     voiceScanEl.querySelectorAll('.chat-voice-line').forEach(line => {
@@ -4630,7 +4674,7 @@
             }, 2200);
         }
 
-        /* ===== Subtitle Step: Phase 2A — ASR Recognition (auto-confirm + auto-translate) ===== */
+        /* ===== Subtitle Step: Phase 2A — ASR Recognition ===== */
         function startSubtitleASR() {
             // Hide erase overlays when entering subtitle phase
             if (previewingSteps.erase) {
@@ -4647,18 +4691,7 @@
             scrollChat();
 
             setTimeout(() => {
-                // Auto-confirm transcript and go straight to translation
-                scriptReady = true;
-                appendBubble('ai', `
-                    <div class="chat-scan-result">
-                        <span class="scan-check">
-                            <svg width="10" height="10" viewBox="0 0 14 14" fill="none"><path d="M3 7L6 10L11 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </span>
-                        语音识别完成！共提取 <strong>${subtitleItems.length} 句</strong>原文，正在翻译...
-                    </div>`, 0);
-                scrollChat();
-                // Auto-start translation with default config
-                setTimeout(() => runTranslationScan(), 600);
+                showTranscriptPreview('asr');
             }, 2000);
         }
 
@@ -4844,6 +4877,7 @@
                 });
 
                 const step = 'subtitle';
+                const confirmLabel = scriptReady ? '确认字幕' : stepMeta.subtitle.confirmText;
                 transScanEl.innerHTML = `<div class="bubble-avatar">
                     <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.2"/><path d="M8 4V8L10 10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
                     FrameX AI
@@ -4852,17 +4886,18 @@
                     <span class="scan-check">
                         <svg width="10" height="10" viewBox="0 0 14 14" fill="none"><path d="M3 7L6 10L11 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </span>
-                    翻译完成！已生成 <strong>${subtitleItems.length} 条</strong>中文→英文双语字幕
+                    翻译完成！已生成 <strong>${subtitleItems.length} 条</strong>双语字幕
                 </div>
                 <div class="chat-sub-list-inline">
                     ${subListHtml}
                 </div>
                 <div class="chat-step-actions">
+                    <button class="chat-step-skip" data-step="${step}">跳过</button>
                     <button class="chat-step-ft-entry" data-step="${step}">
                         <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M2 4H14M2 8H10M2 12H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
                         去精调
                     </button>
-                    <button class="chat-step-confirm" data-step="${step}">✓ 确认，继续</button>
+                    <button class="chat-step-confirm" data-step="${step}">${confirmLabel}</button>
                 </div>`;
                 scrollChat();
 
@@ -4885,8 +4920,10 @@
                 // Bind buttons + subtitle line clicks
                 setTimeout(() => {
                     const confirmBtn = chatFlow.querySelector(`.chat-step-confirm[data-step="${step}"]:not([data-phase])`);
+                    const skipBtn = chatFlow.querySelector(`.chat-step-skip[data-step="${step}"]:not([data-phase])`);
                     const ftEntryBtn = chatFlow.querySelector(`.chat-step-ft-entry[data-step="${step}"]:not([data-phase])`);
                     if (confirmBtn) confirmBtn.addEventListener('click', () => confirmStep(step, true));
+                    if (skipBtn) skipBtn.addEventListener('click', () => confirmStep(step, false));
                     if (ftEntryBtn) ftEntryBtn.addEventListener('click', () => confirmAndFinetune(step));
 
                     transScanEl.querySelectorAll('.chat-trans-line').forEach(line => {
@@ -4968,18 +5005,22 @@
             }, 50);
         }
 
-        /* ===== Phase C: Result bubble with actions ===== */
+        /* ===== Phase C: Result bubble with config + actions ===== */
         function showStepResultBubble(step, resultHtml) {
             const meta = stepMeta[step];
+            // For subtitle after translation phase, use different confirm text
+            const confirmLabel = (step === 'subtitle' && scriptReady) ? '确认字幕' : meta.confirmText;
 
             const bubbleHtml = `
                 ${resultHtml || ''}
+                ${meta.configHtml}
                 <div class="chat-step-actions">
+                    <button class="chat-step-skip" data-step="${step}">跳过</button>
                     <button class="chat-step-ft-entry" data-step="${step}">
                         <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M2 4H14M2 8H10M2 12H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
                         去精调
                     </button>
-                    <button class="chat-step-confirm" data-step="${step}">✓ 确认，继续</button>
+                    <button class="chat-step-confirm" data-step="${step}">${confirmLabel}</button>
                 </div>`;
             appendBubble('ai', bubbleHtml, 0);
             scrollChat();
@@ -5005,11 +5046,13 @@
 
             if (step === 'erase') renderEraseOverlays();
 
-            // Bind action buttons
+            // Bind action buttons — use :not([data-phase]) to avoid matching earlier phase buttons
             setTimeout(() => {
                 const confirmBtn = chatFlow.querySelector(`.chat-step-confirm[data-step="${step}"]:not([data-phase])`);
+                const skipBtn = chatFlow.querySelector(`.chat-step-skip[data-step="${step}"]:not([data-phase])`);
                 const ftEntryBtn = chatFlow.querySelector(`.chat-step-ft-entry[data-step="${step}"]:not([data-phase])`);
                 if (confirmBtn) confirmBtn.addEventListener('click', () => confirmStep(step, true));
+                if (skipBtn) skipBtn.addEventListener('click', () => confirmStep(step, false));
                 if (ftEntryBtn) ftEntryBtn.addEventListener('click', () => confirmAndFinetune(step));
             }, 50);
         }
@@ -5030,7 +5073,7 @@
             if (enabled) {
                 // User confirms
                 const labelMap = { erase: '擦除', subtitle: '字幕', voice: '配音' };
-                appendBubble('user', `已确认${labelMap[step]} ✓`, 0);
+                appendBubble('user', `已确认${labelMap[step]}设置 ✓`, 0);
 
                 // ===== Unlock the corresponding Tab =====
                 unlockTab(step);
@@ -5081,7 +5124,7 @@
             const btns = chatFlow.querySelectorAll(`.chat-step-confirm[data-step="${step}"], .chat-step-skip[data-step="${step}"], .chat-step-ft-entry[data-step="${step}"]`);
             btns.forEach(b => { b.disabled = true; b.style.opacity = '0.4'; b.style.pointerEvents = 'none'; });
 
-            const labelMap = { erase: '擦除设置', subtitle: '字幕翻译', voice: '配音设置' };
+            const labelMap = { erase: '擦除', subtitle: '字幕', voice: '配音' };
             appendBubble('user', `进入${labelMap[step]}精调 →`, 0);
 
             // Unlock tab + show track
@@ -5194,7 +5237,7 @@
 
             // Add chat bubble telling user to edit in the left panel
             const labelMap = { erase: '擦除', subtitle: '字幕', voice: '配音' };
-            const ftChatHtml = `<div style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.2);border-radius:12px;margin-top:4px;">
+            const ftChatHtml = `<div style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.2);border-radius:12px;margin-top:4px;">
                 <span style="font-size:1.2rem;">🔧</span>
                 <div style="font-size:0.82rem;line-height:1.5;">
                     <strong>已进入${labelMap[step]}精调模式</strong><br>
@@ -5345,7 +5388,7 @@
                         }
                     }, 100);
                 } else {
-                    appendBubble('ai', `<div style="display:flex;align-items:center;gap:8px;"><span style="color:#34d399;">✓</span> ${labelMap[wasStep]}精调已完成，继续配置流程</div>`, 0);
+                    appendBubble('ai', `<div style="display:flex;align-items:center;gap:8px;"><span style="color:#4ade80;">✓</span> ${labelMap[wasStep]}精调已完成，继续配置流程</div>`, 0);
                     scrollChat();
                 }
 
@@ -5414,9 +5457,9 @@
         function showStartButton() {
             // AI summary
             const enabledFeats = [];
-            if (features.erase) enabledFeats.push('擦除 7 处字幕');
-            if (features.subtitle) enabledFeats.push('中→英字幕翻译');
-            if (features.voice) enabledFeats.push('原声克隆配音');
+            if (features.erase) enabledFeats.push('擦除');
+            if (features.subtitle) enabledFeats.push('字幕翻译');
+            if (features.voice) enabledFeats.push('AI 配音');
 
             if (enabledFeats.length === 0) {
                 appendBubble('ai', '你跳过了所有步骤，请至少选择一个功能。', 0);
@@ -5425,7 +5468,7 @@
                 return;
             }
 
-            appendBubble('ai', `${activeSteps.length > 1 ? '全部配置完成！' : '配置完成！'}将为你执行：<strong>${enabledFeats.join(' → ')}</strong>。可以直接开始，也可以先精调细节。`, 0);
+            appendBubble('ai', `配置完成！已选择：<strong>${enabledFeats.join('、')}</strong>。可以直接开始，也可以先精调细节。`, 0);
 
             const startEl = document.createElement('div');
             startEl.className = 'chat-start-wrap';
@@ -6195,68 +6238,6 @@
         const landingFileInput = document.getElementById('tv2LandingFileInput');
         if (!landing || !uploadZone) return;
 
-        // Workflow mode: 'full' | 'erase' | 'subtitle' | 'voice'
-        window.workflowMode = 'full';
-
-        // === Mode Tab Copy Data ===
-        var modeCopy = {
-            full: {
-                title: '短视频出海，<span class="gradient-text">3 分钟说全球 120+ 语言</span>',
-                subtitle: '从字幕擦除到原声克隆配音，全程 AI 自动完成',
-                uploadMain: '拖拽视频到此处，或 <em>点击上传</em>',
-                uploadHint: '支持 MP4 / MOV / AVI / MKV 格式，最大 2GB'
-            },
-            erase: {
-                title: 'AI 智能<span class="gradient-text">擦除视频硬字幕</span>',
-                subtitle: '自动识别画面中的文字区域，精准擦除不留痕迹',
-                uploadMain: '拖拽视频到此处，AI 将 <em>擦除硬字幕</em>',
-                uploadHint: '支持 MP4 / MOV / AVI / MKV 格式，最大 2GB'
-            },
-            subtitle: {
-                title: '一键生成<span class="gradient-text">多语种字幕</span>',
-                subtitle: '语音识别 + 精准翻译 + 时间轴对齐，支持 120+ 语言',
-                uploadMain: '拖拽视频到此处，AI 将 <em>识别并添加字幕</em>',
-                uploadHint: '支持 MP4 / MOV / AVI / MKV 格式，最大 2GB'
-            },
-            voice: {
-                title: '原声克隆，<span class="gradient-text">用你的声音说外语</span>',
-                subtitle: '保留说话人声纹特征，目标语言自然配音',
-                uploadMain: '拖拽视频到此处，AI 将 <em>克隆原声配音</em>',
-                uploadHint: '支持 MP4 / MOV / AVI / MKV 格式，最大 2GB'
-            }
-        };
-
-        function switchMode(mode) {
-            window.workflowMode = mode;
-            var copy = modeCopy[mode] || modeCopy.full;
-            var heroTitle = document.getElementById('tv2HeroTitle');
-            var heroSubtitle = document.getElementById('tv2HeroSubtitle');
-            var uploadMain = document.getElementById('tv2UploadMain');
-            var uploadHint = document.getElementById('tv2UploadHint');
-            if (heroTitle) heroTitle.innerHTML = copy.title;
-            if (heroSubtitle) heroSubtitle.textContent = copy.subtitle;
-            if (uploadMain) uploadMain.innerHTML = copy.uploadMain;
-            if (uploadHint) uploadHint.textContent = copy.uploadHint;
-            // Update tab active state
-            document.querySelectorAll('.tv2-mode-tab').forEach(function(tab) {
-                tab.classList.toggle('active', tab.dataset.mode === mode);
-            });
-        }
-
-        // Tab click → switch mode (does NOT open file picker immediately)
-        document.querySelectorAll('.tv2-mode-tab').forEach(function(tab) {
-            tab.addEventListener('click', function(e) {
-                e.stopPropagation();
-                switchMode(this.dataset.mode);
-            });
-        });
-
-        // Read ?mode= from URL on page load
-        var urlMode = new URLSearchParams(window.location.search).get('mode');
-        if (urlMode && modeCopy[urlMode]) {
-            switchMode(urlMode);
-        }
-
         // Transition to editor, then trigger handleFile if a file was selected
         function enterEditorWithFile(file) {
             landing.style.transition = 'opacity 0.35s, transform 0.35s';
@@ -6273,7 +6254,7 @@
             }, 350);
         }
 
-        // Click upload zone → use current workflowMode → open file picker
+        // Click upload zone → open file picker
         uploadZone.addEventListener('click', function(e) {
             if (e.target === landingFileInput) return;
             landingFileInput.click();

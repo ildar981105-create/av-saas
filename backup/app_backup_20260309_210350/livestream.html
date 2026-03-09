@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>直播剪辑 — FrameX</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
     <aside class="sidebar">
@@ -500,8 +500,8 @@
             ctx.lineTo((heatData.length - 1) * step, 80);
             ctx.closePath();
             var grad = ctx.createLinearGradient(0, 0, 0, 80);
-            grad.addColorStop(0, 'rgba(99,102,241,0.4)');
-            grad.addColorStop(1, 'rgba(99,102,241,0)');
+            grad.addColorStop(0, 'rgba(168,85,247,0.4)');
+            grad.addColorStop(1, 'rgba(168,85,247,0)');
             ctx.fillStyle = grad;
             ctx.fill();
 
@@ -511,7 +511,7 @@
                 if (i === 0) ctx.moveTo(0, 80 - v * 0.7);
                 else ctx.lineTo(i * step, 80 - v * 0.7);
             });
-            ctx.strokeStyle = 'rgba(99,102,241,0.7)';
+            ctx.strokeStyle = 'rgba(168,85,247,0.7)';
             ctx.lineWidth = 2;
             ctx.stroke();
         }
@@ -676,7 +676,7 @@
         top: 50%; left: 50%;
         transform: translate(-50%, -50%);
         width: 600px; height: 400px;
-        background: radial-gradient(circle, rgba(239,68,68,0.06) 0%, rgba(99,102,241,0.04) 40%, transparent 70%);
+        background: radial-gradient(circle, rgba(239,68,68,0.06) 0%, rgba(168,85,247,0.04) 40%, transparent 70%);
         border-radius: 50%;
         pointer-events: none;
         animation: heroGlowPulse 5s ease-in-out infinite;
@@ -716,7 +716,7 @@
     }
     .ls-hero-desc {
         font-size: 0.95rem;
-        color: var(--text-muted);
+        color: #64748b;
         margin-bottom: 32px;
     }
 
@@ -749,10 +749,10 @@
         border: none;
         outline: none;
         font-size: 1rem;
-        color: var(--text-primary);
+        color: #e2e8f0;
         padding: 12px 0;
     }
-    .ls-input-box input::placeholder { color: var(--text-faint); }
+    .ls-input-box input::placeholder { color: #475569; }
     .ls-input-go {
         display: inline-flex;
         align-items: center;
@@ -781,7 +781,7 @@
         gap: 8px;
         margin-top: 12px;
         font-size: 0.72rem;
-        color: var(--text-faint);
+        color: #475569;
         flex-wrap: wrap;
     }
     .ls-platform-tag {
@@ -790,7 +790,7 @@
         border: 1px solid rgba(255,255,255,0.06);
         border-radius: 6px;
         font-size: 0.7rem;
-        color: var(--text-muted);
+        color: #64748b;
     }
 
     /* === Config Section === */
@@ -806,7 +806,7 @@
         padding: 10px 16px;
         font-size: 0.8rem;
         font-weight: 500;
-        color: var(--text-muted);
+        color: #64748b;
         background: rgba(255,255,255,0.02);
         border: 1px solid rgba(255,255,255,0.06);
         border-radius: 12px;
@@ -814,7 +814,7 @@
         transition: all 0.2s;
         font-family: inherit;
     }
-    .ls-config-toggle:hover { color: var(--text-secondary); border-color: rgba(255,255,255,0.1); }
+    .ls-config-toggle:hover { color: #94a3b8; border-color: rgba(255,255,255,0.1); }
     .ls-config-toggle.open { border-radius: 12px 12px 0 0; border-bottom-color: transparent; }
     .ls-toggle-arrow { margin-left: auto; transition: transform 0.3s; }
     .ls-config-toggle.open .ls-toggle-arrow { transform: rotate(180deg); }
@@ -860,7 +860,7 @@
     }
     .ls-scene-body { padding: 12px 14px 14px; }
     .ls-scene-body h4 { font-size: 0.88rem; font-weight: 700; margin-bottom: 4px; }
-    .ls-scene-body p { font-size: 0.73rem; color: var(--text-muted); line-height: 1.45; }
+    .ls-scene-body p { font-size: 0.73rem; color: #64748b; line-height: 1.45; }
 
     /* === Stats === */
     .ls-stats {
@@ -874,7 +874,7 @@
         background: linear-gradient(135deg, #ef4444, #f97316);
         -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-    .ls-stat-label { font-size: 0.72rem; color: var(--text-muted); }
+    .ls-stat-label { font-size: 0.72rem; color: #64748b; }
     .ls-stat-div { width: 1px; height: 36px; background: var(--glass-border); }
 
     /* ============================================
@@ -895,15 +895,15 @@
         border: 1px solid rgba(239,68,68,0.25); border-radius: 6px;
         letter-spacing: 1px;
     }
-    .ls-work-title { font-size: 0.88rem; font-weight: 600; color: var(--text-primary); }
+    .ls-work-title { font-size: 0.88rem; font-weight: 600; color: #e2e8f0; }
     .ls-work-duration {
         font-size: 0.78rem; font-family: 'JetBrains Mono', monospace;
-        color: var(--text-muted);
+        color: #64748b;
     }
     .ls-work-right { display: flex; align-items: center; gap: 14px; }
     .ls-work-stat {
         display: flex; align-items: center; gap: 5px;
-        font-size: 0.78rem; color: var(--text-secondary);
+        font-size: 0.78rem; color: #94a3b8;
     }
     .ls-stop-btn {
         display: inline-flex; align-items: center; gap: 6px;
@@ -1018,7 +1018,7 @@
         font-size: 0.9rem;
     }
     .ls-streamer-meta { display: flex; flex-direction: column; }
-    .ls-streamer-name { font-size: 0.78rem; font-weight: 600; color: var(--text-primary); }
+    .ls-streamer-name { font-size: 0.78rem; font-weight: 600; color: #e2e8f0; }
     .ls-streamer-viewers { font-size: 0.65rem; color: rgba(255,255,255,0.5); }
 
     /* ============================================
@@ -1036,19 +1036,19 @@
     }
     .ls-tl-left {
         display: flex; align-items: center; gap: 6px;
-        font-size: 0.72rem; font-weight: 600; color: var(--text-secondary);
+        font-size: 0.72rem; font-weight: 600; color: #94a3b8;
     }
     .ls-tl-right { display: flex; align-items: center; gap: 4px; }
     .ls-tl-zoom {
         width: 24px; height: 24px;
         border-radius: 6px; border: 1px solid rgba(255,255,255,0.08);
         background: rgba(255,255,255,0.03);
-        color: var(--text-secondary); font-size: 0.9rem;
+        color: #94a3b8; font-size: 0.9rem;
         display: flex; align-items: center; justify-content: center;
         cursor: pointer; transition: all 0.2s;
     }
-    .ls-tl-zoom:hover { background: rgba(255,255,255,0.06); color: var(--text-primary); }
-    .ls-tl-scale { font-size: 0.68rem; font-family: 'JetBrains Mono', monospace; color: var(--text-faint); min-width: 20px; text-align: center; }
+    .ls-tl-zoom:hover { background: rgba(255,255,255,0.06); color: #e2e8f0; }
+    .ls-tl-scale { font-size: 0.68rem; font-family: 'JetBrains Mono', monospace; color: #475569; min-width: 20px; text-align: center; }
 
     .ls-tl-track {
         position: relative;
@@ -1065,7 +1065,7 @@
     .ls-tl-tick {
         position: absolute; top: 2px;
         font-size: 0.55rem; font-family: 'JetBrains Mono', monospace;
-        color: var(--text-dim); transform: translateX(-50%);
+        color: #334155; transform: translateX(-50%);
     }
     .ls-tl-heatmap {
         position: absolute;
@@ -1116,13 +1116,13 @@
     .ls-tl-action-btn {
         display: inline-flex; align-items: center; gap: 5px;
         padding: 5px 12px; font-size: 0.7rem; font-weight: 500;
-        color: var(--text-secondary); background: rgba(255,255,255,0.03);
+        color: #94a3b8; background: rgba(255,255,255,0.03);
         border: 1px solid rgba(255,255,255,0.06); border-radius: 6px;
         cursor: pointer; font-family: inherit; transition: all 0.2s;
     }
     .ls-tl-action-btn:hover {
-        color: var(--text-primary); border-color: rgba(99,102,241,0.3);
-        background: rgba(99,102,241,0.06);
+        color: #e2e8f0; border-color: rgba(168,85,247,0.3);
+        background: rgba(168,85,247,0.06);
     }
 
     /* ============================================
@@ -1159,8 +1159,8 @@
         text-align: center; flex: 1;
     }
     .ls-ws-empty-icon { font-size: 2rem; margin-bottom: 12px; opacity: 0.5; }
-    .ls-ws-empty p { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 4px; }
-    .ls-ws-empty span { font-size: 0.72rem; color: var(--text-faint); }
+    .ls-ws-empty p { font-size: 0.85rem; color: #94a3b8; margin-bottom: 4px; }
+    .ls-ws-empty span { font-size: 0.72rem; color: #475569; }
 
     .ls-ws-footer {
         padding: 12px; flex-shrink: 0;
@@ -1174,10 +1174,10 @@
         background: linear-gradient(135deg, #a855f7, #6366f1);
         border: none; border-radius: 10px;
         cursor: pointer; font-family: inherit;
-        box-shadow: 0 0 20px rgba(99,102,241,0.2);
+        box-shadow: 0 0 20px rgba(168,85,247,0.2);
         transition: all 0.3s;
     }
-    .ls-ws-export-btn:hover { transform: translateY(-1px); box-shadow: 0 0 30px rgba(99,102,241,0.35); }
+    .ls-ws-export-btn:hover { transform: translateY(-1px); box-shadow: 0 0 30px rgba(168,85,247,0.35); }
 
     /* === Clip Card === */
     .ls-clip-card {
@@ -1213,11 +1213,11 @@
         display: flex; flex-direction: column; gap: 2px;
     }
     .ls-clip-title {
-        font-size: 0.78rem; font-weight: 600; color: var(--text-primary);
+        font-size: 0.78rem; font-weight: 600; color: #e2e8f0;
         white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
     .ls-clip-time {
-        font-size: 0.62rem; color: var(--text-faint);
+        font-size: 0.62rem; color: #475569;
         font-family: 'JetBrains Mono', monospace;
     }
     .ls-clip-score {
@@ -1230,12 +1230,12 @@
     }
     .ls-clip-score-fill {
         height: 100%;
-        background: linear-gradient(90deg, #10b981, #34d399);
+        background: linear-gradient(90deg, #22c55e, #4ade80);
         border-radius: 2px;
     }
     .ls-clip-score span {
         font-size: 0.6rem; font-family: 'JetBrains Mono', monospace;
-        color: #34d399; flex-shrink: 0;
+        color: #4ade80; flex-shrink: 0;
     }
     .ls-clip-actions {
         display: flex; gap: 0;
@@ -1245,12 +1245,12 @@
         flex: 1;
         display: inline-flex; align-items: center; justify-content: center; gap: 4px;
         padding: 7px; font-size: 0.68rem; font-weight: 500;
-        color: var(--text-muted); background: none; border: none;
+        color: #64748b; background: none; border: none;
         cursor: pointer; font-family: inherit; transition: all 0.2s;
         border-right: 1px solid rgba(255,255,255,0.04);
     }
     .ls-clip-btn:last-child { border-right: none; }
-    .ls-clip-btn:hover { color: var(--text-primary); background: rgba(255,255,255,0.04); }
+    .ls-clip-btn:hover { color: #e2e8f0; background: rgba(255,255,255,0.04); }
     .ls-clip-play:hover { color: #ef4444; }
     .ls-clip-dl:hover { color: #a855f7; }
 
