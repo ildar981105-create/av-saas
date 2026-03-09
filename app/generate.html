@@ -7,367 +7,978 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        /* Inspiration Gallery */
-        .gen-inspiration { margin-bottom: 28px; }
-        .gen-insp-header {
-            display: flex;
-            align-items: baseline;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-        .gen-insp-hint { font-size: 0.75rem; color: #334155; }
-        .gen-insp-scroll {
-            display: flex;
-            gap: 14px;
-            overflow-x: auto;
-            padding-bottom: 8px;
-            scroll-snap-type: x mandatory;
-            scrollbar-width: thin;
-            scrollbar-color: rgba(255,255,255,0.06) transparent;
-        }
-        .gen-insp-scroll::-webkit-scrollbar { height: 4px; }
-        .gen-insp-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
-        .gen-insp-card {
-            flex: 0 0 220px;
-            scroll-snap-align: start;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.35s;
-            cursor: pointer;
-        }
-        .gen-insp-card:hover {
-            border-color: rgba(6,182,212,0.35);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(6,182,212,0.08);
-        }
-        .gen-insp-img {
-            position: relative;
-            aspect-ratio: 16/10;
-            overflow: hidden;
-        }
-        .gen-insp-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.4s;
-        }
-        .gen-insp-card:hover .gen-insp-img img { transform: scale(1.06); }
-        .gen-insp-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(transparent 40%, rgba(8,8,13,0.7));
-        }
-        .gen-insp-body {
-            padding: 10px 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .gen-insp-body h5 { font-size: 0.8rem; font-weight: 600; }
-        .gen-insp-tag {
-            padding: 2px 8px;
-            font-size: 0.65rem;
-            font-weight: 500;
-            color: #22d3ee;
-            background: rgba(6,182,212,0.12);
-            border-radius: 4px;
-            flex-shrink: 0;
-        }
+    /* ==============================================
+       AI 生成 — 沉浸式全屏体验
+       ============================================== */
+    .aig-body {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+    }
 
-        /* Capabilities */
-        .gen-capabilities {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-            padding: 18px;
-            margin-bottom: 28px;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 14px;
-            flex-wrap: wrap;
+    /* ===== Top Bar ===== */
+    .aig-topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 48px;
+        padding: 0 16px;
+        background: rgba(10,10,16,0.92);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        flex-shrink: 0;
+        z-index: 100;
+    }
+    .aig-topbar-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .aig-back {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.78rem;
+        font-weight: 500;
+        color: #64748b;
+        transition: color 0.2s;
+        text-decoration: none;
+    }
+    .aig-back:hover { color: #e2e8f0; }
+    .aig-topbar-title {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #e2e8f0;
+    }
+    .aig-topbar-title .subtitle {
+        font-weight: 400;
+        color: #475569;
+        font-size: 0.72rem;
+        margin-left: 8px;
+    }
+    .aig-topbar-right {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .aig-credits {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 12px;
+        font-size: 0.72rem;
+        font-weight: 500;
+        color: #a78bfa;
+        background: rgba(168,85,247,0.1);
+        border: 1px solid rgba(168,85,247,0.2);
+        border-radius: 100px;
+    }
+    .aig-topbar-btn {
+        width: 32px; height: 32px;
+        border-radius: 8px;
+        border: 1px solid rgba(255,255,255,0.06);
+        background: rgba(255,255,255,0.03);
+        color: #64748b;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .aig-topbar-btn:hover { color: #e2e8f0; background: rgba(255,255,255,0.06); }
+
+    /* ===== Main Split ===== */
+    .aig-main {
+        flex: 1;
+        display: flex;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    /* ===== Left: Canvas Area ===== */
+    .aig-canvas-area {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+        min-width: 0;
+        background: #06060a;
+    }
+
+    /* Phase overlays */
+    .aig-phase {
+        position: absolute;
+        inset: 0;
+        display: none;
+        z-index: 1;
+    }
+    .aig-phase.active { display: flex; }
+
+    /* Phase 0: Welcome / Input */
+    .aig-welcome {
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient(ellipse at center, rgba(168,85,247,0.04) 0%, transparent 70%);
+    }
+    .aig-welcome-inner {
+        text-align: center;
+        max-width: 480px;
+        position: relative;
+        z-index: 2;
+    }
+    .aig-welcome-glow {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        width: 600px; height: 600px;
+        background: radial-gradient(circle,
+            rgba(168,85,247,0.06) 0%,
+            rgba(99,102,241,0.03) 30%,
+            rgba(6,182,212,0.02) 50%,
+            transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+        animation: aigGlowPulse 6s ease-in-out infinite;
+    }
+    @keyframes aigGlowPulse {
+        0%, 100% { transform: translate(-50%,-50%) scale(1); opacity: 0.7; }
+        50% { transform: translate(-50%,-50%) scale(1.2); opacity: 1; }
+    }
+    .aig-welcome-orb {
+        position: relative;
+        width: 80px; height: 80px;
+        margin: 0 auto 28px;
+    }
+    .aig-welcome-orb-core {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%,-50%);
+        width: 56px; height: 56px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #a855f7, #6366f1, #06b6d4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 40px rgba(168,85,247,0.4), 0 0 80px rgba(99,102,241,0.15);
+    }
+    .aig-welcome-orb-ring {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%,-50%);
+        width: 80px; height: 80px;
+        border-radius: 50%;
+        border: 2px solid rgba(168,85,247,0.15);
+        animation: aigOrbPulse 3s ease-in-out infinite;
+    }
+    @keyframes aigOrbPulse {
+        0%, 100% { transform: translate(-50%,-50%) scale(1); opacity: 0.5; }
+        50% { transform: translate(-50%,-50%) scale(1.4); opacity: 0; }
+    }
+    .aig-welcome h1 {
+        font-size: 1.8rem;
+        font-weight: 800;
+        margin-bottom: 10px;
+        line-height: 1.3;
+    }
+    .aig-welcome-desc {
+        font-size: 0.88rem;
+        color: #64748b;
+        margin-bottom: 36px;
+        line-height: 1.6;
+    }
+    /* Inspiration chips */
+    .aig-inspo-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    .aig-inspo-chip {
+        padding: 8px 18px;
+        font-size: 0.78rem;
+        font-weight: 500;
+        color: #94a3b8;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 100px;
+        cursor: pointer;
+        transition: all 0.25s;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .aig-inspo-chip:hover {
+        color: #e2e8f0;
+        border-color: rgba(168,85,247,0.35);
+        background: rgba(168,85,247,0.06);
+        transform: translateY(-2px);
+    }
+    .aig-inspo-chip.active {
+        color: #a78bfa;
+        background: rgba(168,85,247,0.1);
+        border-color: rgba(168,85,247,0.4);
+    }
+    .aig-inspo-emoji { font-size: 1rem; }
+
+    /* Capabilities */
+    .aig-caps {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        margin-top: 24px;
+    }
+    .aig-cap {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.72rem;
+        color: #475569;
+    }
+    .aig-cap-dot {
+        width: 4px; height: 4px;
+        border-radius: 50%;
+        background: rgba(168,85,247,0.4);
+    }
+
+    /* Phase 1: Storyboard Preview */
+    .aig-storyboard {
+        flex-direction: column;
+        background: #06060a;
+    }
+    .aig-sb-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 16px 20px;
+        flex-shrink: 0;
+    }
+    .aig-sb-badge {
+        padding: 4px 12px;
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: #a78bfa;
+        background: rgba(168,85,247,0.1);
+        border: 1px solid rgba(168,85,247,0.2);
+        border-radius: 100px;
+    }
+    .aig-sb-info {
+        font-size: 0.78rem;
+        color: #64748b;
+    }
+    .aig-sb-grid {
+        flex: 1;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding: 0 20px 20px;
+        overflow-y: auto;
+        min-height: 0;
+    }
+    .aig-sb-grid::-webkit-scrollbar { width: 4px; }
+    .aig-sb-grid::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.06); border-radius: 2px; }
+    .aig-sb-card {
+        position: relative;
+        aspect-ratio: 16/10;
+        border-radius: 14px;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.06);
+        background: linear-gradient(135deg, rgba(15,15,30,0.8), rgba(10,10,20,0.9));
+        cursor: pointer;
+        transition: all 0.35s;
+    }
+    .aig-sb-card:hover {
+        border-color: rgba(168,85,247,0.3);
+        transform: scale(1.02);
+        box-shadow: 0 8px 30px rgba(168,85,247,0.1);
+    }
+    .aig-sb-card canvas {
+        width: 100%; height: 100%;
+        display: block;
+    }
+    .aig-sb-card-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(transparent 50%, rgba(0,0,0,0.7));
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 14px;
+    }
+    .aig-sb-card-num {
+        position: absolute;
+        top: 10px; left: 10px;
+        width: 24px; height: 24px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: #fff;
+        background: rgba(168,85,247,0.6);
+        backdrop-filter: blur(8px);
+    }
+    .aig-sb-card-duration {
+        position: absolute;
+        top: 10px; right: 10px;
+        padding: 2px 8px;
+        font-size: 0.65rem;
+        font-weight: 500;
+        color: #fff;
+        background: rgba(0,0,0,0.55);
+        border-radius: 6px;
+        font-family: 'JetBrains Mono', monospace;
+    }
+    .aig-sb-card-title {
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 2px;
+    }
+    .aig-sb-card-desc {
+        font-size: 0.68rem;
+        color: rgba(255,255,255,0.6);
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        line-height: 1.4;
+    }
+
+    /* Phase 2: Synthesizing */
+    .aig-synth {
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #06060a 0%, #0a0a1a 50%, #06060a 100%);
+    }
+    .aig-synth-inner {
+        text-align: center;
+        max-width: 400px;
+    }
+    .aig-synth-orb {
+        position: relative;
+        width: 100px; height: 100px;
+        margin: 0 auto 28px;
+    }
+    .aig-synth-orb .ring {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        border: 2px solid transparent;
+    }
+    .aig-synth-orb .ring:nth-child(1) { width:100px;height:100px; border-top-color:#a855f7; animation: spin 1.5s linear infinite; }
+    .aig-synth-orb .ring:nth-child(2) { width:76px;height:76px; border-right-color:#6366f1; animation: spin 2s linear infinite reverse; }
+    .aig-synth-orb .ring:nth-child(3) { width:52px;height:52px; border-bottom-color:#06b6d4; animation: spin 1s linear infinite; }
+    .aig-synth-orb .core {
+        position: absolute; top:50%;left:50%; transform:translate(-50%,-50%);
+        width:20px;height:20px; border-radius:50%;
+        background: linear-gradient(135deg, #a855f7, #06b6d4);
+        box-shadow: 0 0 30px rgba(168,85,247,0.5);
+    }
+    .aig-synth-text {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #e2e8f0;
+        margin-bottom: 8px;
+    }
+    .aig-synth-sub {
+        font-size: 0.82rem;
+        color: #64748b;
+        margin-bottom: 24px;
+    }
+    .aig-synth-progress {
+        width: 240px;
+        height: 4px;
+        background: rgba(255,255,255,0.06);
+        border-radius: 2px;
+        overflow: hidden;
+        margin: 0 auto 12px;
+    }
+    .aig-synth-progress-bar {
+        height: 100%;
+        background: linear-gradient(90deg, #a855f7, #6366f1, #06b6d4);
+        border-radius: 2px;
+        width: 0%;
+        transition: width 0.6s ease;
+    }
+    .aig-synth-clip-info {
+        font-size: 0.78rem;
+        color: #64748b;
+        font-family: 'JetBrains Mono', monospace;
+    }
+    /* Synth clip cards */
+    .aig-synth-clips {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    .aig-synth-clip-dot {
+        width: 36px; height: 36px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: #475569;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.06);
+        transition: all 0.3s;
+    }
+    .aig-synth-clip-dot.active {
+        color: #a78bfa;
+        background: rgba(168,85,247,0.12);
+        border-color: rgba(168,85,247,0.3);
+        box-shadow: 0 0 16px rgba(168,85,247,0.15);
+    }
+    .aig-synth-clip-dot.completed {
+        color: #22c55e;
+        background: rgba(34,197,94,0.1);
+        border-color: rgba(34,197,94,0.25);
+    }
+
+    /* Phase 3: Player */
+    .aig-player {
+        background: #06060a;
+    }
+    .aig-player canvas {
+        width: 100%; height: 100%;
+        display: block;
+    }
+    .aig-player-controls {
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 20px;
+        background: linear-gradient(transparent, rgba(0,0,0,0.75));
+        z-index: 5;
+    }
+    .aig-timeline-overlay {
+        position: absolute;
+        bottom: 56px; left: 16px; right: 16px;
+        display: flex;
+        gap: 3px;
+        height: 28px;
+        z-index: 4;
+    }
+    .aig-tl-seg {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        font-size: 0.62rem;
+        font-weight: 600;
+        border: 1px solid;
+        transition: all 0.3s;
+        cursor: default;
+    }
+    .aig-tl-seg.active {
+        box-shadow: 0 0 12px rgba(168,85,247,0.2);
+        transform: scaleY(1.1);
+    }
+
+    /* ===== Right Sidebar ===== */
+    .aig-sidebar {
+        width: 360px;
+        flex-shrink: 0;
+        background: rgba(12,12,20,0.95);
+        backdrop-filter: blur(20px);
+        border-left: 1px solid rgba(255,255,255,0.06);
+        display: flex;
+        flex-direction: column;
+        z-index: 50;
+        overflow: hidden;
+        transition: width 0.35s cubic-bezier(.4,0,.2,1), opacity 0.25s;
+    }
+    .aig-sidebar.collapsed {
+        width: 0; min-width: 0; border-left-color: transparent; opacity: 0; pointer-events: none;
+    }
+
+    /* Sidebar header */
+    .aig-sb-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 16px;
+        flex-shrink: 0;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .aig-sb-step-label {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #94a3b8;
+    }
+
+    /* Sidebar body */
+    .aig-sb-body {
+        flex: 1;
+        padding: 16px;
+        overflow-y: auto;
+        min-height: 0;
+    }
+    .aig-sb-body::-webkit-scrollbar { width: 4px; }
+    .aig-sb-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.06); border-radius: 2px; }
+
+    /* Sidebar panels */
+    .aig-panel { display: none; }
+    .aig-panel.active { display: block; animation: aigPanelIn 0.35s ease-out; }
+    @keyframes aigPanelIn {
+        from { opacity: 0; transform: translateY(12px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Story panel */
+    .aig-story-label {
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: #475569;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 10px;
+    }
+    .aig-story-textarea {
+        width: 100%;
+        min-height: 140px;
+        padding: 14px 16px;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.07);
+        border-radius: 14px;
+        color: #e2e8f0;
+        font-size: 0.85rem;
+        font-family: inherit;
+        outline: none;
+        resize: vertical;
+        line-height: 1.7;
+        transition: border-color 0.3s;
+        margin-bottom: 10px;
+    }
+    .aig-story-textarea::placeholder { color: #475569; }
+    .aig-story-textarea:focus { border-color: rgba(168,85,247,0.35); }
+    .aig-story-tools {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+    }
+    .aig-char-count {
+        font-size: 0.7rem;
+        color: #475569;
+        font-family: 'JetBrains Mono', monospace;
+    }
+    .aig-ai-btns {
+        display: flex;
+        gap: 6px;
+    }
+    .aig-ai-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 5px 12px;
+        font-size: 0.72rem;
+        font-weight: 500;
+        color: #a78bfa;
+        background: rgba(168,85,247,0.08);
+        border: 1px solid rgba(168,85,247,0.2);
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+    }
+    .aig-ai-btn:hover { background: rgba(168,85,247,0.15); border-color: rgba(168,85,247,0.4); }
+    .aig-ai-btn.loading { opacity: 0.5; pointer-events: none; }
+
+    /* Config section in sidebar */
+    .aig-config-section {
+        margin-bottom: 16px;
+    }
+    .aig-config-title {
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: #475569;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 10px;
+    }
+    .aig-config-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    .aig-config-grid .config-field { min-width: 0; }
+    .aig-config-full {
+        grid-column: span 2;
+    }
+
+    /* Sidebar footer actions */
+    .aig-sb-foot {
+        padding: 12px 16px;
+        border-top: 1px solid rgba(255,255,255,0.05);
+        flex-shrink: 0;
+    }
+    .aig-next-btn {
+        width: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 11px 24px;
+        font-size: 0.88rem;
+        font-weight: 700;
+        color: #fff;
+        background: linear-gradient(135deg, #a855f7, #6366f1, #3b82f6, #06b6d4);
+        background-size: 200% 200%;
+        animation: immGradShift 4s ease infinite;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        box-shadow: 0 0 30px rgba(168,85,247,0.25);
+        transition: all 0.3s;
+        font-family: inherit;
+        position: relative;
+        overflow: hidden;
+    }
+    .aig-next-btn:hover { transform: translateY(-1px); box-shadow: 0 0 50px rgba(168,85,247,0.35); }
+    .aig-next-btn::before {
+        content: '';
+        position: absolute;
+        top: -50%; left: -50%;
+        width: 200%; height: 200%;
+        background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.1), transparent 30%);
+        animation: shimmer 3s linear infinite;
+    }
+    .aig-next-btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        transform: none !important;
+        box-shadow: none !important;
+    }
+    .aig-secondary-btn {
+        width: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 10px 20px;
+        font-size: 0.82rem;
+        font-weight: 500;
+        color: #94a3b8;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+        margin-top: 8px;
+    }
+    .aig-secondary-btn:hover { color: #e2e8f0; border-color: rgba(168,85,247,0.3); }
+
+    /* Clips editor panel */
+    .aig-clip-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .aig-clip-item {
+        padding: 12px 14px;
+        background: rgba(255,255,255,0.025);
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 12px;
+        transition: all 0.25s;
+        cursor: pointer;
+    }
+    .aig-clip-item:hover { border-color: rgba(168,85,247,0.2); }
+    .aig-clip-item.active {
+        border-color: rgba(168,85,247,0.35);
+        background: rgba(168,85,247,0.04);
+    }
+    .aig-clip-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+    }
+    .aig-clip-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 3px 10px;
+        border-radius: 6px;
+        font-size: 0.72rem;
+        font-weight: 600;
+    }
+    .aig-clip-dur {
+        font-size: 0.68rem;
+        color: #64748b;
+        font-family: 'JetBrains Mono', monospace;
+    }
+    .aig-clip-textarea {
+        width: 100%;
+        min-height: 48px;
+        padding: 8px 10px;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 10px;
+        color: #e2e8f0;
+        font-size: 0.78rem;
+        font-family: inherit;
+        outline: none;
+        resize: vertical;
+        line-height: 1.5;
+        transition: border-color 0.2s;
+    }
+    .aig-clip-textarea:focus { border-color: rgba(168,85,247,0.3); }
+    .aig-clip-textarea::placeholder { color: #475569; }
+
+    /* Done panel */
+    .aig-done-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 16px;
+    }
+    .aig-done-download {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px 24px;
+        font-size: 0.88rem;
+        font-weight: 700;
+        color: #fff;
+        background: linear-gradient(135deg, #a855f7, #6366f1, #3b82f6);
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        box-shadow: 0 0 30px rgba(168,85,247,0.3);
+        transition: all 0.3s;
+        font-family: inherit;
+    }
+    .aig-done-download:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(168,85,247,0.4); }
+
+    /* Export panel */
+    .aig-export-panel {
+        position: fixed;
+        right: 380px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 320px;
+        background: rgba(15,15,25,0.95);
+        border: 1px solid rgba(255,255,255,0.07);
+        border-radius: 20px;
+        backdrop-filter: blur(20px);
+        box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        z-index: 200;
+        display: none;
+        overflow: hidden;
+    }
+    .aig-export-panel.visible { display: block; animation: aigExportIn 0.3s ease-out; }
+    @keyframes aigExportIn {
+        from { opacity: 0; transform: translateY(-50%) translateX(20px); }
+        to { opacity: 1; transform: translateY(-50%) translateX(0); }
+    }
+    .aig-export-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 20px;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .aig-export-header h3 { font-size: 0.9rem; font-weight: 600; }
+    .aig-export-body { padding: 16px 20px; }
+
+    /* Style selector visual grid */
+    .aig-style-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin-bottom: 14px;
+    }
+    .aig-style-card {
+        padding: 10px 8px;
+        text-align: center;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.25s;
+        font-family: inherit;
+    }
+    .aig-style-card:hover {
+        border-color: rgba(168,85,247,0.25);
+        background: rgba(168,85,247,0.04);
+    }
+    .aig-style-card.active {
+        border-color: rgba(168,85,247,0.5);
+        background: rgba(168,85,247,0.08);
+        box-shadow: 0 0 16px rgba(168,85,247,0.1);
+    }
+    .aig-style-icon { font-size: 1.3rem; margin-bottom: 4px; display: block; }
+    .aig-style-name {
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: #94a3b8;
+    }
+    .aig-style-card.active .aig-style-name { color: #a78bfa; }
+
+    /* Ratio chips */
+    .aig-ratio-chips {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 14px;
+    }
+    .aig-ratio-chip {
+        flex: 1;
+        padding: 8px;
+        text-align: center;
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: #64748b;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.25s;
+        font-family: inherit;
+    }
+    .aig-ratio-chip:hover { border-color: rgba(168,85,247,0.25); color: #94a3b8; }
+    .aig-ratio-chip.active {
+        color: #a78bfa;
+        background: rgba(168,85,247,0.08);
+        border-color: rgba(168,85,247,0.4);
+    }
+    .aig-ratio-icon {
+        display: block;
+        margin: 0 auto 4px;
+        width: 24px; height: 16px;
+        border: 1.5px solid currentColor;
+        border-radius: 3px;
+    }
+    .aig-ratio-chip:nth-child(2) .aig-ratio-icon { width: 14px; height: 22px; }
+    .aig-ratio-chip:nth-child(3) .aig-ratio-icon { width: 20px; height: 20px; }
+
+    @media (max-width: 768px) {
+        .aig-sidebar { width: 280px; }
+        .aig-config-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+        .aig-main { flex-direction: column; }
+        .aig-sidebar {
+            width: 100%; max-height: 45vh; border-left: none;
+            border-top: 1px solid rgba(255,255,255,0.06);
         }
-        .gen-cap-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .gen-cap-icon { font-size: 1rem; }
-        .gen-cap-text {
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: #94a3b8;
-        }
+    }
     </style>
 </head>
 <body>
-    <aside class="sidebar">
-        <a href="index.html" class="sidebar-logo"><svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#sLogo)" stroke-width="2.5"/><path d="M12 10L22 16L12 22V10Z" fill="url(#sLogo)"/><defs><linearGradient id="sLogo" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#a855f7"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs></svg><span>FrameX</span></a>
-        <nav class="sidebar-nav">
-            <a href="index.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10L10 3L17 10V17H12V13H8V17H3V10Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span>工作台</span></a>
-            <a href="translate-v3.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 9H13M7 12H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>视频译制</span></a>
-            <a href="livestream.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="4" cy="5" r="2" fill="#ef4444"/></svg><span>直播剪辑</span></a>
-            <a href="generate.html" class="nav-item active"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L12 8H18L13 12L15 18L10 14L5 18L7 12L2 8H8L10 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span>AI 生成</span></a>
-            <div class="nav-divider"></div>
-            <a href="result.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 10L9 12L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>任务记录</span></a>
-        </nav>
-        <div class="sidebar-bottom"><div class="user-card"><div class="avatar">U</div><div class="user-info"><span class="user-name">用户</span><span class="user-plan">专业版</span></div></div></div>
-    </aside>
-
-    <button class="back-to-nav">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        返回工作台
-    </button>
-
-    <main class="main-content">
-        <div class="task-page-header">
-            <h1>从创意到成片，AI 帮你<span class="gradient-text">一键生成</span></h1>
-            <p>三步完成：编写故事 → 拆解片段 → 合成视频</p>
-        </div>
-
-        <!-- 灵感画廊 -->
-        <section class="gen-inspiration">
-            <div class="gen-insp-header">
-                <h3 class="section-label">灵感画廊</h3>
-                <span class="gen-insp-hint">点击案例查看效果，获取创作灵感</span>
-            </div>
-            <div class="gen-insp-scroll">
-                <div class="gen-insp-card">
-                    <div class="gen-insp-img">
-                        <img src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?w=280&h=180&fit=crop" alt="赛博城市">
-                        <div class="gen-insp-overlay"></div>
-                    </div>
-                    <div class="gen-insp-body">
-                        <h5>赛博城市夜景</h5>
-                        <span class="gen-insp-tag">赛博朋克</span>
-                    </div>
-                </div>
-                <div class="gen-insp-card">
-                    <div class="gen-insp-img">
-                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=280&h=180&fit=crop" alt="产品广告">
-                        <div class="gen-insp-overlay"></div>
-                    </div>
-                    <div class="gen-insp-body">
-                        <h5>产品广告大片</h5>
-                        <span class="gen-insp-tag">电影感</span>
-                    </div>
-                </div>
-                <div class="gen-insp-card">
-                    <div class="gen-insp-img">
-                        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=280&h=180&fit=crop" alt="自然风光">
-                        <div class="gen-insp-overlay"></div>
-                    </div>
-                    <div class="gen-insp-body">
-                        <h5>自然风光延时</h5>
-                        <span class="gen-insp-tag">写实</span>
-                    </div>
-                </div>
-                <div class="gen-insp-card">
-                    <div class="gen-insp-img">
-                        <img src="https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?w=280&h=180&fit=crop" alt="动画短片">
-                        <div class="gen-insp-overlay"></div>
-                    </div>
-                    <div class="gen-insp-body">
-                        <h5>创意动画短片</h5>
-                        <span class="gen-insp-tag">动画</span>
-                    </div>
-                </div>
-                <div class="gen-insp-card">
-                    <div class="gen-insp-img">
-                        <img src="https://images.unsplash.com/photo-1559028012-481c04fa702d?w=280&h=180&fit=crop" alt="品牌宣传">
-                        <div class="gen-insp-overlay"></div>
-                    </div>
-                    <div class="gen-insp-body">
-                        <h5>品牌宣传片</h5>
-                        <span class="gen-insp-tag">3D 渲染</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 能力标签 -->
-        <section class="gen-capabilities">
-            <div class="gen-cap-item">
-                <span class="gen-cap-icon">🎨</span>
-                <span class="gen-cap-text">7 种风格</span>
-            </div>
-            <div class="gen-cap-item">
-                <span class="gen-cap-icon">📐</span>
-                <span class="gen-cap-text">3 种比例</span>
-            </div>
-            <div class="gen-cap-item">
-                <span class="gen-cap-icon">✨</span>
-                <span class="gen-cap-text">4K 超清</span>
-            </div>
-            <div class="gen-cap-item">
-                <span class="gen-cap-icon">🎵</span>
-                <span class="gen-cap-text">自动配乐</span>
-            </div>
-            <div class="gen-cap-item">
-                <span class="gen-cap-icon">⚡</span>
-                <span class="gen-cap-text">3 分钟出片</span>
-            </div>
-        </section>
-
-        <!-- ========== 步骤导航 ========== -->
-        <div class="gen-steps-nav">
-            <div class="gen-step-indicator active" data-step="1">
-                <div class="gen-step-num">1</div>
-                <div class="gen-step-label">创意故事</div>
-            </div>
-            <div class="gen-step-line"></div>
-            <div class="gen-step-indicator" data-step="2">
-                <div class="gen-step-num">2</div>
-                <div class="gen-step-label">片段解析</div>
-            </div>
-            <div class="gen-step-line"></div>
-            <div class="gen-step-indicator" data-step="3">
-                <div class="gen-step-num">3</div>
-                <div class="gen-step-label">合成成片</div>
-            </div>
-        </div>
-
-        <!-- ========== 步骤 1：创意故事 ========== -->
-        <section class="gen-section" id="genStep1">
-            <div class="gen-section-header">
-                <div class="gen-section-icon gen-section-icon--purple">
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 4H12L16 8V16H4V4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 4V8H16" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M7 11H13M7 13.5H11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-                </div>
-                <div>
-                    <h3>编写创意故事</h3>
-                    <p>描述你的视频故事大纲，AI 可以帮你扩写和优化</p>
-                </div>
-            </div>
-
-            <!-- 快捷模板 -->
-            <div class="story-templates">
-                <span class="story-templates-label">快速开始</span>
-                <button class="story-tpl-chip" data-tpl="product">产品广告</button>
-                <button class="story-tpl-chip" data-tpl="story">故事短片</button>
-                <button class="story-tpl-chip" data-tpl="tutorial">教程演示</button>
-                <button class="story-tpl-chip" data-tpl="vlog">Vlog 旅行</button>
-                <button class="story-tpl-chip" data-tpl="promo">品牌宣传</button>
-            </div>
-
-            <!-- 故事编辑区 -->
-            <div class="story-editor">
-                <textarea class="story-textarea" id="storyInput" placeholder="在这里写下你的视频创意故事...&#10;&#10;例如：一个年轻设计师在深夜的工作室里，面对屏幕上的空白画布陷入沉思。突然灵感涌来，她开始快速绘制——画面逐渐从线条变成色彩斑斓的插画。镜头拉远，整个城市的夜景在窗外闪烁，她的作品在屏幕上绽放出光芒。"></textarea>
-                <div class="story-toolbar">
-                    <div class="story-toolbar-left">
-                        <span class="char-count"><span id="charCount">0</span> 字</span>
-                    </div>
-                    <div class="story-toolbar-right">
-                        <button class="story-ai-btn" id="aiExpandBtn">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L9.5 5.5H14L10.5 8.5L12 13L8 10L4 13L5.5 8.5L2 5.5H6.5L8 1Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
-                            AI 扩写
-                        </button>
-                        <button class="story-ai-btn" id="aiOptimizeBtn">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 12L6 8L9 11L14 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                            AI 优化
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 基础配置 -->
-            <div class="gen-config-row">
-                <div class="config-field">
-                    <label>视频风格</label>
-                    <select id="genStyle">
-                        <option>电影感</option>
-                        <option>写实</option>
-                        <option>动画</option>
-                        <option>赛博朋克</option>
-                        <option>水彩画</option>
-                        <option>油画</option>
-                        <option>3D 渲染</option>
-                    </select>
-                </div>
-                <div class="config-field">
-                    <label>画面比例</label>
-                    <select id="genRatio">
-                        <option>16:9 横屏</option>
-                        <option>9:16 竖屏</option>
-                        <option>1:1 方形</option>
-                    </select>
-                </div>
-                <div class="config-field">
-                    <label>画质</label>
-                    <select id="genQuality">
-                        <option>标准 720p</option>
-                        <option selected>高清 1080p</option>
-                        <option>超清 4K</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="gen-step-actions">
-                <button class="btn-start" id="parseStoryBtn">
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 3V11M9 11L13 7M9 11L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    解析为视频片段
-                </button>
-            </div>
-        </section>
-
-        <!-- ========== 步骤 2：视频片段解析 ========== -->
-        <section class="gen-section" id="genStep2" style="display:none;">
-            <div class="gen-section-header">
-                <div class="gen-section-icon gen-section-icon--blue">
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="3" width="7" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="3" width="7" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="11" width="7" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="11" width="7" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/></svg>
-                </div>
-                <div>
-                    <h3>视频片段解析</h3>
-                    <p>AI 已将故事拆解为以下片段，你可以调整每个片段的画面描述</p>
-                </div>
-            </div>
-
-            <!-- 片段列表 -->
-            <div class="clips-list" id="clipsList">
-                <!-- 片段由 JS 动态生成 -->
-            </div>
-
-            <div class="gen-step-actions gen-step-actions--between">
-                <button class="btn-secondary" id="backToStep1">
+    <div class="aig-body">
+        <!-- ===== Top Bar ===== -->
+        <div class="aig-topbar">
+            <div class="aig-topbar-left">
+                <a href="index.html" class="aig-back">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    返回修改故事
-                </button>
-                <button class="btn-start" id="startSynthBtn">
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M6 3L15 9L6 15V3Z" fill="currentColor"/></svg>
-                    开始合成视频
-                </button>
-            </div>
-        </section>
-
-        <!-- ========== 步骤 3：合成成片 ========== -->
-        <section class="gen-section" id="genStep3" style="display:none;">
-            <div class="video-container">
-                <div class="video-loading" id="synthLoading">
-                    <div class="loading-orb">
-                        <div class="ring"></div>
-                        <div class="ring"></div>
-                        <div class="ring"></div>
-                        <div class="core"></div>
-                    </div>
-                    <div class="loading-text" id="synthLoadingText">AI 正在生成视频片段...</div>
-                    <div class="loading-progress"><div class="loading-progress-bar" id="synthProgressBar"></div></div>
-                    <div class="synth-clip-progress" id="synthClipProgress"></div>
+                    工作台
+                </a>
+                <div class="aig-topbar-title">
+                    AI 视频生成
+                    <span class="subtitle" id="topbarSubtitle">创意输入</span>
                 </div>
-                <!-- 完成后的播放器 -->
-                <div class="mock-player" id="synthPlayer" style="display:none;">
-                    <canvas class="mock-canvas" id="synthCanvas"></canvas>
-                    <div class="player-controls">
-                        <button class="ctrl-play" id="synthCtrlPlay">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2L14 8L4 14V2Z" fill="currentColor"/></svg>
-                        </button>
-                        <span class="ctrl-time" id="synthCtrlTime">00:00</span>
-                        <div class="ctrl-progress" id="synthProgress">
-                            <div class="ctrl-progress-track">
-                                <div class="ctrl-progress-fill" id="synthProgressFill" style="width:0%"></div>
-                                <div class="ctrl-progress-handle" id="synthProgressHandle" style="left:0%"></div>
+            </div>
+            <div class="aig-topbar-right">
+                <div class="aig-credits">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1L7.2 4.2H10.6L7.8 6.2L9 9.4L6 7.4L3 9.4L4.2 6.2L1.4 4.2H4.8L6 1Z" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/></svg>
+                    86 积分
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== Main Split ===== -->
+        <div class="aig-main">
+
+            <!-- Left: Canvas -->
+            <div class="aig-canvas-area">
+                <!-- Phase 0: Welcome -->
+                <div class="aig-phase aig-welcome active" id="phaseWelcome">
+                    <div class="aig-welcome-glow"></div>
+                    <div class="aig-welcome-inner">
+                        <div class="aig-welcome-orb">
+                            <div class="aig-welcome-orb-ring"></div>
+                            <div class="aig-welcome-orb-core">
+                                <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 4L16.5 10.5H23L17.5 14.5L20 21L14 17L8 21L10.5 14.5L5 10.5H11.5L14 4Z" fill="white" opacity="0.9"/></svg>
                             </div>
                         </div>
-                        <span class="ctrl-duration" id="synthDuration">00:00</span>
+                        <h1>描述你的创意，AI 帮你<br><span class="gradient-text">生成整部视频</span></h1>
+                        <p class="aig-welcome-desc">从一段文字到完整视频 · 7 种风格 · 120 秒内出片</p>
+
+                        <div class="aig-inspo-chips">
+                            <button class="aig-inspo-chip" data-tpl="product"><span class="aig-inspo-emoji">📦</span> 产品广告</button>
+                            <button class="aig-inspo-chip" data-tpl="story"><span class="aig-inspo-emoji">🎬</span> 故事短片</button>
+                            <button class="aig-inspo-chip" data-tpl="tutorial"><span class="aig-inspo-emoji">🎓</span> 教程演示</button>
+                            <button class="aig-inspo-chip" data-tpl="vlog"><span class="aig-inspo-emoji">✈️</span> 旅行 Vlog</button>
+                            <button class="aig-inspo-chip" data-tpl="promo"><span class="aig-inspo-emoji">🏢</span> 品牌宣传</button>
+                        </div>
+
+                        <div class="aig-caps">
+                            <span class="aig-cap"><span class="aig-cap-dot"></span> 4K 超清</span>
+                            <span class="aig-cap"><span class="aig-cap-dot"></span> 自动配乐</span>
+                            <span class="aig-cap"><span class="aig-cap-dot"></span> AI 声音克隆</span>
+                            <span class="aig-cap"><span class="aig-cap-dot"></span> 3 分钟出片</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 1: Storyboard Preview -->
+                <div class="aig-phase aig-storyboard" id="phaseStoryboard">
+                    <div class="aig-sb-header">
+                        <span class="aig-sb-badge">故事板预览</span>
+                        <span class="aig-sb-info" id="sbClipInfo">4 个片段 · 总时长 24s</span>
+                    </div>
+                    <div class="aig-sb-grid" id="sbGrid">
+                        <!-- JS generates -->
+                    </div>
+                </div>
+
+                <!-- Phase 2: Synthesizing -->
+                <div class="aig-phase aig-synth" id="phaseSynth">
+                    <div class="aig-synth-inner">
+                        <div class="aig-synth-orb">
+                            <div class="ring"></div>
+                            <div class="ring"></div>
+                            <div class="ring"></div>
+                            <div class="core"></div>
+                        </div>
+                        <div class="aig-synth-text" id="synthText">正在生成视频...</div>
+                        <div class="aig-synth-sub" id="synthSub">AI 正在将你的创意变为现实</div>
+                        <div class="aig-synth-progress">
+                            <div class="aig-synth-progress-bar" id="synthBar"></div>
+                        </div>
+                        <div class="aig-synth-clip-info" id="synthClipInfo">0 / 4</div>
+                        <div class="aig-synth-clips" id="synthClips">
+                            <!-- JS generates -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 3: Player -->
+                <div class="aig-phase aig-player" id="phasePlayer">
+                    <canvas id="playerCanvas"></canvas>
+                    <div class="aig-timeline-overlay" id="timelineOverlay"></div>
+                    <div class="aig-player-controls">
+                        <button class="ctrl-play" id="ctrlPlay">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2L14 8L4 14V2Z" fill="currentColor"/></svg>
+                        </button>
+                        <span class="ctrl-time" id="ctrlTime">00:00</span>
+                        <div class="ctrl-progress" id="ctrlProgressBar">
+                            <div class="ctrl-progress-track">
+                                <div class="ctrl-progress-fill" id="ctrlFill" style="width:0%"></div>
+                                <div class="ctrl-progress-handle" id="ctrlHandle" style="left:0%"></div>
+                            </div>
+                        </div>
+                        <span class="ctrl-duration" id="ctrlDur">00:00</span>
                         <button class="ctrl-mute">
                             <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 5H5L8 2V12L5 9H2V5Z" stroke="currentColor" stroke-width="1.2"/><path d="M10 4.5C10.8 5.3 11.2 6.5 11.2 7.5C11.2 8.5 10.8 9.5 10 10.3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
                         </button>
@@ -375,56 +986,140 @@
                 </div>
             </div>
 
-            <!-- 片段时间轴 -->
-            <div class="synth-timeline" id="synthTimeline" style="display:none;">
-                <div class="synth-timeline-label">片段时间轴</div>
-                <div class="synth-timeline-track" id="synthTimelineTrack">
-                    <!-- JS 动态生成 -->
-                </div>
-            </div>
-
-            <!-- 底部工具栏 -->
-            <div class="pipeline-toolbar" id="synthToolbar">
-                <div class="pipeline-steps" id="synthPipeSteps">
-                    <!-- JS 动态生成 -->
-                </div>
-                <div class="toolbar-actions" id="synthActions" style="display:none;">
-                    <button class="toolbar-btn" id="regenBtn">
-                        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10C4 6.68629 6.68629 4 10 4C12.3727 4 14.4088 5.36093 15.3569 7.33333" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M16 10C16 13.3137 13.3137 16 10 16C7.62731 16 5.59123 14.6391 4.64307 12.6667" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M15 4V7.5H11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 16V12.5H8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        重新生成
-                    </button>
-                    <div class="toolbar-divider"></div>
-                    <button class="toolbar-btn toolbar-btn-export" id="exportVideoBtn">
-                        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M10 3V12M10 12L14 8M10 12L6 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 14V16C3 16.5523 3.44772 17 4 17H16C16.5523 17 17 16.5523 17 16V14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                        导出视频
+            <!-- Right: Sidebar -->
+            <div class="aig-sidebar" id="aigSidebar">
+                <div class="aig-sb-head">
+                    <span class="aig-sb-step-label" id="sbStepLabel">创意 & 设置</span>
+                    <button class="aig-topbar-btn" id="toggleSidebar" title="收起">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3L10 7L5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </button>
                 </div>
-            </div>
-        </section>
+                <div class="aig-sb-body">
+                    <!-- Panel 0: Story input -->
+                    <div class="aig-panel active" id="panelStory">
+                        <div class="aig-story-label">创意故事</div>
+                        <textarea class="aig-story-textarea" id="storyInput" placeholder="在这里描述你的视频创意...&#10;&#10;例如：一个年轻设计师在深夜的工作室里，面对屏幕上的空白画布陷入沉思。突然灵感涌来，她开始快速绘制——画面逐渐从线条变成色彩斑斓的插画。"></textarea>
+                        <div class="aig-story-tools">
+                            <span class="aig-char-count"><span id="charCount">0</span> 字</span>
+                            <div class="aig-ai-btns">
+                                <button class="aig-ai-btn" id="aiExpandBtn">
+                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1L7.2 4H10.5L7.8 6L9 9.2L6 7L3 9.2L4.2 6L1.5 4H4.8L6 1Z" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/></svg>
+                                    扩写
+                                </button>
+                                <button class="aig-ai-btn" id="aiOptimizeBtn">
+                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 9L5 6L7 8L10 3" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    优化
+                                </button>
+                            </div>
+                        </div>
 
-        <!-- 导出浮窗 -->
-        <div class="float-panel" id="panelExportGen">
-            <div class="float-panel-header">
-                <h3>导出设置</h3>
-                <button class="panel-close">×</button>
-            </div>
-            <div class="float-panel-body">
-                <div class="config-field" style="margin-bottom:16px;"><label>格式</label><select><option>MP4 (H.264)</option><option>MOV (ProRes)</option><option>WebM</option></select></div>
-                <div class="config-field" style="margin-bottom:16px;"><label>分辨率</label><select><option>原始分辨率</option><option>4K</option><option>1080p</option><option>720p</option></select></div>
-                <div class="config-field" style="margin-bottom:20px;"><label>背景音乐</label><select><option>AI 自动配乐</option><option>不添加</option></select></div>
-                <button class="btn-start" style="width:100%;padding:12px;">
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 3V11M9 11L13 7M9 11L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 13V15C3 15.5523 3.44772 16 4 16H14C14.5523 16 15 15.5523 15 15V13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                    下载视频
-                </button>
+                        <div class="aig-config-section">
+                            <div class="aig-config-title">视频风格</div>
+                            <div class="aig-style-grid" id="styleGrid">
+                                <button class="aig-style-card active" data-style="cinematic"><span class="aig-style-icon">🎬</span><span class="aig-style-name">电影感</span></button>
+                                <button class="aig-style-card" data-style="realistic"><span class="aig-style-icon">📷</span><span class="aig-style-name">写实</span></button>
+                                <button class="aig-style-card" data-style="anime"><span class="aig-style-icon">🎨</span><span class="aig-style-name">动画</span></button>
+                                <button class="aig-style-card" data-style="cyber"><span class="aig-style-icon">🌆</span><span class="aig-style-name">赛博朋克</span></button>
+                                <button class="aig-style-card" data-style="watercolor"><span class="aig-style-icon">🖌️</span><span class="aig-style-name">水彩画</span></button>
+                                <button class="aig-style-card" data-style="3d"><span class="aig-style-icon">💎</span><span class="aig-style-name">3D 渲染</span></button>
+                            </div>
+                        </div>
+
+                        <div class="aig-config-section">
+                            <div class="aig-config-title">画面比例</div>
+                            <div class="aig-ratio-chips" id="ratioChips">
+                                <button class="aig-ratio-chip active" data-ratio="16:9"><span class="aig-ratio-icon"></span>16:9 横屏</button>
+                                <button class="aig-ratio-chip" data-ratio="9:16"><span class="aig-ratio-icon"></span>9:16 竖屏</button>
+                                <button class="aig-ratio-chip" data-ratio="1:1"><span class="aig-ratio-icon"></span>1:1 方形</button>
+                            </div>
+                        </div>
+
+                        <div class="aig-config-section">
+                            <div class="aig-config-title">画质</div>
+                            <div class="aig-config-grid">
+                                <div class="config-field aig-config-full">
+                                    <select id="qualitySelect">
+                                        <option>标准 720p</option>
+                                        <option selected>高清 1080p</option>
+                                        <option>超清 4K</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel 1: Clips editor -->
+                    <div class="aig-panel" id="panelClips">
+                        <div class="aig-story-label">片段编辑</div>
+                        <p style="font-size:0.78rem;color:#64748b;margin-bottom:14px;">AI 已将故事拆解为以下片段，点击可编辑画面描述</p>
+                        <div class="aig-clip-list" id="clipList">
+                            <!-- JS generates -->
+                        </div>
+                    </div>
+
+                    <!-- Panel 2: Synth progress -->
+                    <div class="aig-panel" id="panelSynth">
+                        <div class="aig-story-label">生成进度</div>
+                        <p style="font-size:0.78rem;color:#64748b;margin-bottom:14px;">AI 正在根据你的故事逐个生成视频片段</p>
+                        <div id="synthStepList" style="display:flex;flex-direction:column;gap:8px;"></div>
+                    </div>
+
+                    <!-- Panel 3: Done / Export -->
+                    <div class="aig-panel" id="panelDone">
+                        <div class="aig-story-label">生成完成</div>
+                        <div style="padding:16px 0;text-align:center;">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" style="margin-bottom:12px;"><circle cx="24" cy="24" r="20" stroke="#22c55e" stroke-width="2.5" opacity="0.3"/><path d="M16 24L22 30L34 18" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <p style="font-size:1rem;font-weight:600;margin-bottom:4px;">视频已生成！</p>
+                            <p style="font-size:0.78rem;color:#64748b;">总时长 <span id="doneTotal">24s</span> · <span id="doneClips">4</span> 个片段</p>
+                        </div>
+                        <div class="aig-done-actions">
+                            <button class="aig-done-download" id="exportBtn">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2V10M8 10L12 6M8 10L4 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 11V13C2 13.5523 2.44772 14 3 14H13C13.5523 14 14 13.5523 14 13V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                                导出视频
+                            </button>
+                            <button class="aig-secondary-btn" id="regenBtn">
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7C3 4.79 4.79 3 7 3C8.66 3 10.09 4 10.75 5.33" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M11 7C11 9.21 9.21 11 7 11C5.34 11 3.91 10 3.25 8.67" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M10.5 3V5.5H8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                重新生成
+                            </button>
+                            <button class="aig-secondary-btn" id="backToEditBtn">
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 11L5 7L9 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                返回编辑
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="aig-sb-foot" id="sbFoot">
+                    <button class="aig-next-btn" id="mainActionBtn">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2L10 6.5H14.5L11 9L12.5 13.5L8 10.5L3.5 13.5L5 9L1.5 6.5H6L8 2Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" fill="currentColor" opacity="0.2"/></svg>
+                        解析故事为片段
+                    </button>
+                </div>
             </div>
         </div>
-    </main>
+    </div>
 
-    <script src="app.js"></script>
+    <!-- Export floating panel -->
+    <div class="aig-export-panel" id="exportPanel">
+        <div class="aig-export-header">
+            <h3>导出设置</h3>
+            <button class="panel-close" id="closeExport" style="width:28px;height:28px;border-radius:8px;border:none;background:rgba(255,255,255,0.05);color:#64748b;display:flex;align-items:center;justify-content:center;cursor:pointer;">×</button>
+        </div>
+        <div class="aig-export-body">
+            <div class="config-field" style="margin-bottom:14px;"><label>格式</label><select><option>MP4 (H.264)</option><option>MOV (ProRes)</option><option>WebM</option></select></div>
+            <div class="config-field" style="margin-bottom:14px;"><label>分辨率</label><select><option>原始分辨率</option><option>4K</option><option>1080p</option><option>720p</option></select></div>
+            <div class="config-field" style="margin-bottom:18px;"><label>背景音乐</label><select><option>AI 自动配乐</option><option>不添加</option></select></div>
+            <button class="aig-next-btn" style="width:100%;padding:12px;">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2V10M8 10L12 6M8 10L4 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M2 11V13C2 13.5523 2.44772 14 3 14H13C13.5523 14 14 13.5523 14 13V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                下载视频
+            </button>
+        </div>
+    </div>
+
     <script>
     (function() {
-        // ===== 数据 =====
-        const storyTemplates = {
+        // ===== Data =====
+        const templates = {
             product: '一款未来感十足的智能耳机静静地放在大理石桌面上，灯光从侧面打来，勾勒出产品的优美弧线。镜头缓缓推近，展示耳机的细节纹理和呼吸灯光效。随后场景切换到城市街头，一位年轻人戴上耳机，周围的喧嚣瞬间变成宁静的音乐世界。最后耳机 Logo 浮现在画面中央。',
             story: '清晨的小镇笼罩在薄雾中，一只流浪猫穿过空无一人的街道。它在一家面包店门口停下，透过玻璃窗看着里面忙碌的面包师。面包师注意到了窗外的猫，微笑着走出来，放下一碟温热的牛奶。猫低头喝着，尾巴轻轻摇摆。从此每个清晨，这里都有一份温暖的约定。',
             tutorial: '打开设计软件，一个空白画布出现在屏幕上。鼠标点击工具栏，选择画笔工具，开始在画布上勾勒一个简洁的 Logo 轮廓。接着切换到颜色面板，为 Logo 填充渐变色彩。添加文字排版，调整间距和大小。最后导出成品，一个专业的品牌 Logo 就完成了。',
@@ -432,58 +1127,74 @@
             promo: '从太空俯瞰地球，镜头急速下坠穿过云层，来到一座现代化的科技园区。玻璃幕墙反射着天光，年轻的工程师们在开放式办公区协作讨论。一组数据在全息屏幕上流动，展示着产品的全球用户增长曲线。最后公司的 Logo 在星空背景下亮起，slogan 缓缓浮现。'
         };
 
-        const mockClips = [
-            { id: 1, title: '开场', duration: 5, desc: '', color: '#a855f7' },
-            { id: 2, title: '发展', duration: 8, desc: '', color: '#3b82f6' },
-            { id: 3, title: '高潮', duration: 6, desc: '', color: '#06b6d4' },
-            { id: 4, title: '结尾', duration: 5, desc: '', color: '#22c55e' }
-        ];
+        const clipLabels = ['开场', '发展', '高潮', '结尾'];
+        const clipColors = ['#a855f7', '#3b82f6', '#06b6d4', '#22c55e'];
+        const clipDurations = [5, 8, 6, 5];
 
-        let currentStep = 1;
+        let currentPhase = 0; // 0=welcome, 1=storyboard, 2=synth, 3=player
         let clips = [];
+        let selectedStyle = 'cinematic';
+        let selectedRatio = '16:9';
+        let playing = true;
+        let playTime = 0;
+        let totalDuration = 24;
+        let animFrame = null;
 
         // ===== DOM =====
         const storyInput = document.getElementById('storyInput');
         const charCount = document.getElementById('charCount');
-        const parseBtn = document.getElementById('parseStoryBtn');
-        const backBtn = document.getElementById('backToStep1');
-        const synthBtn = document.getElementById('startSynthBtn');
-        const clipsList = document.getElementById('clipsList');
-        const indicators = document.querySelectorAll('.gen-step-indicator');
-        const lines = document.querySelectorAll('.gen-step-line');
-        const sections = [document.getElementById('genStep1'), document.getElementById('genStep2'), document.getElementById('genStep3')];
+        const mainBtn = document.getElementById('mainActionBtn');
+        const sbStepLabel = document.getElementById('sbStepLabel');
+        const topbarSub = document.getElementById('topbarSubtitle');
 
-        // ===== 字数统计 =====
+        // ===== Char count =====
         storyInput.addEventListener('input', () => {
             charCount.textContent = storyInput.value.length;
         });
 
-        // ===== 模板填充 =====
-        document.querySelectorAll('.story-tpl-chip').forEach(chip => {
+        // ===== Template chips =====
+        document.querySelectorAll('.aig-inspo-chip').forEach(chip => {
             chip.addEventListener('click', () => {
                 const tpl = chip.getAttribute('data-tpl');
-                if (storyTemplates[tpl]) {
-                    storyInput.value = storyTemplates[tpl];
+                if (templates[tpl]) {
+                    storyInput.value = templates[tpl];
                     charCount.textContent = storyInput.value.length;
                     storyInput.focus();
-                    // 高亮选中的模板
-                    document.querySelectorAll('.story-tpl-chip').forEach(c => c.classList.remove('active'));
+                    document.querySelectorAll('.aig-inspo-chip').forEach(c => c.classList.remove('active'));
                     chip.classList.add('active');
                 }
             });
         });
 
-        // ===== AI 扩写/优化（模拟） =====
+        // ===== Style cards =====
+        document.querySelectorAll('.aig-style-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.aig-style-card').forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+                selectedStyle = card.dataset.style;
+            });
+        });
+
+        // ===== Ratio chips =====
+        document.querySelectorAll('.aig-ratio-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                document.querySelectorAll('.aig-ratio-chip').forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+                selectedRatio = chip.dataset.ratio;
+            });
+        });
+
+        // ===== AI buttons =====
         document.getElementById('aiExpandBtn').addEventListener('click', () => {
             if (!storyInput.value.trim()) return;
             const btn = document.getElementById('aiExpandBtn');
             btn.classList.add('loading');
-            btn.textContent = '正在扩写...';
+            btn.textContent = '扩写中...';
             setTimeout(() => {
                 storyInput.value += '\n\n镜头继续推进，画面中出现了更多细节——光线在空间中流转，每一帧都充满了电影般的质感。背景音乐渐渐响起，将整个氛围推向高潮。最终画面定格在最动人的瞬间，余韵悠长。';
                 charCount.textContent = storyInput.value.length;
                 btn.classList.remove('loading');
-                btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L9.5 5.5H14L10.5 8.5L12 13L8 10L4 13L5.5 8.5L2 5.5H6.5L8 1Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg> AI 扩写';
+                btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1L7.2 4H10.5L7.8 6L9 9.2L6 7L3 9.2L4.2 6L1.5 4H4.8L6 1Z" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/></svg> 扩写';
             }, 1500);
         });
 
@@ -491,33 +1202,53 @@
             if (!storyInput.value.trim()) return;
             const btn = document.getElementById('aiOptimizeBtn');
             btn.classList.add('loading');
-            btn.textContent = '正在优化...';
+            btn.textContent = '优化中...';
             setTimeout(() => {
-                // 简单模拟优化：在开头添加提示
                 storyInput.value = '【已优化】' + storyInput.value.replace('【已优化】', '');
                 charCount.textContent = storyInput.value.length;
                 btn.classList.remove('loading');
-                btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 12L6 8L9 11L14 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> AI 优化';
+                btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 9L5 6L7 8L10 3" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg> 优化';
             }, 1200);
         });
 
-        // ===== 步骤切换 =====
-        function goToStep(step) {
-            currentStep = step;
-            sections.forEach((s, i) => {
-                s.style.display = (i + 1 === step) ? '' : 'none';
-            });
-            indicators.forEach((ind, i) => {
-                ind.classList.remove('active', 'completed');
-                if (i + 1 < step) ind.classList.add('completed');
-                if (i + 1 === step) ind.classList.add('active');
-            });
-            lines.forEach((line, i) => {
-                line.classList.toggle('completed', i + 1 < step);
-            });
+        // ===== Phase management =====
+        function setPhase(phase) {
+            currentPhase = phase;
+            document.querySelectorAll('.aig-phase').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.aig-panel').forEach(p => p.classList.remove('active'));
+
+            const foot = document.getElementById('sbFoot');
+
+            if (phase === 0) {
+                document.getElementById('phaseWelcome').classList.add('active');
+                document.getElementById('panelStory').classList.add('active');
+                sbStepLabel.textContent = '创意 & 设置';
+                topbarSub.textContent = '创意输入';
+                mainBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2L10 6.5H14.5L11 9L12.5 13.5L8 10.5L3.5 13.5L5 9L1.5 6.5H6L8 2Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" fill="currentColor" opacity="0.2"/></svg> 解析故事为片段';
+                foot.style.display = '';
+            } else if (phase === 1) {
+                document.getElementById('phaseStoryboard').classList.add('active');
+                document.getElementById('panelClips').classList.add('active');
+                sbStepLabel.textContent = '片段编辑';
+                topbarSub.textContent = '故事板';
+                mainBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M5 2L13 8L5 14V2Z" fill="currentColor"/></svg> 开始生成视频';
+                foot.style.display = '';
+            } else if (phase === 2) {
+                document.getElementById('phaseSynth').classList.add('active');
+                document.getElementById('panelSynth').classList.add('active');
+                sbStepLabel.textContent = '生成进度';
+                topbarSub.textContent = '生成中...';
+                foot.style.display = 'none';
+            } else if (phase === 3) {
+                document.getElementById('phasePlayer').classList.add('active');
+                document.getElementById('panelDone').classList.add('active');
+                sbStepLabel.textContent = '完成';
+                topbarSub.textContent = '生成完成';
+                foot.style.display = 'none';
+            }
         }
 
-        // ===== 解析故事为片段 =====
+        // ===== Parse story =====
         function parseStory() {
             const text = storyInput.value.trim();
             if (!text) {
@@ -527,200 +1258,211 @@
                 return;
             }
 
-            // 将故事按句子拆分为片段
             const sentences = text.replace(/([。！？.!?])/g, '$1||').split('||').filter(s => s.trim());
             const chunkSize = Math.ceil(sentences.length / 4);
             clips = [];
-            const labels = ['开场', '发展', '高潮', '结尾'];
-            const colors = ['#a855f7', '#3b82f6', '#06b6d4', '#22c55e'];
-            const durations = [5, 8, 6, 5];
 
             for (let i = 0; i < 4; i++) {
                 const start = i * chunkSize;
                 const chunk = sentences.slice(start, start + chunkSize).join('');
                 clips.push({
                     id: i + 1,
-                    title: labels[i],
-                    duration: durations[i],
+                    title: clipLabels[i],
+                    duration: clipDurations[i],
                     desc: chunk.trim() || '（AI 将自动生成画面描述）',
-                    color: colors[i]
+                    color: clipColors[i]
                 });
             }
 
-            renderClips();
-            goToStep(2);
+            totalDuration = clips.reduce((s, c) => s + c.duration, 0);
+            renderStoryboard();
+            renderClipList();
+            setPhase(1);
         }
 
-        // ===== 渲染片段卡片 =====
-        function renderClips() {
-            clipsList.innerHTML = '';
-            clips.forEach((clip, idx) => {
+        // ===== Render storyboard (left canvas) =====
+        function renderStoryboard() {
+            const grid = document.getElementById('sbGrid');
+            grid.innerHTML = '';
+            document.getElementById('sbClipInfo').textContent = `${clips.length} 个片段 · 总时长 ${totalDuration}s`;
+
+            clips.forEach((clip, i) => {
                 const card = document.createElement('div');
-                card.className = 'clip-card';
+                card.className = 'aig-sb-card';
                 card.innerHTML = `
-                    <div class="clip-card-header">
-                        <div class="clip-card-badge" style="background:${clip.color}20;color:${clip.color};border-color:${clip.color}30;">
-                            <span class="clip-card-num">片段 ${clip.id}</span>
-                            <span class="clip-card-title">${clip.title}</span>
-                        </div>
-                        <div class="clip-card-duration">
-                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4V7L9 9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-                            ${clip.duration}s
-                        </div>
-                    </div>
-                    <div class="clip-card-preview">
-                        <div class="clip-card-thumb" style="background: linear-gradient(135deg, ${clip.color}15, ${clip.color}05);">
-                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="4" y="6" width="24" height="20" rx="3" stroke="${clip.color}" stroke-width="1.5" opacity="0.4"/><path d="M13 12L21 16L13 20V12Z" fill="${clip.color}" opacity="0.5"/></svg>
-                        </div>
-                        <div class="clip-card-desc-wrap">
-                            <label class="clip-desc-label">画面描述</label>
-                            <textarea class="clip-desc-input" data-clip="${idx}" placeholder="描述这个片段的画面...">${clip.desc}</textarea>
-                        </div>
-                    </div>
-                    <div class="clip-card-footer">
-                        <div class="clip-card-tags">
-                            <span class="clip-tag">镜头: 自动</span>
-                            <span class="clip-tag">运动: 自动</span>
-                        </div>
-                        <button class="clip-ai-btn" data-idx="${idx}">
-                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1L8.3 4.8H12.3L9 7.2L10.3 11L7 8.6L3.7 11L5 7.2L1.7 4.8H5.7L7 1Z" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/></svg>
-                            AI 优化画面
-                        </button>
+                    <canvas width="400" height="250"></canvas>
+                    <div class="aig-sb-card-overlay">
+                        <span class="aig-sb-card-num">${clip.id}</span>
+                        <span class="aig-sb-card-duration">${clip.duration}s</span>
+                        <div class="aig-sb-card-title">${clip.title}</div>
+                        <div class="aig-sb-card-desc">${clip.desc}</div>
                     </div>
                 `;
-                clipsList.appendChild(card);
+                grid.appendChild(card);
 
-                // 监听描述修改
-                card.querySelector('.clip-desc-input').addEventListener('input', (e) => {
-                    clips[idx].desc = e.target.value;
+                // Draw canvas
+                const canvas = card.querySelector('canvas');
+                drawClipPreview(canvas, clip, i);
+            });
+        }
+
+        function drawClipPreview(canvas, clip, idx) {
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width, h = canvas.height;
+            const hue1 = (idx * 85 + 180) % 360;
+            const hue2 = (hue1 + 50) % 360;
+            const grd = ctx.createLinearGradient(0, 0, w, h);
+            grd.addColorStop(0, `hsl(${hue1}, 35%, 12%)`);
+            grd.addColorStop(0.5, `hsl(${hue2}, 30%, 16%)`);
+            grd.addColorStop(1, `hsl(${(hue1+120)%360}, 25%, 10%)`);
+            ctx.fillStyle = grd;
+            ctx.fillRect(0, 0, w, h);
+
+            // Decorative elements
+            ctx.globalAlpha = 0.15;
+            for (let j = 0; j < 6; j++) {
+                const x = (Math.sin(idx * 3 + j * 1.5) * 0.3 + 0.5) * w;
+                const y = (Math.cos(idx * 2 + j * 2.3) * 0.3 + 0.5) * h;
+                const r = 30 + j * 15;
+                ctx.beginPath();
+                ctx.arc(x, y, r, 0, Math.PI * 2);
+                ctx.fillStyle = clip.color;
+                ctx.fill();
+            }
+            ctx.globalAlpha = 1;
+        }
+
+        // ===== Render clip list (sidebar) =====
+        function renderClipList() {
+            const list = document.getElementById('clipList');
+            list.innerHTML = '';
+            clips.forEach((clip, i) => {
+                const item = document.createElement('div');
+                item.className = 'aig-clip-item' + (i === 0 ? ' active' : '');
+                item.innerHTML = `
+                    <div class="aig-clip-top">
+                        <span class="aig-clip-badge" style="background:${clip.color}15;color:${clip.color};border:1px solid ${clip.color}30;">片段 ${clip.id} · ${clip.title}</span>
+                        <span class="aig-clip-dur">${clip.duration}s</span>
+                    </div>
+                    <textarea class="aig-clip-textarea" data-idx="${i}" placeholder="描述画面...">${clip.desc}</textarea>
+                `;
+                list.appendChild(item);
+
+                item.querySelector('.aig-clip-textarea').addEventListener('input', e => {
+                    clips[i].desc = e.target.value;
                 });
-
-                // AI 优化按钮
-                card.querySelector('.clip-ai-btn').addEventListener('click', (e) => {
-                    const btn = e.currentTarget;
-                    btn.classList.add('loading');
-                    btn.textContent = '优化中...';
-                    setTimeout(() => {
-                        const textarea = card.querySelector('.clip-desc-input');
-                        textarea.value += ' 画面使用浅景深，暖色调光线从侧面打来，营造出温馨而富有质感的氛围。';
-                        clips[idx].desc = textarea.value;
-                        btn.classList.remove('loading');
-                        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1L8.3 4.8H12.3L9 7.2L10.3 11L7 8.6L3.7 11L5 7.2L1.7 4.8H5.7L7 1Z" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/></svg> AI 优化画面';
-                    }, 1000);
+                item.addEventListener('click', e => {
+                    if (e.target.tagName === 'TEXTAREA') return;
+                    document.querySelectorAll('.aig-clip-item').forEach(c => c.classList.remove('active'));
+                    item.classList.add('active');
                 });
             });
         }
 
-        // ===== 合成视频 =====
+        // ===== Start synthesis =====
         function startSynth() {
-            goToStep(3);
-            const loadingEl = document.getElementById('synthLoading');
-            const playerEl = document.getElementById('synthPlayer');
-            const timelineEl = document.getElementById('synthTimeline');
-            const actionsEl = document.getElementById('synthActions');
-            const progressBar = document.getElementById('synthProgressBar');
-            const textEl = document.getElementById('synthLoadingText');
-            const clipProgress = document.getElementById('synthClipProgress');
-            const pipeSteps = document.getElementById('synthPipeSteps');
+            setPhase(2);
 
-            loadingEl.style.display = '';
-            playerEl.style.display = 'none';
-            timelineEl.style.display = 'none';
-            actionsEl.style.display = 'none';
-
-            // 生成 pipeline steps
-            pipeSteps.innerHTML = clips.map((c, i) =>
-                `<div class="pipe-step" data-clip="${i}"><span class="pipe-step-dot"></span>片段 ${c.id}: ${c.title}</div>`
+            // Generate synth clip dots
+            const dotsEl = document.getElementById('synthClips');
+            dotsEl.innerHTML = clips.map((c, i) =>
+                `<div class="aig-synth-clip-dot" data-idx="${i}">${c.id}</div>`
             ).join('');
 
+            // Generate sidebar step list
+            const stepList = document.getElementById('synthStepList');
+            stepList.innerHTML = clips.map((c, i) => `
+                <div class="pipe-step" data-idx="${i}">
+                    <span class="pipe-step-dot"></span>
+                    片段 ${c.id}: ${c.title}
+                </div>
+            `).join('');
+
             let clipIdx = 0;
-            const totalTime = clips.reduce((sum, c) => sum + c.duration, 0);
+            const bar = document.getElementById('synthBar');
+            const textEl = document.getElementById('synthText');
+            const subEl = document.getElementById('synthSub');
+            const infoEl = document.getElementById('synthClipInfo');
 
             function processClip() {
                 if (clipIdx >= clips.length) {
-                    // 全部完成
                     textEl.textContent = '合成完成！';
-                    progressBar.style.width = '100%';
-                    progressBar.style.animation = 'none';
-                    clipProgress.textContent = '';
+                    subEl.textContent = '正在准备播放器...';
+                    bar.style.width = '100%';
+                    infoEl.textContent = `${clips.length} / ${clips.length}`;
 
-                    const allSteps = pipeSteps.querySelectorAll('.pipe-step');
-                    allSteps.forEach(s => { s.classList.remove('active'); s.classList.add('completed'); });
+                    document.querySelectorAll('.aig-synth-clip-dot').forEach(d => d.classList.add('completed'));
+                    document.querySelectorAll('#synthStepList .pipe-step').forEach(s => { s.classList.remove('active'); s.classList.add('completed'); });
 
                     setTimeout(() => {
-                        loadingEl.style.display = 'none';
-                        playerEl.style.display = 'block';
-                        timelineEl.style.display = '';
-                        actionsEl.style.display = 'flex';
-                        initSynthPlayer();
-                        renderTimeline();
+                        setPhase(3);
+                        document.getElementById('doneTotal').textContent = totalDuration + 's';
+                        document.getElementById('doneClips').textContent = clips.length;
+                        initPlayer();
                     }, 800);
                     return;
                 }
 
                 const clip = clips[clipIdx];
-                textEl.textContent = `正在生成片段 ${clip.id}：${clip.title}...`;
-                clipProgress.textContent = `${clipIdx + 1} / ${clips.length}`;
+                textEl.textContent = `正在生成片段 ${clip.id}：${clip.title}`;
+                subEl.textContent = clip.desc.substring(0, 40) + '...';
+                infoEl.textContent = `${clipIdx + 1} / ${clips.length}`;
 
-                const allSteps = pipeSteps.querySelectorAll('.pipe-step');
-                allSteps.forEach(s => s.classList.remove('active'));
-                if (clipIdx > 0) allSteps[clipIdx - 1].classList.add('completed');
-                allSteps[clipIdx].classList.add('active');
+                const dots = document.querySelectorAll('.aig-synth-clip-dot');
+                dots.forEach(d => d.classList.remove('active'));
+                if (clipIdx > 0) dots[clipIdx - 1].classList.add('completed');
+                dots[clipIdx].classList.add('active');
+
+                const steps = document.querySelectorAll('#synthStepList .pipe-step');
+                steps.forEach(s => s.classList.remove('active'));
+                if (clipIdx > 0) steps[clipIdx - 1].classList.add('completed');
+                steps[clipIdx].classList.add('active');
 
                 const pct = ((clipIdx + 1) / clips.length) * 100;
-                progressBar.style.animation = 'none';
-                progressBar.style.width = (pct - (100 / clips.length)) + '%';
+                bar.style.width = (pct - 100/clips.length) + '%';
 
-                // 模拟生成时间
                 const genTime = 1500 + Math.random() * 1500;
                 setTimeout(() => {
-                    progressBar.style.width = pct + '%';
+                    bar.style.width = pct + '%';
                     clipIdx++;
-                    setTimeout(processClip, 400);
+                    setTimeout(processClip, 300);
                 }, genTime);
             }
-
             processClip();
         }
 
-        // ===== 合成播放器 =====
-        let synthPlaying = true;
-        let synthTime = 0;
-        let synthTotalDuration = 24;
-        let synthAnimFrame = null;
+        // ===== Player =====
+        function initPlayer() {
+            const canvas = document.getElementById('playerCanvas');
+            const rect = canvas.parentElement.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
 
-        function initSynthPlayer() {
-            synthTotalDuration = clips.reduce((sum, c) => sum + c.duration, 0);
-            const durEl = document.getElementById('synthDuration');
-            const m = Math.floor(synthTotalDuration / 60);
-            const s = synthTotalDuration % 60;
+            const durEl = document.getElementById('ctrlDur');
+            const m = Math.floor(totalDuration / 60);
+            const s = totalDuration % 60;
             durEl.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
 
-            const canvas = document.getElementById('synthCanvas');
-            if (canvas) {
-                const rect = canvas.parentElement.getBoundingClientRect();
-                canvas.width = rect.width * (window.devicePixelRatio || 1);
-                canvas.height = rect.height * (window.devicePixelRatio || 1);
-            }
-
-            synthTime = 0;
-            synthPlaying = true;
-            document.getElementById('synthCtrlPlay').classList.add('playing');
+            playTime = 0;
+            playing = true;
+            document.getElementById('ctrlPlay').classList.add('playing');
+            renderTimelineOverlay();
 
             function tick() {
-                if (synthPlaying) {
-                    synthTime += 1 / 60;
-                    if (synthTime >= synthTotalDuration) synthTime = 0;
+                if (playing) {
+                    playTime += 1/60;
+                    if (playTime >= totalDuration) playTime = 0;
                 }
-                drawSynthFrame(synthTime);
-                updateSynthUI();
-                synthAnimFrame = requestAnimationFrame(tick);
+                drawPlayerFrame(playTime);
+                updatePlayerUI();
+                animFrame = requestAnimationFrame(tick);
             }
             tick();
         }
 
-        function drawSynthFrame(t) {
-            const canvas = document.getElementById('synthCanvas');
+        function drawPlayerFrame(t) {
+            const canvas = document.getElementById('playerCanvas');
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
             const dpr = window.devicePixelRatio || 1;
@@ -730,7 +1472,6 @@
             ctx.scale(dpr, dpr);
             ctx.clearRect(0, 0, w, h);
 
-            // 确定当前片段
             let elapsed = 0;
             let currentClip = clips[0];
             for (const c of clips) {
@@ -740,22 +1481,22 @@
             const clipT = t - elapsed;
             const clipPct = clipT / currentClip.duration;
 
-            // 渐变背景
-            const hue = parseInt(currentClip.color.replace('#',''), 16);
-            const h1 = (hue * 37 + t * 5) % 360;
-            const h2 = (h1 + 50) % 360;
+            // Gradient bg
+            const idx = clips.indexOf(currentClip);
+            const hue1 = (idx * 85 + 180 + t * 3) % 360;
+            const hue2 = (hue1 + 50) % 360;
             const grd = ctx.createLinearGradient(0, 0, w, h);
-            grd.addColorStop(0, `hsl(${h1}, 40%, 12%)`);
-            grd.addColorStop(0.5, `hsl(${h2}, 35%, 16%)`);
-            grd.addColorStop(1, `hsl(${(h1+120)%360}, 30%, 10%)`);
+            grd.addColorStop(0, `hsl(${hue1}, 40%, 12%)`);
+            grd.addColorStop(0.5, `hsl(${hue2}, 35%, 16%)`);
+            grd.addColorStop(1, `hsl(${(hue1+120)%360}, 30%, 10%)`);
             ctx.fillStyle = grd;
             ctx.fillRect(0, 0, w, h);
 
-            // 场景元素
-            ctx.globalAlpha = 0.3;
-            for (let i = 0; i < 8; i++) {
-                const px = (Math.sin(t * 0.2 + i * 2.1) * 0.35 + 0.5) * w;
-                const py = (Math.cos(t * 0.15 + i * 1.8) * 0.35 + 0.5) * h;
+            // Particles
+            ctx.globalAlpha = 0.25;
+            for (let i = 0; i < 12; i++) {
+                const px = (Math.sin(t * 0.2 + i * 2.1) * 0.4 + 0.5) * w;
+                const py = (Math.cos(t * 0.15 + i * 1.8) * 0.4 + 0.5) * h;
                 const r = 2 + Math.sin(t * 0.5 + i) * 1.5;
                 ctx.beginPath();
                 ctx.arc(px, py, r, 0, Math.PI * 2);
@@ -763,91 +1504,99 @@
                 ctx.fill();
             }
 
-            // 片段标题
-            ctx.globalAlpha = 0.15 + clipPct * 0.1;
-            ctx.font = 'bold 20px Inter, sans-serif';
+            // Large soft circle
+            ctx.globalAlpha = 0.06;
+            ctx.beginPath();
+            ctx.arc(w/2 + Math.sin(t*0.3)*60, h/2 + Math.cos(t*0.2)*40, 150 + Math.sin(t*0.4)*30, 0, Math.PI*2);
+            ctx.fillStyle = currentClip.color;
+            ctx.fill();
+
+            // Title
+            ctx.globalAlpha = 0.15 + clipPct * 0.15;
+            ctx.font = `bold ${Math.min(w * 0.04, 32)}px Inter, sans-serif`;
             ctx.fillStyle = '#fff';
             ctx.textAlign = 'center';
-            ctx.fillText(`${currentClip.title}`, w / 2, h / 2);
-            ctx.font = '12px Inter, sans-serif';
+            ctx.fillText(currentClip.title, w/2, h/2 - 8);
+            ctx.font = `${Math.min(w * 0.02, 14)}px Inter, sans-serif`;
             ctx.fillStyle = currentClip.color;
-            ctx.fillText(`片段 ${currentClip.id}`, w / 2, h / 2 + 28);
+            ctx.globalAlpha = 0.3;
+            ctx.fillText(`片段 ${currentClip.id} · ${currentClip.duration}s`, w/2, h/2 + 24);
 
             ctx.globalAlpha = 1;
             ctx.restore();
         }
 
-        function updateSynthUI() {
-            const pct = (synthTime / synthTotalDuration) * 100;
-            const fill = document.getElementById('synthProgressFill');
-            const handle = document.getElementById('synthProgressHandle');
-            const timeEl = document.getElementById('synthCtrlTime');
+        function updatePlayerUI() {
+            const pct = (playTime / totalDuration) * 100;
+            const fill = document.getElementById('ctrlFill');
+            const handle = document.getElementById('ctrlHandle');
+            const timeEl = document.getElementById('ctrlTime');
             if (fill) fill.style.width = pct + '%';
             if (handle) handle.style.left = pct + '%';
             if (timeEl) {
-                const m = Math.floor(synthTime / 60);
-                const s = Math.floor(synthTime % 60);
+                const m = Math.floor(playTime / 60);
+                const s = Math.floor(playTime % 60);
                 timeEl.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
             }
-            // 高亮时间轴上的当前片段
+            // Highlight timeline segments
             let elapsed = 0;
-            document.querySelectorAll('.synth-tl-segment').forEach((seg, i) => {
+            document.querySelectorAll('.aig-tl-seg').forEach((seg, i) => {
                 const clip = clips[i];
                 if (!clip) return;
-                seg.classList.toggle('active', synthTime >= elapsed && synthTime < elapsed + clip.duration);
+                seg.classList.toggle('active', playTime >= elapsed && playTime < elapsed + clip.duration);
                 elapsed += clip.duration;
             });
         }
 
-        function renderTimeline() {
-            const track = document.getElementById('synthTimelineTrack');
-            if (!track) return;
-            const total = clips.reduce((s, c) => s + c.duration, 0);
-            track.innerHTML = clips.map((c, i) => {
-                const pct = (c.duration / total) * 100;
-                return `<div class="synth-tl-segment" style="width:${pct}%;background:${c.color}15;border-color:${c.color}30;" title="片段${c.id}: ${c.title} (${c.duration}s)">
-                    <span style="color:${c.color}">${c.title}</span>
-                </div>`;
+        function renderTimelineOverlay() {
+            const el = document.getElementById('timelineOverlay');
+            if (!el) return;
+            el.innerHTML = clips.map((c, i) => {
+                const pct = (c.duration / totalDuration) * 100;
+                return `<div class="aig-tl-seg" style="width:${pct}%;background:${c.color}12;border-color:${c.color}30;color:${c.color};" title="${c.title} (${c.duration}s)">${c.title}</div>`;
             }).join('');
         }
 
-        // ===== 事件绑定 =====
-        parseBtn.addEventListener('click', parseStory);
-        backBtn.addEventListener('click', () => goToStep(1));
-        synthBtn.addEventListener('click', startSynth);
-
-        // 播放/暂停
-        document.addEventListener('click', e => {
-            if (e.target.closest('#synthCtrlPlay')) {
-                synthPlaying = !synthPlaying;
-                document.getElementById('synthCtrlPlay').classList.toggle('playing', synthPlaying);
+        // ===== Main action button =====
+        mainBtn.addEventListener('click', () => {
+            if (currentPhase === 0) {
+                parseStory();
+            } else if (currentPhase === 1) {
+                startSynth();
             }
         });
 
-        // 进度条 seek
-        document.addEventListener('click', e => {
-            const track = e.target.closest('#synthProgress');
-            if (!track) return;
-            const rect = track.getBoundingClientRect();
+        // ===== Player controls =====
+        document.getElementById('ctrlPlay').addEventListener('click', () => {
+            playing = !playing;
+            document.getElementById('ctrlPlay').classList.toggle('playing', playing);
+        });
+
+        document.getElementById('ctrlProgressBar').addEventListener('click', e => {
+            const rect = e.currentTarget.getBoundingClientRect();
             const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-            synthTime = pct * synthTotalDuration;
+            playTime = pct * totalDuration;
         });
 
-        // 导出按钮
-        document.getElementById('exportVideoBtn')?.addEventListener('click', () => {
-            const panel = document.getElementById('panelExportGen');
-            if (panel) panel.classList.toggle('visible');
+        // ===== Done panel buttons =====
+        document.getElementById('exportBtn').addEventListener('click', () => {
+            document.getElementById('exportPanel').classList.toggle('visible');
         });
-
-        // 重新生成
-        document.getElementById('regenBtn')?.addEventListener('click', () => {
-            if (synthAnimFrame) cancelAnimationFrame(synthAnimFrame);
+        document.getElementById('closeExport').addEventListener('click', () => {
+            document.getElementById('exportPanel').classList.remove('visible');
+        });
+        document.getElementById('regenBtn').addEventListener('click', () => {
+            if (animFrame) cancelAnimationFrame(animFrame);
             startSynth();
         });
+        document.getElementById('backToEditBtn').addEventListener('click', () => {
+            if (animFrame) cancelAnimationFrame(animFrame);
+            setPhase(1);
+        });
 
-        // 面板关闭
-        document.querySelectorAll('.panel-close').forEach(btn => {
-            btn.addEventListener('click', () => btn.closest('.float-panel').classList.remove('visible'));
+        // ===== Sidebar toggle =====
+        document.getElementById('toggleSidebar').addEventListener('click', () => {
+            document.getElementById('aigSidebar').classList.toggle('collapsed');
         });
 
     })();
