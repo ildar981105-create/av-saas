@@ -6,6 +6,100 @@
     <title>AI 生成视频 — FrameX</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Inspiration Gallery */
+        .gen-inspiration { margin-bottom: 28px; }
+        .gen-insp-header {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .gen-insp-hint { font-size: 0.75rem; color: #334155; }
+        .gen-insp-scroll {
+            display: flex;
+            gap: 14px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.06) transparent;
+        }
+        .gen-insp-scroll::-webkit-scrollbar { height: 4px; }
+        .gen-insp-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
+        .gen-insp-card {
+            flex: 0 0 220px;
+            scroll-snap-align: start;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.35s;
+            cursor: pointer;
+        }
+        .gen-insp-card:hover {
+            border-color: rgba(6,182,212,0.35);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(6,182,212,0.08);
+        }
+        .gen-insp-img {
+            position: relative;
+            aspect-ratio: 16/10;
+            overflow: hidden;
+        }
+        .gen-insp-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s;
+        }
+        .gen-insp-card:hover .gen-insp-img img { transform: scale(1.06); }
+        .gen-insp-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(transparent 40%, rgba(8,8,13,0.7));
+        }
+        .gen-insp-body {
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .gen-insp-body h5 { font-size: 0.8rem; font-weight: 600; }
+        .gen-insp-tag {
+            padding: 2px 8px;
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: #22d3ee;
+            background: rgba(6,182,212,0.12);
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        /* Capabilities */
+        .gen-capabilities {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            padding: 18px;
+            margin-bottom: 28px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            flex-wrap: wrap;
+        }
+        .gen-cap-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .gen-cap-icon { font-size: 1rem; }
+        .gen-cap-text {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #94a3b8;
+        }
+    </style>
 </head>
 <body>
     <aside class="sidebar">
@@ -31,6 +125,90 @@
             <h1>从创意到成片，AI 帮你<span class="gradient-text">一键生成</span></h1>
             <p>三步完成：编写故事 → 拆解片段 → 合成视频</p>
         </div>
+
+        <!-- 灵感画廊 -->
+        <section class="gen-inspiration">
+            <div class="gen-insp-header">
+                <h3 class="section-label">灵感画廊</h3>
+                <span class="gen-insp-hint">点击案例查看效果，获取创作灵感</span>
+            </div>
+            <div class="gen-insp-scroll">
+                <div class="gen-insp-card">
+                    <div class="gen-insp-img">
+                        <img src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?w=280&h=180&fit=crop" alt="赛博城市">
+                        <div class="gen-insp-overlay"></div>
+                    </div>
+                    <div class="gen-insp-body">
+                        <h5>赛博城市夜景</h5>
+                        <span class="gen-insp-tag">赛博朋克</span>
+                    </div>
+                </div>
+                <div class="gen-insp-card">
+                    <div class="gen-insp-img">
+                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=280&h=180&fit=crop" alt="产品广告">
+                        <div class="gen-insp-overlay"></div>
+                    </div>
+                    <div class="gen-insp-body">
+                        <h5>产品广告大片</h5>
+                        <span class="gen-insp-tag">电影感</span>
+                    </div>
+                </div>
+                <div class="gen-insp-card">
+                    <div class="gen-insp-img">
+                        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=280&h=180&fit=crop" alt="自然风光">
+                        <div class="gen-insp-overlay"></div>
+                    </div>
+                    <div class="gen-insp-body">
+                        <h5>自然风光延时</h5>
+                        <span class="gen-insp-tag">写实</span>
+                    </div>
+                </div>
+                <div class="gen-insp-card">
+                    <div class="gen-insp-img">
+                        <img src="https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?w=280&h=180&fit=crop" alt="动画短片">
+                        <div class="gen-insp-overlay"></div>
+                    </div>
+                    <div class="gen-insp-body">
+                        <h5>创意动画短片</h5>
+                        <span class="gen-insp-tag">动画</span>
+                    </div>
+                </div>
+                <div class="gen-insp-card">
+                    <div class="gen-insp-img">
+                        <img src="https://images.unsplash.com/photo-1559028012-481c04fa702d?w=280&h=180&fit=crop" alt="品牌宣传">
+                        <div class="gen-insp-overlay"></div>
+                    </div>
+                    <div class="gen-insp-body">
+                        <h5>品牌宣传片</h5>
+                        <span class="gen-insp-tag">3D 渲染</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 能力标签 -->
+        <section class="gen-capabilities">
+            <div class="gen-cap-item">
+                <span class="gen-cap-icon">🎨</span>
+                <span class="gen-cap-text">7 种风格</span>
+            </div>
+            <div class="gen-cap-item">
+                <span class="gen-cap-icon">📐</span>
+                <span class="gen-cap-text">3 种比例</span>
+            </div>
+            <div class="gen-cap-item">
+                <span class="gen-cap-icon">✨</span>
+                <span class="gen-cap-text">4K 超清</span>
+            </div>
+            <div class="gen-cap-item">
+                <span class="gen-cap-icon">🎵</span>
+                <span class="gen-cap-text">自动配乐</span>
+            </div>
+            <div class="gen-cap-item">
+                <span class="gen-cap-icon">⚡</span>
+                <span class="gen-cap-text">3 分钟出片</span>
+            </div>
+        </section>
 
         <!-- ========== 步骤导航 ========== -->
         <div class="gen-steps-nav">

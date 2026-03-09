@@ -35,10 +35,67 @@
             </div>
         </header>
 
-        <div class="task-page-header">
-            <h1>粘贴直播链接，AI 帮你<span class="gradient-text">捕捉高光</span></h1>
-            <p>支持抖音、快手、B站、淘宝等平台，AI 实时监控并自动剪辑精彩片段</p>
+        <div class="task-page-header" style="text-align:center; padding:36px 0 20px;">
+            <h1 style="font-size:2rem;">粘贴直播链接，AI 帮你<span class="gradient-text">捕捉高光</span></h1>
+            <p style="max-width:600px; margin:0 auto;">支持抖音、快手、B站、淘宝等平台，AI 实时监控并自动剪辑精彩片段</p>
         </div>
+
+        <!-- 场景介绍 -->
+        <section class="live-scenes">
+            <div class="live-scenes-grid">
+                <div class="live-scene-card">
+                    <div class="live-scene-img">
+                        <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=380&h=220&fit=crop" alt="电商直播">
+                        <div class="live-scene-overlay"></div>
+                        <span class="live-scene-badge">🛒 电商直播</span>
+                    </div>
+                    <div class="live-scene-body">
+                        <h4>带货切片自动生成</h4>
+                        <p>AI 识别商品讲解、限时优惠、互动高潮，自动剪辑带字幕的竖屏短视频</p>
+                    </div>
+                </div>
+                <div class="live-scene-card">
+                    <div class="live-scene-img">
+                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=380&h=220&fit=crop" alt="游戏直播">
+                        <div class="live-scene-overlay"></div>
+                        <span class="live-scene-badge">🎮 游戏直播</span>
+                    </div>
+                    <div class="live-scene-body">
+                        <h4>精彩操作集锦</h4>
+                        <p>根据弹幕热度和游戏事件，自动捕捉五杀、翻盘等高能时刻</p>
+                    </div>
+                </div>
+                <div class="live-scene-card">
+                    <div class="live-scene-img">
+                        <img src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=380&h=220&fit=crop" alt="知识直播">
+                        <div class="live-scene-overlay"></div>
+                        <span class="live-scene-badge">📚 知识直播</span>
+                    </div>
+                    <div class="live-scene-body">
+                        <h4>金句合集自动提取</h4>
+                        <p>识别干货金句、互动问答环节，智能分段生成知识短视频</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 数据亮点 -->
+        <section class="live-stats-bar">
+            <div class="live-stat">
+                <span class="live-stat-num">25+</span>
+                <span class="live-stat-label">平均每场识别高光</span>
+            </div>
+            <div class="live-stat-divider"></div>
+            <div class="live-stat">
+                <span class="live-stat-num">50x</span>
+                <span class="live-stat-label">剪辑效率提升</span>
+            </div>
+            <div class="live-stat-divider"></div>
+            <div class="live-stat">
+                <span class="live-stat-num">9:16</span>
+                <span class="live-stat-label">一键竖屏输出</span>
+            </div>
+        </section>
 
         <!-- 直播链接输入 -->
         <section class="live-input-section">
@@ -247,6 +304,95 @@
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+        /* Live Scene Cards */
+        .live-scenes { margin-bottom: 28px; }
+        .live-scenes-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        .live-scene-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            overflow: hidden;
+            transition: all 0.35s;
+            cursor: default;
+        }
+        .live-scene-card:hover {
+            border-color: rgba(59,130,246,0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(59,130,246,0.08);
+        }
+        .live-scene-img {
+            position: relative;
+            aspect-ratio: 16/10;
+            overflow: hidden;
+        }
+        .live-scene-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s;
+        }
+        .live-scene-card:hover .live-scene-img img { transform: scale(1.06); }
+        .live-scene-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(transparent 30%, rgba(8,8,13,0.8));
+        }
+        .live-scene-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 4px 10px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #fff;
+            background: rgba(59,130,246,0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 6px;
+            z-index: 2;
+        }
+        .live-scene-body { padding: 12px 14px 14px; }
+        .live-scene-body h4 { font-size: 0.88rem; font-weight: 700; margin-bottom: 4px; }
+        .live-scene-body p { font-size: 0.73rem; color: #64748b; line-height: 1.45; }
+
+        /* Stats Bar */
+        .live-stats-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 32px;
+            padding: 20px;
+            margin-bottom: 28px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+        }
+        .live-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        .live-stat-num {
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .live-stat-label { font-size: 0.72rem; color: #64748b; }
+        .live-stat-divider {
+            width: 1px;
+            height: 36px;
+            background: var(--glass-border);
+        }
+        @media (max-width: 800px) {
+            .live-scenes-grid { grid-template-columns: 1fr; }
         }
     </style>
 </body>
