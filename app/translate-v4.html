@@ -2889,6 +2889,402 @@
         border-color: rgba(99,102,241,0.35);
         background: rgba(99,102,241,0.08);
     }
+
+    /* ===== 导入已完成任务 — 按钮区域 ===== */
+    .tv2-import-section {
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+        padding-top: 4px;
+    }
+    .tv2-import-divider {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 16px;
+    }
+    .tv2-import-divider-line {
+        flex: 1;
+        height: 1px;
+        background: rgba(255,255,255,0.06);
+    }
+    .tv2-import-divider-text {
+        font-size: 0.72rem;
+        color: var(--text-dim);
+        font-weight: 500;
+        white-space: nowrap;
+    }
+    .tv2-import-task-btn {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        width: 100%;
+        padding: 16px 20px;
+        background: rgba(255,255,255,0.02);
+        border: 1px dashed rgba(255,255,255,0.1);
+        border-radius: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: inherit;
+        color: var(--text-secondary);
+        text-align: left;
+    }
+    .tv2-import-task-btn:hover {
+        background: rgba(99,102,241,0.06);
+        border-color: rgba(99,102,241,0.3);
+        border-style: solid;
+        transform: translateY(-1px);
+    }
+    .tv2-import-task-btn:hover .tv2-import-task-icon {
+        background: rgba(99,102,241,0.15);
+        color: #818cf8;
+    }
+    .tv2-import-task-btn:hover .tv2-import-task-arrow {
+        color: #818cf8;
+        transform: translateX(3px);
+    }
+    .tv2-import-task-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: rgba(255,255,255,0.04);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        color: var(--text-muted);
+        transition: all 0.3s;
+    }
+    .tv2-import-task-text {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+    }
+    .tv2-import-task-title {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+    .tv2-import-task-desc {
+        font-size: 0.72rem;
+        color: var(--text-dim);
+    }
+    .tv2-import-task-arrow {
+        flex-shrink: 0;
+        color: var(--text-dim);
+        transition: all 0.3s;
+    }
+
+    /* ===== 任务导入弹窗 ===== */
+    .task-import-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 2000;
+        background: rgba(0,0,0,0.75);
+        backdrop-filter: blur(10px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .task-import-dialog {
+        width: 92%;
+        max-width: 780px;
+        max-height: 85vh;
+        background: rgba(18,18,30,0.98);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 20px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        animation: fadeInUp 0.3s ease-out;
+    }
+    .task-import-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        padding: 20px 24px 16px;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+        flex-shrink: 0;
+    }
+    .task-import-header-left {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    .task-import-header-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        background: rgba(168,85,247,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+    .task-import-title {
+        display: block;
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--text-primary);
+    }
+    .task-import-subtitle {
+        display: block;
+        font-size: 0.72rem;
+        color: var(--text-dim);
+        margin-top: 2px;
+    }
+    .task-import-close {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        flex-shrink: 0;
+    }
+    .task-import-close:hover {
+        background: rgba(255,255,255,0.1);
+        color: var(--text-primary);
+    }
+    /* Tabs */
+    .task-import-tabs {
+        display: flex;
+        gap: 4px;
+        padding: 12px 24px;
+        border-bottom: 1px solid rgba(255,255,255,0.04);
+        flex-shrink: 0;
+    }
+    .task-import-tab {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 14px;
+        font-size: 0.78rem;
+        font-weight: 500;
+        color: var(--text-muted);
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+    }
+    .task-import-tab:hover {
+        color: var(--text-primary);
+        border-color: rgba(255,255,255,0.12);
+        background: rgba(255,255,255,0.05);
+    }
+    .task-import-tab.active {
+        color: #a78bfa;
+        border-color: rgba(139,92,246,0.3);
+        background: rgba(139,92,246,0.08);
+    }
+    /* Search */
+    .task-import-search {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 12px 24px;
+        padding: 8px 14px;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 10px;
+        flex-shrink: 0;
+    }
+    .task-import-search input {
+        background: none;
+        border: none;
+        outline: none;
+        color: var(--text-primary);
+        font-size: 0.82rem;
+        flex: 1;
+        min-width: 0;
+        font-family: inherit;
+    }
+    .task-import-search input::placeholder {
+        color: var(--text-dim);
+    }
+    /* Task List */
+    .task-import-list {
+        flex: 1;
+        overflow-y: auto;
+        padding: 8px 24px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        min-height: 0;
+    }
+    /* Task Card */
+    .task-import-card {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 16px;
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .task-import-card:hover {
+        border-color: rgba(99,102,241,0.25);
+        background: rgba(99,102,241,0.03);
+    }
+    .task-import-card.selected {
+        border-color: rgba(99,102,241,0.4);
+        background: rgba(99,102,241,0.06);
+    }
+    .task-import-card-radio {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        border: 2px solid rgba(255,255,255,0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: all 0.2s;
+    }
+    .task-import-card.selected .task-import-card-radio {
+        border-color: #6366f1;
+        background: #6366f1;
+    }
+    .task-import-card-radio-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: white;
+        transform: scale(0);
+        transition: transform 0.2s;
+    }
+    .task-import-card.selected .task-import-card-radio-dot {
+        transform: scale(1);
+    }
+    .task-import-card-body {
+        flex: 1;
+        min-width: 0;
+    }
+    .task-import-card-name {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .task-import-card-meta {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 5px;
+        flex-wrap: wrap;
+    }
+    .task-import-card-meta span {
+        font-size: 0.7rem;
+        color: var(--text-dim);
+    }
+    .task-import-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        padding: 2px 8px;
+        font-size: 0.65rem;
+        font-weight: 600;
+        border-radius: 6px;
+        flex-shrink: 0;
+    }
+    .task-import-tag--done {
+        color: #34d399;
+        background: rgba(16,185,129,0.1);
+        border: 1px solid rgba(16,185,129,0.2);
+    }
+    .task-import-step-tags {
+        display: flex;
+        gap: 4px;
+        flex-shrink: 0;
+    }
+    .task-import-step {
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        padding: 2px 7px;
+        font-size: 0.62rem;
+        font-weight: 500;
+        border-radius: 5px;
+        color: var(--text-muted);
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.06);
+    }
+    .task-import-step.active {
+        color: #818cf8;
+        background: rgba(99,102,241,0.08);
+        border-color: rgba(99,102,241,0.2);
+    }
+    /* Footer */
+    .task-import-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 24px;
+        border-top: 1px solid rgba(255,255,255,0.06);
+        flex-shrink: 0;
+    }
+    .task-import-selected-label {
+        font-size: 0.78rem;
+        color: var(--text-dim);
+    }
+    .task-import-footer-actions {
+        display: flex;
+        gap: 10px;
+    }
+    .task-import-cancel {
+        padding: 8px 20px;
+        font-size: 0.82rem;
+        font-weight: 500;
+        color: var(--text-muted);
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 10px;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.2s;
+    }
+    .task-import-cancel:hover {
+        background: rgba(255,255,255,0.08);
+        color: var(--text-primary);
+    }
+    .task-import-confirm {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 22px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: #fff;
+        background: linear-gradient(135deg, #a855f7, #6366f1);
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-family: inherit;
+        box-shadow: 0 0 16px rgba(99,102,241,0.2);
+        transition: all 0.2s;
+    }
+    .task-import-confirm:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        box-shadow: none;
+    }
+    .task-import-confirm:not(:disabled):hover {
+        box-shadow: 0 0 24px rgba(99,102,241,0.35);
+        transform: translateY(-1px);
+    }
     /* 已选视频状态 */
     .tv2-upload-selected {
         width: 100%;
@@ -3615,6 +4011,30 @@
                             </button>
                         </div>
                     </div>
+
+                    <!-- 导入已完成任务区域 -->
+                    <div class="tv2-import-section">
+                        <div class="tv2-import-divider">
+                            <span class="tv2-import-divider-line"></span>
+                            <span class="tv2-import-divider-text">或者，导入已完成的任务</span>
+                            <span class="tv2-import-divider-line"></span>
+                        </div>
+                        <button class="tv2-import-task-btn" id="tv2ImportTaskBtn" type="button">
+                            <div class="tv2-import-task-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                    <path d="M16 3V8H21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M21 3L16 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                    <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="tv2-import-task-text">
+                                <span class="tv2-import-task-title">导入已完成的译制任务</span>
+                                <span class="tv2-import-task-desc">从云点播 / MPS / FrameX 导入，直接进入精调</span>
+                            </div>
+                            <svg class="tv2-import-task-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Three Steps Section -->
@@ -4286,6 +4706,71 @@
         </div>
     </div>
 
+    <!-- ===== 导入已完成任务选择器弹窗 ===== -->
+    <div class="task-import-modal" id="taskImportModal" style="display:none;">
+        <div class="task-import-dialog">
+            <!-- Header -->
+            <div class="task-import-header">
+                <div class="task-import-header-left">
+                    <div class="task-import-header-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12" stroke="#a855f7" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M16 3V8H21" stroke="#06b6d4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M21 3L16 8" stroke="#06b6d4" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M9 12L11 14L15 10" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="task-import-title">导入已完成的任务</span>
+                        <span class="task-import-subtitle">选择一个已处理完成的译制任务，直接进入精调</span>
+                    </div>
+                </div>
+                <button class="task-import-close" id="taskImportClose">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3L11 11M11 3L3 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </button>
+            </div>
+            <!-- Platform Tabs -->
+            <div class="task-import-tabs">
+                <button class="task-import-tab active" data-platform="vod">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M3 6C3 4.89543 3.89543 4 5 4H9L11 6H19C20.1046 6 21 6.89543 21 8V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V6Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                    云点播
+                </button>
+                <button class="task-import-tab" data-platform="mps">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 6H20M4 10H20M4 14H20M4 18H20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    MPS 视频处理
+                </button>
+                <button class="task-import-tab" data-platform="framex">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M9 9L15 12L9 15V9Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                    FrameX
+                </button>
+            </div>
+            <!-- Search -->
+            <div class="task-import-search">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="var(--text-faint)" stroke-width="1.3"/><path d="M10 10L13 13" stroke="var(--text-faint)" stroke-width="1.3" stroke-linecap="round"/></svg>
+                <input id="taskImportSearch" type="text" placeholder="搜索任务名称…">
+            </div>
+            <!-- Task List -->
+            <div class="task-import-list" id="taskImportList">
+                <!-- JS 动态填充 -->
+            </div>
+            <!-- Footer -->
+            <div class="task-import-footer">
+                <span class="task-import-selected-label" id="taskImportSelectedLabel">请选择一个任务</span>
+                <div class="task-import-footer-actions">
+                    <button class="task-import-cancel" id="taskImportCancel">取消</button>
+                    <button class="task-import-confirm" id="taskImportConfirm" disabled>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M16 3V8H21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M21 3L16 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                        导入并开始精调
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="app.js"></script>
     <script>
     // === VOD Picker Logic ===
@@ -4360,6 +4845,150 @@
             // 直接进入编辑器，不需要中间确认步骤
             if (typeof window._tv2EnterEditor === 'function') {
                 window._tv2EnterEditor(name, 'vod');
+            }
+        });
+    })();
+    </script>
+    <script>
+    // === Task Import Picker Logic ===
+    (function initTaskImportPicker() {
+        const modal = document.getElementById('taskImportModal');
+        const openBtn = document.getElementById('tv2ImportTaskBtn');
+        const closeBtn = document.getElementById('taskImportClose');
+        const cancelBtn = document.getElementById('taskImportCancel');
+        const confirmBtn = document.getElementById('taskImportConfirm');
+        const listEl = document.getElementById('taskImportList');
+        const selectedLabel = document.getElementById('taskImportSelectedLabel');
+        const searchInput = document.getElementById('taskImportSearch');
+
+        if (!openBtn || !modal) return;
+
+        // Mock data for completed tasks across platforms
+        const taskData = {
+            vod: [
+                { id:'vt001', name:'产品发布会完整版 — 英文版', video:'产品发布会完整版.mp4', lang:'中→英', steps:{ erase:true, subtitle:true, voice:true }, date:'2026-03-09', duration:'1:04:02' },
+                { id:'vt002', name:'2026春季广告片 — 日语版', video:'2026春季广告片-最终版.mp4', lang:'中→日', steps:{ erase:true, subtitle:true, voice:false }, date:'2026-03-08', duration:'3:05' },
+                { id:'vt003', name:'APP功能演示 — 多语种字幕', video:'APP 功能演示 v3.mp4', lang:'中→英/日/韩', steps:{ erase:false, subtitle:true, voice:false }, date:'2026-03-07', duration:'7:42' },
+                { id:'vt004', name:'CEO 新年致辞 — 英文配音', video:'CEO 新年致辞 2026.mp4', lang:'中→英', steps:{ erase:true, subtitle:true, voice:true }, date:'2026-03-06', duration:'10:23' },
+            ],
+            mps: [
+                { id:'mt001', name:'电商直播精选 — 东南亚版', video:'电商直播精选 3.1 大促.mp4', lang:'中→泰/越/印尼', steps:{ erase:true, subtitle:true, voice:true }, date:'2026-03-08', duration:'31:00' },
+                { id:'mt002', name:'英语培训课程 — 西班牙语版', video:'英语培训课程 L1-L5 合集.mp4', lang:'英→西', steps:{ erase:false, subtitle:true, voice:true }, date:'2026-03-05', duration:'2:00:00' },
+            ],
+            framex: [
+                { id:'ft001', name:'出海短视频素材-东南亚篇 — 英文', video:'出海短视频素材-东南亚篇.mp4', lang:'中→英', steps:{ erase:true, subtitle:true, voice:true }, date:'2026-03-07', duration:'1:32' },
+                { id:'ft002', name:'UI 动效设计教程 — 日语版', video:'UI 动效设计教程.mp4', lang:'中→日', steps:{ erase:true, subtitle:true, voice:false }, date:'2026-03-04', duration:'20:34' },
+                { id:'ft003', name:'品牌宣传片 — 韩语版', video:'品牌宣传片2026.mp4', lang:'中→韩', steps:{ erase:true, subtitle:true, voice:true }, date:'2026-03-03', duration:'5:16' },
+            ]
+        };
+
+        let currentPlatform = 'vod';
+        let selectedTaskId = null;
+
+        function renderTasks(filter) {
+            const q = (filter || '').toLowerCase();
+            const tasks = taskData[currentPlatform] || [];
+            listEl.innerHTML = '';
+
+            const filtered = tasks.filter(t => !q || t.name.toLowerCase().includes(q) || t.video.toLowerCase().includes(q));
+
+            if (filtered.length === 0) {
+                listEl.innerHTML = '<div style="text-align:center;padding:40px 0;color:var(--text-dim);font-size:0.82rem;">暂无已完成的任务</div>';
+                return;
+            }
+
+            filtered.forEach(t => {
+                const card = document.createElement('div');
+                card.className = 'task-import-card' + (selectedTaskId === t.id ? ' selected' : '');
+                
+                const stepLabels = [];
+                if (t.steps.erase) stepLabels.push({ label: '擦除', active: true });
+                else stepLabels.push({ label: '擦除', active: false });
+                if (t.steps.subtitle) stepLabels.push({ label: '字幕', active: true });
+                else stepLabels.push({ label: '字幕', active: false });
+                if (t.steps.voice) stepLabels.push({ label: '配音', active: true });
+                else stepLabels.push({ label: '配音', active: false });
+
+                const stepsHtml = stepLabels.map(s => 
+                    `<span class="task-import-step${s.active ? ' active' : ''}">${s.active ? '✓ ' : ''}${s.label}</span>`
+                ).join('');
+
+                card.innerHTML = `
+                    <div class="task-import-card-radio"><div class="task-import-card-radio-dot"></div></div>
+                    <div class="task-import-card-body">
+                        <div class="task-import-card-name">${t.name}</div>
+                        <div class="task-import-card-meta">
+                            <span>${t.lang}</span>
+                            <span>${t.duration}</span>
+                            <span>${t.date}</span>
+                        </div>
+                    </div>
+                    <div class="task-import-step-tags">${stepsHtml}</div>
+                    <span class="task-import-tag task-import-tag--done">✓ 已完成</span>
+                `;
+
+                card.addEventListener('click', () => {
+                    selectedTaskId = t.id;
+                    renderTasks(searchInput.value);
+                });
+
+                listEl.appendChild(card);
+            });
+
+            // Update footer
+            if (selectedTaskId) {
+                const task = tasks.find(t => t.id === selectedTaskId);
+                selectedLabel.textContent = task ? `已选: ${task.name}` : '请选择一个任务';
+                confirmBtn.disabled = !task;
+            } else {
+                selectedLabel.textContent = '请选择一个任务';
+                confirmBtn.disabled = true;
+            }
+        }
+
+        function openModal() {
+            modal.style.display = 'flex';
+            selectedTaskId = null;
+            currentPlatform = 'vod';
+            // Reset tabs
+            document.querySelectorAll('.task-import-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector('.task-import-tab[data-platform="vod"]').classList.add('active');
+            searchInput.value = '';
+            renderTasks();
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        openBtn.addEventListener('click', function(e) { e.stopPropagation(); openModal(); });
+        closeBtn.addEventListener('click', closeModal);
+        cancelBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+        searchInput.addEventListener('input', () => renderTasks(searchInput.value));
+
+        // Platform tab switching
+        document.querySelectorAll('.task-import-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                currentPlatform = tab.dataset.platform;
+                document.querySelectorAll('.task-import-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                selectedTaskId = null;
+                searchInput.value = '';
+                renderTasks();
+            });
+        });
+
+        // Confirm — import task and enter finetune
+        confirmBtn.addEventListener('click', () => {
+            if (!selectedTaskId) return;
+            const tasks = taskData[currentPlatform] || [];
+            const task = tasks.find(t => t.id === selectedTaskId);
+            if (!task) return;
+            closeModal();
+            // Call global import handler
+            if (typeof window._tv2ImportTask === 'function') {
+                window._tv2ImportTask(task, currentPlatform);
             }
         });
     })();
@@ -4593,6 +5222,148 @@
         }
         // Expose for landing page script
         window.handleFile = handleFile;
+
+        /* ===== Import Completed Task — Skip config, go to finetune ===== */
+        function handleImportedTask(taskInfo) {
+            // taskInfo: { name, video, lang, steps: { erase, subtitle, voice }, date, duration, platform }
+            uploadedFileName = taskInfo.video || taskInfo.name || 'imported_video.mp4';
+            document.getElementById('topbarFilename').textContent = '— ' + uploadedFileName;
+            uploadOverlay.classList.add('hidden');
+            document.getElementById('videoScrubber').classList.add('visible');
+            phaseIndicator.classList.remove('hidden');
+
+            // Enter immersive mode
+            document.body.classList.add('tv2-immersive');
+
+            // Set features based on what the task already completed
+            features = {
+                erase: !!taskInfo.steps.erase,
+                subtitle: !!taskInfo.steps.subtitle,
+                voice: !!taskInfo.steps.voice
+            };
+
+            // Set all completed steps as active
+            activeSteps = [];
+            if (features.erase) activeSteps.push('erase');
+            if (features.subtitle) activeSteps.push('subtitle');
+            if (features.voice) activeSteps.push('voice');
+            currentStep = activeSteps.length; // past all steps
+            scriptReady = features.subtitle || features.voice;
+
+            // Reset and unlock tabs for completed features
+            unlockedTabs = { erase: false, subtitle: false, voice: false };
+            previewingSteps = { erase: false, subtitle: false, voice: false };
+            Object.keys(tabItems).forEach(key => {
+                tabItems[key].className = 'tv2-tab-item locked';
+            });
+            activeSteps.forEach(step => unlockTab(step));
+
+            // Reset fine-tune section
+            chatFlow.style.display = '';
+            chatFlow.classList.remove('ft-collapsing', 'ft-expanding');
+            const ftSectionReset = document.getElementById('finetuneSection');
+            ftSectionReset.classList.remove('active', 'ft-section-expanding', 'ft-section-collapsing');
+            document.querySelectorAll('.tv2-ft-panel').forEach(p => p.classList.remove('active'));
+            inFinetune = false;
+            currentFinetuneStep = null;
+            document.getElementById('tv2Middle').classList.remove('active');
+            const tlReset = document.getElementById('timeline');
+            if (tlReset) tlReset.classList.remove('ft-tl-enter', 'ft-tl-exit');
+            pendingAdvanceStep = null;
+
+            // Reset burntSub — already erased if applicable
+            if (features.erase) {
+                burntSub.classList.add('erased');
+            } else {
+                burntSub.classList.remove('erased', 'erasing');
+            }
+
+            // Set subtitle overlay active if subtitle was done
+            if (features.subtitle) {
+                subtitleOverlay.classList.add('active');
+            }
+
+            // Reset processing steps indicators
+            document.querySelectorAll('.pstep').forEach(s => {
+                s.classList.remove('active');
+                s.classList.add('done');
+            });
+            document.getElementById('processingSteps').classList.add('active');
+
+            // Hide all tracks, then prepare them
+            document.querySelectorAll('.tv2-tl-track').forEach(t => {
+                t.classList.remove('track-visible', 'track-placeholder', 'track-ft-active', 'track-ft-dim');
+                t.style.opacity = '';
+            });
+            // Show tracks for completed features
+            activeSteps.forEach(step => {
+                const trk = document.querySelector(`.tv2-tl-track[data-track="${step}"]`);
+                if (trk) {
+                    trk.classList.add('track-visible');
+                    syncTimelineSegments(step);
+                }
+            });
+
+            // Set phase to done
+            phase = 'done';
+            playing = true;
+            document.getElementById('tlPlay').classList.add('playing');
+            document.getElementById('globalExportBtn').style.display = '';
+            document.getElementById('timeline').classList.add('visible');
+
+            // Build import chat
+            chatFlow.innerHTML = '';
+            const platformLabels = { vod: '云点播', mps: 'MPS 视频处理', framex: 'FrameX' };
+            const platformName = platformLabels[taskInfo.platform] || '云端';
+
+            // User bubble
+            appendBubble('user', `从<strong>${platformName}</strong>导入任务 <strong>${taskInfo.name}</strong>`, 0);
+
+            // AI analysis bubble
+            const completedStepNames = [];
+            if (features.erase) completedStepNames.push('字幕擦除');
+            if (features.subtitle) completedStepNames.push('字幕翻译');
+            if (features.voice) completedStepNames.push('AI 配音');
+
+            const importHtml = `
+                <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.2);border-radius:12px;margin-bottom:8px;">
+                    <span style="font-size:1.3rem;">✅</span>
+                    <div style="flex:1;font-size:0.82rem;line-height:1.6;">
+                        <strong>任务导入成功</strong><br>
+                        <span style="color:#94a3b8;">来源: ${platformName} · 语言: ${taskInfo.lang} · 时长: ${taskInfo.duration}</span>
+                    </div>
+                </div>
+                已完成的处理步骤：<strong>${completedStepNames.join(' → ')}</strong><br>
+                <span style="font-size:0.75rem;color:#64748b;">所有步骤均已处理完毕，你可以对任意步骤进行精调。</span>`;
+            appendBubble('ai', importHtml, 0.3);
+
+            // Enter first available finetune step
+            const firstStep = activeSteps[0];
+            if (firstStep) {
+                setTimeout(() => {
+                    const enterHtml = `<div style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.2);border-radius:12px;">
+                        <span style="font-size:1.1rem;">🔧</span>
+                        <div style="font-size:0.82rem;line-height:1.5;">
+                            <strong>即将进入精调模式</strong><br>
+                            <span style="color:#94a3b8;">你可以在精调面板中调整参数，也可以通过顶部标签切换不同步骤</span>
+                        </div>
+                    </div>`;
+                    appendBubble('ai', enterHtml, 0);
+                    scrollChat();
+
+                    // Phase indicator
+                    phaseDot.className = 'tv2-phase-dot live';
+                    phaseLabel.textContent = '已导入 · 进入精调模式';
+                    phaseIndicator.className = 'tv2-phase-indicator phase-done';
+
+                    setTimeout(() => enterFinetune(firstStep), 600);
+                }, 800);
+            }
+
+            scrollChat();
+        }
+        // Expose for task import picker
+        window.handleImportedTask = handleImportedTask;
 
         /* ===== Build chat config (step-by-step) ===== */
         const configSteps = ['erase', 'subtitle', 'voice'];
@@ -6681,6 +7452,25 @@
         // === 全局方法：供 VOD picker 直接进入编辑器 ===
         window._tv2EnterEditor = function(name, source) {
             enterEditorWithFile(null, name);
+        };
+
+        // === 全局方法：供任务导入选择器调用 — 跳过配置直接进精调 ===
+        window._tv2ImportTask = function(taskInfo, platform) {
+            taskInfo.platform = platform;
+            // Transition from landing to editor
+            landing.style.transition = 'opacity 0.35s, transform 0.35s';
+            landing.style.opacity = '0';
+            landing.style.transform = 'translateY(-20px)';
+            setTimeout(function() {
+                landing.style.display = 'none';
+                if (topbar) topbar.style.display = '';
+                if (main) main.style.display = '';
+                document.body.classList.add('tv2-immersive');
+                // Call the editor's handleImportedTask
+                if (typeof window.handleImportedTask === 'function') {
+                    window.handleImportedTask(taskInfo);
+                }
+            }, 350);
         };
 
         // === 移除选择，恢复上传框 ===
