@@ -3306,24 +3306,40 @@
 
     </style>
 </head>
-<body class="tv2-body">
+<body class="tv2-body creator-layout">
 
-    <!-- ===== Sidebar ===== -->
-    <aside class="sidebar">
-        <a href="index.html" class="sidebar-logo">
-            <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#sLogo)" stroke-width="2.5"/><path d="M12 10L22 16L12 22V10Z" fill="url(#sLogo)"/><defs><linearGradient id="sLogo" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#a855f7"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs></svg>
-            <span>FrameX</span>
+    <!-- 侧边栏 -->
+    <aside class="icon-sidebar">
+        <a href="create.html" class="icon-sidebar-logo" title="FrameX">
+            <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#sLogo)" stroke-width="2.5"/><path d="M12 10L22 16L12 22V10Z" fill="url(#sLogo)"/><defs><linearGradient id="sLogo" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#a855f7"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs></svg>
         </a>
-        <nav class="sidebar-nav">
-            <a href="index.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10L10 3L17 10V17H12V13H8V17H3V10Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span>工作台</span></a>
-            <a href="translate-v4.html" class="nav-item active"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 9H13M7 12H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>视频译制</span></a>
-            <a href="livestream.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="4" cy="5" r="2" fill="#ef4444"/></svg><span>直播剪辑</span></a>
-            <a href="generate.html" class="nav-item"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L12 8H18L13 12L15 18L10 14L5 18L7 12L2 8H8L10 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span>AI 生成</span></a>
-            <div class="nav-divider"></div>
-            <a href="result.html" class="nav-item" id="navTaskRecord"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 10L9 12L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>任务记录</span><span class="nav-badge" id="taskRecordBadge"></span></a>
+        <nav class="icon-nav">
+            <a href="create.html" class="icon-nav-item active" data-has-sub>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3L14 9H20L15 13L17 19L12 15L7 19L9 13L4 9H10L12 3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                生成
+                <svg class="nav-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3L10 7L5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <div class="icon-nav-sub">
+                <div class="icon-nav-sub-inner">
+                    <a href="translate-v4.html" class="icon-nav-sub-item active">视频译制</a>
+                    <a href="livestream.html" class="icon-nav-sub-item">直播剪辑</a>
+                    <a href="generate.html" class="icon-nav-sub-item">AI 生成</a>
+                </div>
+            </div>
+            <a href="media.html" class="icon-nav-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 6C3 4.89543 3.89543 4 5 4H9L11 6H19C20.1046 6 21 6.89543 21 8V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V6Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                素材
+            </a>
+            <a href="result.html" class="icon-nav-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="3" width="7" height="7" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="14" width="7" height="7" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="14" width="7" height="7" rx="2" stroke="currentColor" stroke-width="1.5"/></svg>
+                作品
+            </a>
         </nav>
-        <div class="sidebar-bottom">
-            <div class="user-card"><div class="avatar">U</div><div class="user-info"><span class="user-name">用户</span><span class="user-plan">专业版</span></div></div>
+        <div class="icon-nav-divider"></div>
+        <div class="icon-nav-bottom">
+            <a href="#" class="icon-nav-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M13 10V3L4 14H11V21L20 10H13Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>API</a>
+            <a href="#" class="icon-nav-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M12 2V4M12 20V22M22 12H20M4 12H2M19.07 4.93L17.66 6.34M6.34 17.66L4.93 19.07M19.07 19.07L17.66 17.66M6.34 6.34L4.93 4.93" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>设置</a>
+            <div class="icon-nav-avatar"><span>U</span></div>
         </div>
     </aside>
 
@@ -3382,6 +3398,11 @@
                                 <span class="tv2-upload-hint" id="tv2UploadHint">支持 MP4 / MOV / AVI / MKV 格式，最大 2GB</span>
                             </div>
                         </div>
+                        <!-- 从云点播选择 -->
+                        <button class="tv2-vod-pick-btn" id="tv2VodPickBtn" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;padding:10px 24px;font-size:0.85rem;font-weight:600;color:var(--text-secondary);background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;cursor:pointer;transition:all 0.25s;font-family:inherit;width:100%;max-width:480px;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 6C3 4.89543 3.89543 4 5 4H9L11 6H19C20.1046 6 21 6.89543 21 8V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V6Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 12L15 15L10 18V12Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                            或从腾讯云点播选择
+                        </button>
                     </div>
                 </div>
 
@@ -3484,7 +3505,7 @@
         <!-- Top Bar -->
         <header class="tv2-topbar" id="tv2Topbar" style="display:none;">
             <div class="tv2-topbar-left">
-                <a href="index.html" class="tv2-back">
+                <a href="create.html" class="tv2-back">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     工作台
                 </a>
@@ -4014,7 +4035,127 @@
     <!-- Toast Notifications Container -->
     <div class="tv2-toast-container" id="toastContainer"></div>
 
+    <!-- ===== VOD 视频选择器弹窗 ===== -->
+    <div class="vod-picker-modal" id="vodPickerModal" style="display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.75);backdrop-filter:blur(10px);align-items:center;justify-content:center;">
+        <div style="width:90%;max-width:720px;max-height:85vh;background:rgba(18,18,30,0.98);border:1px solid rgba(255,255,255,0.1);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;animation:fadeInUp 0.3s ease-out;">
+            <!-- Header -->
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid rgba(255,255,255,0.06);flex-shrink:0;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 6C3 4.89543 3.89543 4 5 4H9L11 6H19C20.1046 6 21 6.89543 21 8V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V6Z" stroke="#a855f7" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 12L15 15L10 18V12Z" stroke="#a855f7" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                    <span style="font-size:1rem;font-weight:700;">从云点播选择视频</span>
+                </div>
+                <button id="vodPickerClose" style="width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:var(--text-muted);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3L11 11M11 3L3 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </button>
+            </div>
+            <!-- 筛选栏 -->
+            <div style="display:flex;align-items:center;gap:10px;padding:12px 24px;border-bottom:1px solid rgba(255,255,255,0.04);flex-shrink:0;flex-wrap:wrap;">
+                <select id="vodPickerApp" style="padding:6px 12px;font-size:0.8rem;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:var(--text-primary);outline:none;font-family:inherit;">
+                    <option value="0">默认应用</option>
+                    <option value="1500001">出海营销</option>
+                    <option value="1500002">内部培训</option>
+                </select>
+                <div style="display:flex;align-items:center;gap:6px;flex:1;max-width:300px;padding:6px 12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.5" stroke="var(--text-faint)" stroke-width="1.3"/><path d="M10 10L13 13" stroke="var(--text-faint)" stroke-width="1.3" stroke-linecap="round"/></svg>
+                    <input id="vodPickerSearch" type="text" placeholder="搜索视频名称…" style="background:none;border:none;outline:none;color:var(--text-primary);font-size:0.8rem;flex:1;min-width:0;font-family:inherit;">
+                </div>
+            </div>
+            <!-- 视频列表 -->
+            <div id="vodPickerList" style="flex:1;overflow-y:auto;padding:12px 24px;display:flex;flex-direction:column;gap:6px;min-height:0;">
+                <!-- JS 动态填充 -->
+            </div>
+            <!-- Footer -->
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-top:1px solid rgba(255,255,255,0.06);flex-shrink:0;">
+                <span id="vodPickerSelected" style="font-size:0.78rem;color:var(--text-muted);">已选 0 个</span>
+                <div style="display:flex;gap:10px;">
+                    <button id="vodPickerCancel" style="padding:8px 20px;font-size:0.82rem;font-weight:500;color:var(--text-muted);background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;cursor:pointer;font-family:inherit;transition:all 0.2s;">取消</button>
+                    <button id="vodPickerConfirm" style="padding:8px 24px;font-size:0.82rem;font-weight:600;color:#fff;background:linear-gradient(135deg,#a855f7,#6366f1);border:none;border-radius:10px;cursor:pointer;font-family:inherit;box-shadow:0 0 16px rgba(99,102,241,0.2);transition:all 0.2s;">确认选择</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="app.js"></script>
+    <script>
+    // === VOD Picker Logic ===
+    (function initVodPicker() {
+        const modal = document.getElementById('vodPickerModal');
+        const openBtn = document.getElementById('tv2VodPickBtn');
+        const closeBtn = document.getElementById('vodPickerClose');
+        const cancelBtn = document.getElementById('vodPickerCancel');
+        const confirmBtn = document.getElementById('vodPickerConfirm');
+        const listEl = document.getElementById('vodPickerList');
+        const selectedLabel = document.getElementById('vodPickerSelected');
+        const searchInput = document.getElementById('vodPickerSearch');
+
+        if (!openBtn || !modal) return;
+
+        const vodVideos = [
+            { fileId:'vod001', name:'产品发布会完整版.mp4', duration:'1:04:02', res:'1080p', size:'1.0 GB', date:'2026-03-08' },
+            { fileId:'vod002', name:'2026春季广告片-最终版.mp4', duration:'3:05', res:'4K', size:'500 MB', date:'2026-03-07' },
+            { fileId:'vod003', name:'APP 功能演示 v3.mp4', duration:'7:42', res:'1080p', size:'256 MB', date:'2026-03-06' },
+            { fileId:'vod004', name:'英语培训课程 L1-L5 合集.mp4', duration:'2:00:00', res:'1080p', size:'2.0 GB', date:'2026-03-05' },
+            { fileId:'vod005', name:'CEO 新年致辞 2026.mp4', duration:'10:23', res:'1080p', size:'400 MB', date:'2026-03-04' },
+            { fileId:'vod006', name:'电商直播精选 3.1 大促.mp4', duration:'31:00', res:'1080p', size:'1.5 GB', date:'2026-03-03' },
+            { fileId:'vod007', name:'出海短视频素材-东南亚篇.mp4', duration:'1:32', res:'1080p', size:'150 MB', date:'2026-03-02' },
+            { fileId:'vod008', name:'UI 动效设计教程.mp4', duration:'20:34', res:'2K', size:'800 MB', date:'2026-03-01' }
+        ];
+        let selected = new Set();
+
+        function renderList(filter) {
+            const q = (filter || '').toLowerCase();
+            listEl.innerHTML = '';
+            vodVideos.filter(v => !q || v.name.toLowerCase().includes(q)).forEach(v => {
+                const row = document.createElement('div');
+                row.style.cssText = 'display:flex;align-items:center;gap:12px;padding:10px 12px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:10px;cursor:pointer;transition:all 0.2s;';
+                const isChecked = selected.has(v.fileId);
+                if (isChecked) row.style.borderColor = 'rgba(99,102,241,0.4)';
+                row.innerHTML = `
+                    <div style="width:20px;height:20px;border-radius:5px;border:1.5px solid ${isChecked?'#6366f1':'rgba(255,255,255,0.2)'};background:${isChecked?'#6366f1':'transparent'};display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;">
+                        ${isChecked ? '<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5L4 7L8 3" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>' : ''}
+                    </div>
+                    <div style="flex:1;min-width:0;">
+                        <div style="font-size:0.85rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${v.name}</div>
+                        <div style="font-size:0.7rem;color:var(--text-muted);display:flex;gap:12px;margin-top:2px;">
+                            <span>${v.duration}</span><span>${v.res}</span><span>${v.size}</span><span>${v.date}</span>
+                        </div>
+                    </div>
+                `;
+                row.addEventListener('click', () => {
+                    if (selected.has(v.fileId)) selected.delete(v.fileId);
+                    else selected.add(v.fileId);
+                    renderList(searchInput.value);
+                });
+                row.addEventListener('mouseenter', () => { if (!selected.has(v.fileId)) row.style.borderColor='rgba(99,102,241,0.2)'; });
+                row.addEventListener('mouseleave', () => { if (!selected.has(v.fileId)) row.style.borderColor='rgba(255,255,255,0.06)'; });
+                listEl.appendChild(row);
+            });
+            selectedLabel.textContent = `已选 ${selected.size} 个`;
+        }
+
+        function openModal() { modal.style.display = 'flex'; selected.clear(); renderList(); }
+        function closeModal() { modal.style.display = 'none'; }
+
+        openBtn.addEventListener('click', openModal);
+        openBtn.addEventListener('mouseenter', () => { openBtn.style.borderColor='rgba(99,102,241,0.35)'; openBtn.style.color='#818cf8'; });
+        openBtn.addEventListener('mouseleave', () => { openBtn.style.borderColor='rgba(255,255,255,0.08)'; openBtn.style.color='var(--text-secondary)'; });
+        closeBtn.addEventListener('click', closeModal);
+        cancelBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', e => { if(e.target === modal) closeModal(); });
+        searchInput.addEventListener('input', () => renderList(searchInput.value));
+
+        confirmBtn.addEventListener('click', () => {
+            if (selected.size === 0) return;
+            const name = vodVideos.find(v => selected.has(v.fileId))?.name || '云点播视频';
+            closeModal();
+            // 模拟选中视频效果
+            const uploadMain = document.getElementById('tv2UploadMain');
+            const uploadHint = document.getElementById('tv2UploadHint');
+            if (uploadMain) uploadMain.innerHTML = `<em>☁️ ${name}</em>`;
+            if (uploadHint) uploadHint.textContent = `已从云点播选择 ${selected.size} 个视频`;
+        });
+    })();
+    </script>
     <script>
     (function() {
         /* ===== State ===== */
@@ -5557,6 +5698,10 @@
                         <button class="ra-btn-export" onclick="alert('导出中...')">
                             <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 2V9M8 9L11 6M8 9L5 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 11V13C3 13.5523 3.44772 14 4 14H12C12.5523 14 13 13.5523 13 13V11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
                             导出视频
+                        </button>
+                        <button class="ra-btn-re-finetune" id="resultSaveVodBtn" onclick="this.innerHTML='☁️ 已保存到云点播';this.style.color='#10b981';this.style.borderColor='rgba(16,185,129,0.3)';">
+                            <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M2 5C2 3.89543 2.89543 3 4 3H6.5L8 4.5H10C11.1046 4.5 12 5.39543 12 6.5V10C12 11.1046 11.1046 12 10 12H4C2.89543 12 2 11.1046 2 10V5Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M7 6V10M7 10L9 8M7 10L5 8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            存到云点播
                         </button>
                     </div>
                     <div class="chat-result-actions-row">

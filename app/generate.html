@@ -919,48 +919,27 @@
     }
     </style>
 </head>
-<body>
-    <!-- 侧边栏（统一结构） -->
-    <aside class="sidebar">
-        <a href="#" class="sidebar-logo">
-            <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-                <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#sLogo)" stroke-width="2.5"/>
-                <path d="M12 10L22 16L12 22V10Z" fill="url(#sLogo)"/>
-                <defs><linearGradient id="sLogo" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#a855f7"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
-            </svg>
-            <span>FrameX</span>
-        </a>
-        <nav class="sidebar-nav">
-            <a href="index.html" class="nav-item">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10L10 3L17 10V17H12V13H8V17H3V10Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
-                <span>工作台</span>
-            </a>
-            <a href="translate-v4.html" class="nav-item">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 9H13M7 12H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                <span>视频译制</span>
-            </a>
-            <a href="livestream.html" class="nav-item">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="4" cy="5" r="2" fill="#ef4444"/></svg>
-                <span>直播剪辑</span>
-            </a>
-            <a href="generate.html" class="nav-item active">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L12 8H18L13 12L15 18L10 14L5 18L7 12L2 8H8L10 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
-                <span>AI 生成</span>
-            </a>
-            <div class="nav-divider"></div>
-            <a href="result.html" class="nav-item">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 10L9 12L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <span>任务记录</span>
-            </a>
-        </nav>
-        <div class="sidebar-bottom">
-            <div class="user-card">
-                <div class="avatar">U</div>
-                <div class="user-info">
-                    <span class="user-name">用户</span>
-                    <span class="user-plan">专业版</span>
+<body class="creator-layout">
+    <!-- 侧边栏 -->
+    <aside class="icon-sidebar">
+        <a href="create.html" class="icon-sidebar-logo" title="FrameX"><svg width="24" height="24" viewBox="0 0 32 32" fill="none"><rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#sLogo)" stroke-width="2.5"/><path d="M12 10L22 16L12 22V10Z" fill="url(#sLogo)"/><defs><linearGradient id="sLogo" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#a855f7"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs></svg></a>
+        <nav class="icon-nav">
+            <a href="create.html" class="icon-nav-item active" data-has-sub><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3L14 9H20L15 13L17 19L12 15L7 19L9 13L4 9H10L12 3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>生成<svg class="nav-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3L10 7L5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <div class="icon-nav-sub">
+                <div class="icon-nav-sub-inner">
+                    <a href="translate-v4.html" class="icon-nav-sub-item">视频译制</a>
+                    <a href="livestream.html" class="icon-nav-sub-item">直播剪辑</a>
+                    <a href="generate.html" class="icon-nav-sub-item active">AI 生成</a>
                 </div>
             </div>
+            <a href="media.html" class="icon-nav-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 6C3 4.89543 3.89543 4 5 4H9L11 6H19C20.1046 6 21 6.89543 21 8V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V6Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>素材</a>
+            <a href="result.html" class="icon-nav-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="3" width="7" height="7" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="14" width="7" height="7" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="14" width="7" height="7" rx="2" stroke="currentColor" stroke-width="1.5"/></svg>作品</a>
+        </nav>
+        <div class="icon-nav-divider"></div>
+        <div class="icon-nav-bottom">
+            <a href="#" class="icon-nav-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M13 10V3L4 14H11V21L20 10H13Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>API</a>
+            <a href="#" class="icon-nav-item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M12 2V4M12 20V22M22 12H20M4 12H2M19.07 4.93L17.66 6.34M6.34 17.66L4.93 19.07M19.07 19.07L17.66 17.66M6.34 6.34L4.93 4.93" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>设置</a>
+            <div class="icon-nav-avatar"><span>U</span></div>
         </div>
     </aside>
 
@@ -1201,6 +1180,7 @@
             userText = text;
             genLanding.style.display = 'none';
             document.getElementById('mainTopbar').style.display = 'none';
+            document.body.classList.add('fullscreen-mode');
             genWorkspace.classList.add('active');
             startParsing(text);
         }
@@ -1545,10 +1525,17 @@
             updatePipeline();
             document.getElementById('exportBtn').style.display = '';
             const sn = { cinematic:'电影感', realistic:'写实', anime:'动画', cyber:'赛博朋克', watercolor:'水彩画', '3d':'3D 渲染' };
-            addBubble('ai', `<div class="gen-done-banner"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="16" stroke="#10b981" stroke-width="2" opacity="0.3"/><path d="M13 20L18 25L28 15" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="gen-done-title">🎉 视频生成完成！</div><div class="gen-done-sub">总时长 ${totalDuration}s · ${clips.length} 个片段 · ${sn[selectedStyle]||selectedStyle} 风格</div><div class="gen-done-actions"><button class="gen-submit-btn" id="chatExportBtn" style="width:100%;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2V8M7 8L10 5M7 8L4 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M2 9V11C2 11.5523 2.44772 12 3 12H11C11.5523 12 12 11.5523 12 11V9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>导出视频</button><div class="gen-chat-actions"><button class="gen-chat-action" id="chatRegen">🔄 重新生成</button><button class="gen-chat-action" id="chatBackEdit">✏️ 返回编辑</button></div></div></div>`);
+            addBubble('ai', `<div class="gen-done-banner"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="16" stroke="#10b981" stroke-width="2" opacity="0.3"/><path d="M13 20L18 25L28 15" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="gen-done-title">🎉 视频生成完成！</div><div class="gen-done-sub">总时长 ${totalDuration}s · ${clips.length} 个片段 · ${sn[selectedStyle]||selectedStyle} 风格</div><div class="gen-done-actions"><button class="gen-submit-btn" id="chatExportBtn" style="width:100%;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2V8M7 8L10 5M7 8L4 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M2 9V11C2 11.5523 2.44772 12 3 12H11C11.5523 12 12 11.5523 12 11V9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>导出视频</button><button class="gen-confirm-config" id="chatSaveVodBtn" style="width:100%;background:rgba(6,182,212,0.15);color:#06b6d4;box-shadow:none;border:1px solid rgba(6,182,212,0.3);"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 5C2 3.89543 2.89543 3 4 3H6.5L8 4.5H10C11.1046 4.5 12 5.39543 12 6.5V10C12 11.1046 11.1046 12 10 12H4C2.89543 12 2 11.1046 2 10V5Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M7 6V10M7 10L9 8M7 10L5 8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>保存到云点播</button><div class="gen-chat-actions"><button class="gen-chat-action" id="chatRegen">🔄 重新生成</button><button class="gen-chat-action" id="chatBackEdit">✏️ 返回编辑</button></div></div></div>`);
 
             document.getElementById('chatRegen')?.addEventListener('click', () => { if (animFrame) cancelAnimationFrame(animFrame); startSynth(); });
             document.getElementById('chatBackEdit')?.addEventListener('click', () => { if (animFrame) cancelAnimationFrame(animFrame); enterStoryboard(); });
+            document.getElementById('chatSaveVodBtn')?.addEventListener('click', function() {
+                this.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7L5.5 10.5L12 3.5" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> 已保存到云点播';
+                this.style.background = 'rgba(16,185,129,0.15)';
+                this.style.color = '#10b981';
+                this.style.borderColor = 'rgba(16,185,129,0.4)';
+                addBubble('ai', '<p>☁️ 视频已成功保存到腾讯云点播「默认应用」。可在素材管理页面查看。</p>');
+            });
             initPlayer();
         }
 
@@ -1662,7 +1649,7 @@
 
         // ===== Export =====
         document.getElementById('exportBtn').addEventListener('click', () => {
-            addBubble('ai', '<p>📥 视频导出中... 格式 MP4 (H.264)、分辨率 1080p。完成后将自动下载。</p>');
+            addBubble('ai', '<p>📥 视频导出中... 格式 MP4 (H.264)、分辨率 1080p。完成后将自动下载。</p><p style="font-size:0.78rem;color:#94a3b8;margin-top:4px;">💡 你也可以在上方点击「保存到云点播」将视频直接存入腾讯云点播。</p>');
         });
 
     })();
