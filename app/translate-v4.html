@@ -457,6 +457,49 @@
         from { opacity: 1; transform: scale(1); }
         to { opacity: 0.4; transform: scale(0.7); }
     }
+    /* Burnt subtitle erase animation */
+    .tv2-burnt-sub.erasing {
+        animation: burntSubErase 1.8s ease-in-out forwards;
+    }
+    @keyframes burntSubErase {
+        0%   { opacity: 1; filter: none; }
+        20%  { opacity: 0.6; filter: blur(1px); }
+        40%  { opacity: 0.9; filter: none; }
+        60%  { opacity: 0.3; filter: blur(2px); }
+        80%  { opacity: 0.5; filter: blur(1px); }
+        100% { opacity: 0; filter: blur(4px); }
+    }
+    .tv2-burnt-sub.erased {
+        display: none !important;
+    }
+
+    /* Step processing complete checkmark */
+    .pv-step-done {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    .pv-step-done .pv-done-icon {
+        width: 48px; height: 48px;
+        border-radius: 50%;
+        background: rgba(16,185,129,0.15);
+        border: 2px solid rgba(16,185,129,0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: pvDonePopIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes pvDonePopIn {
+        0% { transform: scale(0); opacity: 0; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+    .pv-step-done .pv-done-text {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #86efac;
+    }
+
     .tv2-scan-overlay.done .tv2-scan-line { display: none; }
     .tv2-scan-overlay.done .tv2-scan-cell { animation: none; background: rgba(16,185,129,0.06); border-color: rgba(16,185,129,0.2); }
     .tv2-scan-overlay.done .tv2-scan-label-dot { background: #10b981; animation: none; }
@@ -4391,6 +4434,8 @@
         let lastBurntSubId = null;
 
         function updateBurntSubtitle(t) {
+            // If erased, don't show burnt subtitle anymore
+            if (burntSub.classList.contains('erased') || burntSub.classList.contains('erasing')) return;
             const curSub = subtitleItems.find(s => t >= s.startSec && t <= s.endSec);
             if (curSub) {
                 if (lastBurntSubId !== curSub.id) {
@@ -4539,6 +4584,11 @@
             document.querySelector('.tv2-chat-header p').textContent = '上传视频自动处理';
             phase = 'config';
             playing = false;
+            // Reset burntSub state
+            burntSub.classList.remove('erased', 'erasing');
+            // Reset processing steps indicators
+            document.querySelectorAll('.pstep').forEach(s => s.classList.remove('active', 'done'));
+            document.getElementById('processingSteps').classList.remove('active');
             buildConfigChat();
         }
         // Expose for landing page script
@@ -5270,28 +5320,9 @@
                 // Render erase overlays so they preview in chat mode
                 if (step === 'erase') renderEraseOverlays();
 
-                // Build transition message: what's done + what's next
-                const nextIdx = currentStep + 1;
-                const nextStep = nextIdx < activeSteps.length ? activeSteps[nextIdx] : null;
-                const nextLabelMap = { erase: '擦除原字幕', subtitle: '文案识别与翻译', voice: 'AI 配音生成' };
-                const doneLabelMap = { erase: '字幕擦除区域检测', subtitle: '文案翻译', voice: '配音生成' };
-                let transitionMsg = `<strong>${doneLabelMap[step]}</strong>已就绪 ✓`;
-                if (nextStep) {
-                    transitionMsg += `<br>接下来自动执行 <strong>${nextLabelMap[nextStep]}</strong>...`;
-                } else {
-                    transitionMsg += `<br>全部步骤已完成，即将自动开始处理...`;
-                }
-                appendBubble('ai', transitionMsg, 0);
-                scrollChat();
+                // === NEW: Immediately process this step on the left side ===
+                processStepOnLeft(step);
 
-                // Auto-advance after delay
-                pendingAdvanceStep = step;
-                setTimeout(() => {
-                    if (!inFinetune) {
-                        advanceStep();
-                        pendingAdvanceStep = null;
-                    }
-                }, 1500);
             } else {
                 appendBubble('user', `跳过此步骤`, 0);
                 // Hide track
@@ -5303,6 +5334,148 @@
                 // Next step after brief delay
                 setTimeout(() => advanceStep(), 600);
             }
+        }
+
+        /* ===== Process a single step on the left side (overlay animation → result) ===== */
+        function processStepOnLeft(step) {
+            const processingTexts = {
+                erase: '正在擦除字幕...',
+                subtitle: '正在生成字幕...',
+                voice: '正在生成配音...'
+            };
+            const doneTexts = {
+                erase: '字幕擦除完成',
+                subtitle: '字幕生成完成',
+                voice: '配音生成完成'
+            };
+            const processingDurations = {
+                erase: 2200,
+                subtitle: 2000,
+                voice: 2400
+            };
+
+            // Show processing overlay on left
+            const pvText = document.getElementById('pvText');
+            const pvBar = document.getElementById('pvBar');
+            pvText.textContent = processingTexts[step];
+            pvBar.style.width = '0%';
+            processingOverlay.classList.add('active');
+
+            // Update phase indicator
+            phaseDot.className = 'tv2-phase-dot processing';
+            phaseLabel.textContent = processingTexts[step];
+            phaseIndicator.className = 'tv2-phase-indicator phase-processing';
+
+            // Show processing step indicators
+            const stepsEl = document.getElementById('processingSteps');
+            stepsEl.classList.add('active');
+            const psteps = document.querySelectorAll('.pstep');
+            psteps.forEach(s => s.classList.remove('active', 'done'));
+            const currentPs = document.querySelector(`.pstep[data-ps="${step}"]`);
+            if (currentPs) currentPs.classList.add('active');
+
+            // Mark previous steps as done in step indicators
+            const stepOrder = ['erase', 'subtitle', 'voice'];
+            const curIdx = stepOrder.indexOf(step);
+            stepOrder.forEach((s, i) => {
+                if (i < curIdx && features[s]) {
+                    const ps = document.querySelector(`.pstep[data-ps="${s}"]`);
+                    if (ps) ps.classList.add('done');
+                }
+            });
+
+            // Chat: tell user processing is happening
+            appendBubble('ai', `正在左侧执行 <strong>${{erase:'字幕擦除',subtitle:'字幕生成',voice:'配音生成'}[step]}</strong>，请稍候...`, 0);
+            scrollChat();
+
+            // Step-specific: erase → trigger burntSub erasing animation
+            if (step === 'erase') {
+                // Hide erase overlays during processing
+                previewingSteps.erase = false;
+                renderEraseOverlays();
+                // Make burntSub visible and start erasing animation
+                burntSub.classList.remove('erased');
+                burntSub.classList.remove('erasing');
+                // Show a representative subtitle first
+                burntSub.innerHTML = `<span class="bs-bar"><span class="bs-text">${subtitleItems[0].orig}</span></span>`;
+                burntSub.classList.add('visible');
+                setTimeout(() => {
+                    burntSub.classList.add('erasing');
+                }, 300);
+            }
+
+            // Animate progress bar
+            let progress = 0;
+            const duration = processingDurations[step];
+            const interval = 50;
+            const progressTimer = setInterval(() => {
+                progress += (100 / (duration / interval));
+                if (progress >= 100) progress = 100;
+                pvBar.style.width = progress + '%';
+                if (progress >= 100) clearInterval(progressTimer);
+            }, interval);
+
+            // After processing duration, show completion
+            setTimeout(() => {
+                clearInterval(progressTimer);
+                pvBar.style.width = '100%';
+
+                // Mark this step done in step indicators
+                if (currentPs) {
+                    currentPs.classList.remove('active');
+                    currentPs.classList.add('done');
+                }
+
+                // Step-specific completion effects on the left
+                if (step === 'erase') {
+                    // Erase complete: hide burntSub permanently
+                    burntSub.classList.remove('visible', 'erasing');
+                    burntSub.classList.add('erased');
+                }
+                if (step === 'subtitle') {
+                    // Show subtitle preview on video
+                    // (updateSubtitlePreview will handle this since features.subtitle is true)
+                }
+                if (step === 'voice') {
+                    // Voice preview indicator will auto-show via updateVoicePreview
+                }
+
+                // Show completion state briefly
+                pvText.textContent = doneTexts[step] + ' ✓';
+
+                setTimeout(() => {
+                    // Hide processing overlay
+                    processingOverlay.classList.remove('active');
+
+                    // Restore phase indicator
+                    phaseDot.className = 'tv2-phase-dot live';
+                    phaseLabel.textContent = doneTexts[step];
+                    phaseIndicator.className = 'tv2-phase-indicator';
+
+                    // Chat: completion message + what's next
+                    const nextIdx = currentStep + 1;
+                    const nextStep = nextIdx < activeSteps.length ? activeSteps[nextIdx] : null;
+                    const nextLabelMap = { erase: '擦除原字幕', subtitle: '文案识别与翻译', voice: 'AI 配音生成' };
+                    const doneLabelMap = { erase: '字幕擦除', subtitle: '字幕生成', voice: '配音生成' };
+                    let transitionMsg = `<div style="display:flex;align-items:center;gap:8px;"><span style="color:#34d399;">✓</span> <strong>${doneLabelMap[step]}</strong>已完成</div>`;
+                    if (nextStep) {
+                        transitionMsg += `<br>接下来自动执行 <strong>${nextLabelMap[nextStep]}</strong>...`;
+                    } else {
+                        transitionMsg += `<br>全部步骤已完成！`;
+                    }
+                    appendBubble('ai', transitionMsg, 0);
+                    scrollChat();
+
+                    // Auto-advance after delay
+                    pendingAdvanceStep = step;
+                    setTimeout(() => {
+                        if (!inFinetune) {
+                            advanceStep();
+                            pendingAdvanceStep = null;
+                        }
+                    }, 1000);
+                }, 800);
+            }, duration);
         }
 
         /* ===== Confirm + Immediately Enter Finetune ===== */
@@ -5658,11 +5831,16 @@
                 return;
             }
 
-            appendBubble('ai', `${activeSteps.length > 1 ? '全部配置完成！' : '配置完成！'}将执行：<strong>${enabledFeats.join(' → ')}</strong>，正在自动开始处理...`, 0);
+            // All steps already processed on the left side, directly show result
+            appendBubble('ai', `${activeSteps.length > 1 ? '全部步骤已完成！' : '处理完成！'}已执行：<strong>${enabledFeats.join(' + ')}</strong>`, 0);
             scrollChat();
 
-            // Auto-start processing after brief delay
-            setTimeout(() => startProcessing(), 1200);
+            // Mark merge step as done
+            const mergePs = document.querySelector('.pstep[data-ps="merge"]');
+            if (mergePs) mergePs.classList.add('done');
+
+            // Directly show result after brief delay
+            setTimeout(() => showResult(), 800);
         }
 
         function appendBubble(type, html, delay) {
@@ -5754,6 +5932,13 @@
             document.getElementById('globalExportBtn').style.display = '';
             // Show timeline for result playback
             document.getElementById('timeline').classList.add('visible');
+
+            // Mark all processing steps as done
+            document.querySelectorAll('.pstep').forEach(s => {
+                s.classList.remove('active');
+                s.classList.add('done');
+            });
+            document.getElementById('processingSteps').classList.add('active');
 
             // Chat: done bubble with export actions
             const resultHtml = `
