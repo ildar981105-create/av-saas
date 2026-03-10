@@ -391,73 +391,36 @@ function updatePlayerUI() {
     });
 })();
 
-// --- Sidebar active state + submenu toggle ---
+// --- Sidebar active state ---
 (function initSidebarActive() {
     const currentPage = window.location.pathname.split('/').pop() || 'create.html';
     const subPages = ['translate-v4.html', 'livestream.html', 'generate.html'];
     const isSubPage = subPages.some(p => currentPage === p);
 
-    // 一级导航 active 状态
-    document.querySelectorAll('.icon-nav-item').forEach(item => {
-        item.classList.remove('active');
+    // 只处理主导航区域的导航项（排除底部 API/设置）
+    const navItems = document.querySelectorAll('.icon-nav > .icon-nav-item');
+    if (!navItems.length) return;
+
+    // 先找出应该 active 的项
+    let matched = null;
+    navItems.forEach(item => {
         const href = item.getAttribute('href');
         if (!href) return;
         const hrefPage = href.split('?')[0];
 
-        // 如果是三个功能子页面之一，让"生成"导航项 active
         if (isSubPage && hrefPage === 'create.html') {
-            item.classList.add('active');
+            matched = item;
         }
-        // 正常匹配
         if (hrefPage === currentPage || (currentPage === '' && hrefPage === 'create.html')) {
-            item.classList.add('active');
+            matched = item;
         }
     });
 
-    // 二级菜单项的 active 状态
-    document.querySelectorAll('.icon-nav-sub-item').forEach(item => {
-        item.classList.remove('active');
-        const href = item.getAttribute('href');
-        if (!href) return;
-        const hrefPage = href.split('?')[0];
-        if (hrefPage === currentPage) {
-            item.classList.add('active');
-        }
-    });
-
-    // 二级菜单展开/收起
-    document.querySelectorAll('.icon-nav-item[data-has-sub]').forEach(item => {
-        const sub = item.nextElementSibling;
-        if (!sub || !sub.classList.contains('icon-nav-sub')) return;
-
-        // 如果当前页是子页面，默认展开
-        const hasActiveSub = sub.querySelector('.icon-nav-sub-item.active');
-        if (hasActiveSub) {
-            sub.classList.add('expanded');
-            item.classList.add('expanded');
-        }
-
-        // 点击切换展开/收起
-        item.addEventListener('click', function(e) {
-            const href = item.getAttribute('href');
-            const hrefPage = href ? href.split('?')[0] : '';
-            // 在子页面中（如 translate-v4.html），点击一级菜单"生成"不应跳转
-            const isOnSubPage = isSubPage && hrefPage === 'create.html';
-
-            if (!sub.classList.contains('expanded')) {
-                // 菜单已收起 → 展开（不跳转）
-                e.preventDefault();
-                sub.classList.add('expanded');
-                item.classList.add('expanded');
-            } else if (hrefPage === currentPage || isOnSubPage) {
-                // 已展开且在本页或子页面 → 收起（不跳转）
-                e.preventDefault();
-                sub.classList.remove('expanded');
-                item.classList.remove('expanded');
-            }
-            // 已展开且不在本页也不在子页面 → 正常跳转
-        });
-    });
+    // 只在有匹配时才更新，避免误清 HTML 中的默认 active
+    if (matched) {
+        navItems.forEach(item => item.classList.remove('active'));
+        matched.classList.add('active');
+    }
 })();
 
 // --- Read URL params ---
