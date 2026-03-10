@@ -49,80 +49,94 @@
                 </div>
             </header>
 
-            <!-- ★ 主功能区：醒目的直播链接输入 -->
-            <section class="ls-hero">
-                <div class="ls-hero-glow"></div>
-                <div class="ls-hero-content">
-                    <h1 class="ls-hero-title">粘贴直播链接，<span class="gradient-text">AI 自动捕捉高光</span></h1>
-                    <p class="ls-hero-desc">支持抖音 · 快手 · B站 · 淘宝等平台，实时监控 · 自动剪辑</p>
+            <!-- ★ 首屏：核心操作区（独占一屏） -->
+            <section class="ls-first-screen">
+                <div class="ls-hero">
+                    <div class="ls-hero-glow"></div>
+                    <div class="ls-hero-content">
+                        <h1 class="ls-hero-title">粘贴直播链接，<span class="gradient-text">AI 自动捕捉高光</span></h1>
+                        <p class="ls-hero-desc">支持抖音 · 快手 · B站 · 淘宝等平台，实时监控 · 自动剪辑</p>
 
-                    <div class="ls-input-group">
-                        <div class="ls-input-box">
-                            <div class="ls-input-dot"></div>
-                            <input type="text" placeholder="粘贴直播链接，如 https://live.douyin.com/..." id="liveUrlInput" autocomplete="off">
-                            <button class="ls-input-go" id="startLiveBtn">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                <span>开始监控</span>
+                        <div class="ls-input-group">
+                            <div class="ls-input-box">
+                                <div class="ls-input-dot"></div>
+                                <input type="text" placeholder="粘贴直播链接，如 https://live.douyin.com/..." id="liveUrlInput" autocomplete="off">
+                                <button class="ls-input-go" id="startLiveBtn">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    <span>开始监控</span>
+                                </button>
+                            </div>
+                            <div class="ls-input-platforms">
+                                <span>支持平台：</span>
+                                <span class="ls-platform-tag">🎵 抖音</span>
+                                <span class="ls-platform-tag">📺 快手</span>
+                                <span class="ls-platform-tag">📡 B站</span>
+                                <span class="ls-platform-tag">🛒 淘宝</span>
+                                <span class="ls-platform-tag">🎮 斗鱼</span>
+                            </div>
+                        </div>
+
+                        <!-- 快速配置（折叠面板）— 内嵌首屏 -->
+                        <div class="ls-config-section">
+                            <button class="ls-config-toggle" id="configToggle">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2V14M2 8H14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                                <span>剪辑配置（可选）</span>
+                                <svg class="ls-toggle-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 5L6 8L9 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                             </button>
-                        </div>
-                        <div class="ls-input-platforms">
-                            <span>支持平台：</span>
-                            <span class="ls-platform-tag">🎵 抖音</span>
-                            <span class="ls-platform-tag">📺 快手</span>
-                            <span class="ls-platform-tag">📡 B站</span>
-                            <span class="ls-platform-tag">🛒 淘宝</span>
-                            <span class="ls-platform-tag">🎮 斗鱼</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 快速配置（折叠面板） -->
-            <section class="ls-config-section">
-                <button class="ls-config-toggle" id="configToggle">
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2V14M2 8H14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                    <span>剪辑配置（可选）</span>
-                    <svg class="ls-toggle-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 5L6 8L9 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </button>
-                <div class="ls-config-panel" id="configPanel">
-                    <div class="config-row">
-                        <div class="config-field">
-                            <label>剪辑模式</label>
-                            <select id="cfgMode">
-                                <option>智能高光（AI 全自动）</option>
-                                <option>带货切片</option>
-                                <option>精彩时刻合集</option>
-                                <option>全程录制</option>
-                            </select>
-                        </div>
-                        <div class="config-field">
-                            <label>单条片段时长</label>
-                            <select id="cfgDuration">
-                                <option>15-60 秒（短视频）</option>
-                                <option>1-3 分钟（中视频）</option>
-                                <option>自动判断</option>
-                            </select>
-                        </div>
-                        <div class="config-field">
-                            <label>输出比例</label>
-                            <select id="cfgRatio">
-                                <option>竖屏 9:16</option>
-                                <option>横屏 16:9</option>
-                                <option>方形 1:1</option>
-                                <option>保持原比例</option>
-                            </select>
-                        </div>
-                        <div class="config-field">
-                            <label>自动添加字幕</label>
-                            <select id="cfgSub">
-                                <option>是</option>
-                                <option>否</option>
-                            </select>
+                            <div class="ls-config-panel" id="configPanel">
+                                <div class="config-row">
+                                    <div class="config-field">
+                                        <label>剪辑模式</label>
+                                        <select id="cfgMode">
+                                            <option>智能高光（AI 全自动）</option>
+                                            <option>带货切片</option>
+                                            <option>精彩时刻合集</option>
+                                            <option>全程录制</option>
+                                        </select>
+                                    </div>
+                                    <div class="config-field">
+                                        <label>单条片段时长</label>
+                                        <select id="cfgDuration">
+                                            <option>15-60 秒（短视频）</option>
+                                            <option>1-3 分钟（中视频）</option>
+                                            <option>自动判断</option>
+                                        </select>
+                                    </div>
+                                    <div class="config-field">
+                                        <label>输出比例</label>
+                                        <select id="cfgRatio">
+                                            <option>竖屏 9:16</option>
+                                            <option>横屏 16:9</option>
+                                            <option>方形 1:1</option>
+                                            <option>保持原比例</option>
+                                        </select>
+                                    </div>
+                                    <div class="config-field">
+                                        <label>自动添加字幕</label>
+                                        <select id="cfgSub">
+                                            <option>是</option>
+                                            <option>否</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- 向下滚动提示 -->
+                <div class="ls-scroll-hint">
+                    <span>了解使用场景</span>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
             </section>
 
+            <!-- ★ 第二屏：场景介绍 + 数据 -->
+            <section class="ls-second-screen">
+                <div class="ls-second-header">
+                    <h2>适用场景</h2>
+                    <p>覆盖电商、游戏、知识等多种直播场景</p>
+                </div>
             <!-- 场景介绍 -->
             <section class="ls-scenes">
                 <div class="ls-scenes-grid">
@@ -170,6 +184,7 @@
                 <div class="ls-stat-div"></div>
                 <div class="ls-stat"><span class="ls-stat-num">9:16</span><span class="ls-stat-label">一键竖屏输出</span></div>
             </section>
+            </section><!-- /ls-second-screen -->
         </div>
 
         <!-- ===== 工作状态：直播画面 + 时间轴 + 高光片段 ===== -->
@@ -671,14 +686,24 @@
        ============================================ */
 
     /* === Hero Section === */
-    .ls-hero {
-        position: relative;
-        text-align: center;
-        padding: 48px 0 36px;
+    .ls-first-screen {
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: center;
+        min-height: calc(100vh - 56px);
+        position: relative;
+        padding-bottom: 40px;
+    }
+    .ls-hero {
+        position: relative;
+        text-align: center;
+        padding: 0 0 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
     }
     .ls-hero-glow {
         position: absolute;
@@ -792,7 +817,8 @@
     /* === Config Section === */
     .ls-config-section {
         max-width: 600px;
-        margin: 0 auto 32px;
+        width: 100%;
+        margin: 20px auto 0;
     }
     .ls-config-toggle {
         display: flex;
@@ -823,6 +849,49 @@
         border-radius: 0 0 12px 12px;
     }
     .ls-config-panel.open { display: block; animation: fadeInUp 0.3s ease-out; }
+
+    /* === Scroll Hint === */
+    .ls-scroll-hint {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.72rem;
+        color: var(--text-faint);
+        animation: scrollHintBounce 2s ease-in-out infinite;
+        cursor: pointer;
+        opacity: 0.6;
+        transition: opacity 0.3s;
+    }
+    .ls-scroll-hint:hover { opacity: 1; }
+    @keyframes scrollHintBounce {
+        0%, 100% { transform: translateX(-50%) translateY(0); }
+        50% { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* === Second Screen === */
+    .ls-second-screen {
+        padding: 60px 0 40px;
+    }
+    .ls-second-header {
+        text-align: center;
+        margin-bottom: 32px;
+    }
+    .ls-second-header h2 {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin: 0 0 8px;
+    }
+    .ls-second-header p {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        margin: 0;
+    }
 
     /* === Scene Cards === */
     .ls-scenes { margin-bottom: 28px; }

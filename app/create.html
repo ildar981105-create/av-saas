@@ -8,6 +8,158 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
     /* create.html 首页专属样式 */
+    .create-home {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 40px 32px;
+        overflow-y: auto;
+    }
+    .create-home-header {
+        text-align: center;
+        margin-bottom: 48px;
+    }
+    .create-home-header h1 {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin: 0 0 8px;
+        letter-spacing: -0.02em;
+    }
+    .create-home-header p {
+        font-size: 0.88rem;
+        color: var(--text-muted);
+        margin: 0;
+    }
+    .create-cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        width: 100%;
+        max-width: 900px;
+    }
+    .create-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        padding: 40px 24px 36px;
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(255,255,255,0.07);
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        color: inherit;
+        position: relative;
+        overflow: hidden;
+    }
+    .create-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 20px;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+    .create-card:hover {
+        border-color: rgba(255,255,255,0.14);
+        transform: translateY(-4px);
+        box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+    }
+    .create-card:hover::before {
+        opacity: 1;
+    }
+    .create-card--translate::before {
+        background: radial-gradient(ellipse at 50% 80%, rgba(16,185,129,0.08) 0%, transparent 70%);
+    }
+    .create-card--translate:hover {
+        border-color: rgba(16,185,129,0.25);
+    }
+    .create-card--livestream::before {
+        background: radial-gradient(ellipse at 50% 80%, rgba(249,115,22,0.08) 0%, transparent 70%);
+    }
+    .create-card--livestream:hover {
+        border-color: rgba(249,115,22,0.25);
+    }
+    .create-card--generate::before {
+        background: radial-gradient(ellipse at 50% 80%, rgba(168,85,247,0.08) 0%, transparent 70%);
+    }
+    .create-card--generate:hover {
+        border-color: rgba(168,85,247,0.25);
+    }
+    .create-card-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    .create-card--translate .create-card-icon {
+        background: rgba(16,185,129,0.1);
+        color: #34d399;
+    }
+    .create-card--livestream .create-card-icon {
+        background: rgba(249,115,22,0.1);
+        color: #fb923c;
+    }
+    .create-card--generate .create-card-icon {
+        background: rgba(168,85,247,0.1);
+        color: #c084fc;
+    }
+    .create-card-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: var(--text-primary);
+    }
+    .create-card-desc {
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        text-align: center;
+        line-height: 1.6;
+    }
+    .create-card-badge {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        font-size: 0.6rem;
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 6px;
+        background: rgba(16,185,129,0.12);
+        color: #34d399;
+        border: 1px solid rgba(16,185,129,0.2);
+        letter-spacing: 0.02em;
+    }
+    .create-card-arrow {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: var(--text-dim);
+        transition: all 0.3s;
+        margin-top: 4px;
+    }
+    .create-card:hover .create-card-arrow {
+        color: var(--text-secondary);
+    }
+    .create-card:hover .create-card-arrow svg {
+        transform: translateX(3px);
+    }
+    .create-card-arrow svg {
+        transition: transform 0.3s;
+    }
+    @media (max-width: 720px) {
+        .create-cards {
+            grid-template-columns: 1fr;
+            max-width: 400px;
+        }
+    }
     </style>
 </head>
 <body class="creator-layout">
@@ -53,139 +205,53 @@
 
     <!-- ===== 默认首页视图 ===== -->
     <main class="creator-main" id="homeView">
-        <!-- 英雄区域 -->
-        <section class="creator-hero">
-            <div class="creator-hero-glow"></div>
-            <h1 class="creator-title">
-                <span class="title-emoji">✨</span>
-                开启你的 AI 视频创作之旅
-            </h1>
-            <p class="creator-subtitle">选择一项能力，开始创作</p>
-        </section>
-
-        <!-- 能力卡片横排 -->
-        <section class="creator-abilities">
-            <div class="abilities-row">
-                <a href="translate-v4.html" class="ability-card">
-                    <div class="ability-icon ability-icon--green">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <div class="create-home">
+            <div class="create-home-header">
+                <h1>开启 AI 视频创作</h1>
+                <p>选择一项能力，开始创作</p>
+            </div>
+            <div class="create-cards">
+                <!-- 视频译制 -->
+                <a href="translate-v4.html" class="create-card create-card--translate">
+                    <span class="create-card-badge">热门</span>
+                    <div class="create-card-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
                             <path d="M5 12L9 5L13 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M6 10H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
                             <path d="M11 19L15 12L19 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M12 17H18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
                         </svg>
                     </div>
-                    <span class="ability-label">视频译制</span>
-                    <span class="ability-badge">热门</span>
+                    <span class="create-card-title">视频译制</span>
+                    <span class="create-card-desc">自动翻译配音、口型同步、字幕生成，一键完成多语言视频本地化</span>
+                    <span class="create-card-arrow">开始创作 <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </a>
-                <a href="livestream.html" class="ability-card">
-                    <div class="ability-icon ability-icon--orange">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <!-- 直播剪辑 -->
+                <a href="livestream.html" class="create-card create-card--livestream">
+                    <div class="create-card-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
                             <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5"/>
                             <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/>
                             <circle cx="5" cy="7" r="2.5" fill="#ef4444"/>
                         </svg>
                     </div>
-                    <span class="ability-label">直播剪辑</span>
+                    <span class="create-card-title">直播剪辑</span>
+                    <span class="create-card-desc">AI 智能识别直播高光时刻，自动剪辑精彩片段，快速产出短视频</span>
+                    <span class="create-card-arrow">开始创作 <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </a>
-                <a href="generate.html" class="ability-card">
-                    <div class="ability-icon ability-icon--purple">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <!-- AI 生成 -->
+                <a href="generate.html" class="create-card create-card--generate">
+                    <div class="create-card-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
                             <path d="M12 3L14 9H20L15 13L17 19L12 15L7 19L9 13L4 9H10L12 3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <span class="ability-label">AI 生成</span>
+                    <span class="create-card-title">AI 生成</span>
+                    <span class="create-card-desc">输入文本或图片，AI 自动生成高质量短视频，支持多种风格模板</span>
+                    <span class="create-card-arrow">开始创作 <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
                 </a>
             </div>
-        </section>
-
-        <!-- 内容发现区域 -->
-        <section class="creator-discover">
-            <!-- Tab 导航 -->
-            <div class="discover-tabs">
-                <button class="discover-tab active">发现</button>
-                <button class="discover-tab">我的作品</button>
-                <button class="discover-tab">模板</button>
-                <div class="discover-search">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                        <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.5"/>
-                        <path d="M21 21L16 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                    </svg>
-                    <input type="text" placeholder="搜索作品...">
-                </div>
-            </div>
-
-            <!-- 内容网格画廊 -->
-            <div class="discover-gallery">
-                <div class="gallery-item">
-                    <div class="gallery-thumb" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                        <div class="gallery-play">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M8 5V19L19 12L8 5Z" fill="currentColor"/></svg>
-                        </div>
-                    </div>
-                    <div class="gallery-info">
-                        <span class="gallery-title">产品宣传视频 - 英语版</span>
-                        <span class="gallery-meta">视频译制 · 2分钟前</span>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-thumb" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-                        <div class="gallery-play">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M8 5V19L19 12L8 5Z" fill="currentColor"/></svg>
-                        </div>
-                    </div>
-                    <div class="gallery-info">
-                        <span class="gallery-title">电商带货直播精彩片段</span>
-                        <span class="gallery-meta">直播剪辑 · 10分钟前</span>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-thumb" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-                        <div class="gallery-play">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M8 5V19L19 12L8 5Z" fill="currentColor"/></svg>
-                        </div>
-                    </div>
-                    <div class="gallery-info">
-                        <span class="gallery-title">AI 生成：未来城市</span>
-                        <span class="gallery-meta">AI 生成 · 1小时前</span>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-thumb" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
-                        <div class="gallery-play">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M8 5V19L19 12L8 5Z" fill="currentColor"/></svg>
-                        </div>
-                    </div>
-                    <div class="gallery-info">
-                        <span class="gallery-title">日本旅行 Vlog - 中文配音</span>
-                        <span class="gallery-meta">克隆配音 · 2小时前</span>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-thumb" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
-                        <div class="gallery-play">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M8 5V19L19 12L8 5Z" fill="currentColor"/></svg>
-                        </div>
-                    </div>
-                    <div class="gallery-info">
-                        <span class="gallery-title">教程视频 - 字幕已擦除</span>
-                        <span class="gallery-meta">擦除字幕 · 3小时前</span>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="gallery-thumb" style="background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);">
-                        <div class="gallery-play">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M8 5V19L19 12L8 5Z" fill="currentColor"/></svg>
-                        </div>
-                    </div>
-                    <div class="gallery-info">
-                        <span class="gallery-title">品牌故事短片</span>
-                        <span class="gallery-meta">AI 生成 · 昨天</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
+        </div>
     </main>
 
     <script src="app.js"></script>
