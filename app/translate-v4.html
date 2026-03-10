@@ -2373,6 +2373,7 @@
         display: flex;
         flex-direction: column;
         gap: 2px;
+        overflow: hidden;
     }
     .chat-sub-line {
         display: flex;
@@ -2384,6 +2385,8 @@
         border: 1px solid rgba(59,130,246,0.08);
         cursor: pointer;
         transition: all 0.15s;
+        overflow: hidden;
+        min-width: 0;
     }
     .chat-sub-line:hover {
         background: rgba(59,130,246,0.1);
@@ -2405,6 +2408,10 @@
         font-size: 0.72rem;
         color: #cbd5e1;
         line-height: 1.4;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        min-width: 0;
     }
 
     /* ===== Inline Erase Region List (in chat bubble) ===== */
@@ -2413,6 +2420,7 @@
         display: flex;
         flex-direction: column;
         gap: 2px;
+        overflow: hidden;
     }
     .chat-erase-line {
         display: flex;
@@ -2424,6 +2432,8 @@
         border: 1px solid rgba(239,68,68,0.08);
         cursor: pointer;
         transition: all 0.15s;
+        overflow: hidden;
+        min-width: 0;
     }
     .chat-erase-line:hover {
         background: rgba(239,68,68,0.1);
@@ -2468,6 +2478,7 @@
         display: flex;
         flex-direction: column;
         gap: 2px;
+        overflow: hidden;
     }
     .chat-voice-line {
         display: flex;
@@ -2479,6 +2490,8 @@
         border: 1px solid rgba(99,102,241,0.08);
         cursor: pointer;
         transition: all 0.15s;
+        overflow: hidden;
+        min-width: 0;
     }
     .chat-voice-line:hover {
         background: rgba(99,102,241,0.1);
@@ -4171,7 +4184,7 @@
                     </div>
                     <div>
                         <h3>FrameX AI 助手</h3>
-                        <p>上传视频开始配置</p>
+                        <p>上传视频自动处理</p>
                     </div>
                 </div>
 
@@ -4304,8 +4317,10 @@
             if (selected.size === 0) return;
             const name = vodVideos.find(v => selected.has(v.fileId))?.name || '云点播视频';
             closeModal();
-            // 显示已选状态 + 开始按钮
-            window._tv2ShowSelected(name, '☁️ 来自云点播 · ' + selected.size + ' 个视频', 'vod');
+            // 直接进入编辑器，不需要中间确认步骤
+            if (typeof window._tv2EnterEditor === 'function') {
+                window._tv2EnterEditor(name, 'vod');
+            }
         });
     })();
     </script>
@@ -4483,7 +4498,7 @@
             document.getElementById('videoScrubber').classList.add('visible');
             phaseIndicator.classList.remove('hidden');
             phaseDot.className = 'tv2-phase-dot live';
-            phaseLabel.textContent = '请在右侧对话中配置参数';
+            phaseLabel.textContent = 'AI 自动配置中...';
             phaseIndicator.className = 'tv2-phase-indicator';
             // Timeline stays hidden until finetune mode is entered
             // (tracks will be prepared but timeline container stays collapsed)
@@ -4524,7 +4539,7 @@
                 tab.className = 'tv2-tab-item locked';
             });
             document.querySelector('.tv2-chat-header h3').textContent = 'FrameX AI 助手';
-            document.querySelector('.tv2-chat-header p').textContent = '上传视频开始配置';
+            document.querySelector('.tv2-chat-header p').textContent = '上传视频自动处理';
             phase = 'config';
             playing = false;
             buildConfigChat();
@@ -4554,12 +4569,12 @@
                 </div>
                 视频分析完成！检测到语言: <strong>中文</strong> | 时长: <strong>01:30</strong><br>
                 ${(window.workflowMode || 'full') === 'full'
-                    ? '我将自动完成 <strong>擦除字幕 → 文案翻译 → AI 配音</strong> 三步配置，每步完成后你可以确认或去精调。'
+                    ? '即将自动完成 <strong>擦除字幕 → 文案翻译 → AI 配音</strong> 全流程，完成后可在精调面板中微调细节。'
                     : (window.workflowMode === 'erase'
-                        ? '我将为你执行 <strong>擦除字幕</strong> 功能，完成后你可以确认或去精调。'
+                        ? '即将自动执行 <strong>擦除字幕</strong>，完成后可在精调面板中微调细节。'
                         : window.workflowMode === 'subtitle'
-                            ? '我将为你执行 <strong>添加字幕</strong> 功能，完成后你可以确认或去精调。'
-                            : '我将为你执行 <strong>克隆配音</strong> 功能，完成后你可以确认或去精调。')
+                            ? '即将自动执行 <strong>添加字幕</strong>，完成后可在精调面板中微调细节。'
+                            : '即将自动执行 <strong>克隆配音</strong>，完成后可在精调面板中微调细节。')
                 }`;
             appendBubble('ai', analysisHtml, 0.3);
 
@@ -4602,8 +4617,8 @@
                 iconClass: 'chat-feature-icon--red',
                 badgeClass: 'chat-step-badge--erase',
                 title: '擦除原字幕',
-                autoDesc: '已选择 <strong>高质量 + AI 修复</strong> 模式，正在检测...',
-                preDesc: '先来处理原字幕。需要 AI 自动检测字幕区域，还是手动框选？',
+                autoDesc: '正在以 <strong>高质量 + AI 修复</strong> 模式自动检测字幕区域...',
+                preDesc: '正在自动检测字幕区域...',
                 autoLabel: '🔍 AI 自动检测',
                 manualLabel: '✋ 手动框选',
                 scanText: '正在检测字幕区域...',
@@ -4628,8 +4643,8 @@
                 iconClass: 'chat-feature-icon--blue',
                 badgeClass: 'chat-step-badge--subtitle',
                 title: '文案与字幕',
-                autoDesc: '正在识别语音并翻译为 <strong>英文</strong>...',
-                preDesc: '接下来处理文案。需要 AI 从视频语音中识别文案，还是上传文稿？',
+                autoDesc: '正在自动识别语音并翻译为 <strong>英文</strong>...',
+                preDesc: '正在自动识别视频语音...',
                 autoLabel: '🤖 AI 语音识别',
                 manualLabel: '📄 上传文稿 / SRT',
                 scanText: '正在识别视频语音...',
@@ -4643,8 +4658,8 @@
                 iconClass: 'chat-feature-icon--purple',
                 badgeClass: 'chat-step-badge--voice',
                 title: 'AI 配音',
-                autoDesc: '使用 <strong>原声克隆</strong> 音色，正在生成...',
-                preDesc: '最后一步：AI 配音。',
+                autoDesc: '正在以 <strong>原声克隆</strong> 音色自动生成配音...',
+                preDesc: '正在自动生成 AI 配音...',
                 autoLabel: '🎙️ AI 配音',
                 manualLabel: '📁 上传音频',
                 scanText: '正在生成 AI 配音...',
@@ -4674,7 +4689,8 @@
         /* ===== Phase A: Auto-start step (no user choice needed) ===== */
         function showStepPreBubble(step) {
             const meta = stepMeta[step];
-            const stepNum = configSteps.indexOf(step) + 1;
+            const stepNum = currentStep + 1;
+            const totalSteps = activeSteps.length;
 
             // Hide previous step previews when entering a new step
             const stepOrder = ['erase', 'subtitle', 'voice'];
@@ -4688,7 +4704,7 @@
 
             // Show a brief step header bubble, then auto-start AI scan
             const bubbleHtml = `
-                <div class="chat-step-badge ${meta.badgeClass}">步骤 ${stepNum} / 3</div>
+                <div class="chat-step-badge ${meta.badgeClass}">步骤 ${stepNum} / ${totalSteps}</div>
                 <div class="chat-features">
                     <div class="chat-feature-card selected" style="pointer-events:none;">
                         <div class="chat-feature-icon ${meta.iconClass}">${meta.icon}</div>
@@ -4779,13 +4795,6 @@
                 </div>
                 <div class="chat-erase-list-inline">
                     ${eraseListHtml}
-                </div>
-                <div class="chat-step-actions">
-                    <button class="chat-step-ft-entry" data-step="${step}">
-                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M2 4H14M2 8H10M2 12H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                        去精调
-                    </button>
-                    <button class="chat-step-confirm" data-step="${step}">✓ 确认，继续</button>
                 </div>`;
                 scrollChat();
 
@@ -4806,13 +4815,8 @@
                 syncTimelineSegments(step);
                 if (step === 'erase') renderEraseOverlays();
 
-                // Bind action buttons + erase region lines
+                // Bind erase region line clicks
                 setTimeout(() => {
-                    const confirmBtn = chatFlow.querySelector(`.chat-step-confirm[data-step="${step}"]:not([data-phase])`);
-                    const ftEntryBtn = chatFlow.querySelector(`.chat-step-ft-entry[data-step="${step}"]:not([data-phase])`);
-                    if (confirmBtn) confirmBtn.addEventListener('click', () => confirmStep(step, true));
-                    if (ftEntryBtn) ftEntryBtn.addEventListener('click', () => confirmAndFinetune(step));
-
                     scanEl.querySelectorAll('.chat-erase-line').forEach(line => {
                         line.addEventListener('click', () => {
                             const ei = parseInt(line.dataset.eraseIdx);
@@ -4825,6 +4829,9 @@
                         });
                     });
                 }, 50);
+
+                // Auto-confirm and advance to next step
+                setTimeout(() => confirmStep(step, true), 1200);
             }, 1800);
         }
 
@@ -4878,13 +4885,6 @@
                 </div>
                 <div class="chat-voice-list-inline">
                     ${voiceListHtml}
-                </div>
-                <div class="chat-step-actions">
-                    <button class="chat-step-ft-entry" data-step="${step}">
-                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M2 4H14M2 8H10M2 12H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                        去精调
-                    </button>
-                    <button class="chat-step-confirm" data-step="${step}">✓ 确认，继续</button>
                 </div>`;
                 scrollChat();
 
@@ -4902,13 +4902,8 @@
                 if (previewTrack) setTimeout(() => previewTrack.classList.add('track-visible'), 300);
                 syncTimelineSegments(step);
 
-                // Bind buttons + voice line clicks
+                // Bind voice line clicks
                 setTimeout(() => {
-                    const confirmBtn = chatFlow.querySelector(`.chat-step-confirm[data-step="${step}"]:not([data-phase])`);
-                    const ftEntryBtn = chatFlow.querySelector(`.chat-step-ft-entry[data-step="${step}"]:not([data-phase])`);
-                    if (confirmBtn) confirmBtn.addEventListener('click', () => confirmStep(step, true));
-                    if (ftEntryBtn) ftEntryBtn.addEventListener('click', () => confirmAndFinetune(step));
-
                     voiceScanEl.querySelectorAll('.chat-voice-line').forEach(line => {
                         line.addEventListener('click', () => {
                             const vi = parseInt(line.dataset.voiceIdx);
@@ -4921,6 +4916,9 @@
                         });
                     });
                 }, 50);
+
+                // Auto-confirm and advance to next step
+                setTimeout(() => confirmStep(step, true), 1200);
             }, 2200);
         }
 
@@ -5003,18 +5001,11 @@
                 <div class="chat-sub-list-inline">
                     ${listHtml}
                 </div>
-                <div class="chat-step-actions">
-                    <button class="chat-step-skip" data-step="subtitle" data-phase="transcript">跳过</button>
-                    <button class="chat-step-ft-entry" data-step="subtitle" data-phase="transcript">
-                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M2 4H14M2 8H10M2 12H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                        去精调
-                    </button>
-                    <button class="chat-step-confirm" data-step="subtitle" data-phase="transcript">确认文案</button>
-                </div>`;
+                `;
             appendBubble('ai', bubbleHtml, 0);
             scrollChat();
 
-            // Bind click-to-seek on subtitle lines + action buttons
+            // Bind click-to-seek on subtitle lines
             setTimeout(() => {
                 document.querySelectorAll('.chat-sub-line').forEach(line => {
                     line.addEventListener('click', () => {
@@ -5027,33 +5018,11 @@
                         }
                     });
                 });
-
-                // Bind action buttons for transcript phase
-                const confirmBtn = chatFlow.querySelector('.chat-step-confirm[data-phase="transcript"]');
-                const skipBtn = chatFlow.querySelector('.chat-step-skip[data-phase="transcript"]');
-                const ftEntryBtn = chatFlow.querySelector('.chat-step-ft-entry[data-phase="transcript"]');
-
-                if (confirmBtn) confirmBtn.addEventListener('click', () => {
-                    // Disable buttons
-                    [confirmBtn, skipBtn, ftEntryBtn].forEach(b => { if(b) { b.disabled = true; b.style.opacity = '0.4'; b.style.pointerEvents = 'none'; }});
-                    appendBubble('user', '确认文案 ✓', 0);
-                    scrollChat();
-                    scriptReady = true;
-                    // Auto-advance to Phase 2B: Translation config
-                    setTimeout(() => startTranslationPhase(), 600);
-                });
-                if (skipBtn) skipBtn.addEventListener('click', () => {
-                    [confirmBtn, skipBtn, ftEntryBtn].forEach(b => { if(b) { b.disabled = true; b.style.opacity = '0.4'; b.style.pointerEvents = 'none'; }});
-                    confirmStep('subtitle', false);
-                });
-                if (ftEntryBtn) ftEntryBtn.addEventListener('click', () => {
-                    [confirmBtn, skipBtn, ftEntryBtn].forEach(b => { if(b) { b.disabled = true; b.style.opacity = '0.4'; b.style.pointerEvents = 'none'; }});
-                    appendBubble('user', '进入字幕精调 →', 0);
-                    scriptReady = true;
-                    // Enter finetune but still need translation phase after
-                    confirmAndFinetune('subtitle');
-                });
             }, 100);
+
+            // Auto-confirm transcript and advance to translation phase
+            scriptReady = true;
+            setTimeout(() => startTranslationPhase(), 1200);
         }
 
         /* ===== Subtitle Step: Phase 2B — Translation Config ===== */
@@ -5082,30 +5051,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="chat-step-actions">
-                    <button class="chat-step-skip" data-step="subtitle" data-phase="translate">跳过</button>
-                    <button class="chat-step-confirm" data-step="subtitle" data-phase="translate">开始翻译</button>
-                </div>`;
+                `;
 
-            appendBubble('ai', `文案已确认，现在配置字幕翻译：${translateConfigHtml}`, 0);
+            appendBubble('ai', `文案已就绪，正在以默认配置自动翻译：${translateConfigHtml}`, 0);
             scrollChat();
 
-            // Bind translate phase action buttons
+            // Auto-start translation after brief delay
             setTimeout(() => {
-                const confirmBtn = chatFlow.querySelector('.chat-step-confirm[data-phase="translate"]');
-                const skipBtn = chatFlow.querySelector('.chat-step-skip[data-phase="translate"]');
-
-                if (confirmBtn) confirmBtn.addEventListener('click', () => {
-                    [confirmBtn, skipBtn].forEach(b => { if(b) { b.disabled = true; b.style.opacity = '0.4'; b.style.pointerEvents = 'none'; }});
-                    appendBubble('user', '开始翻译 →', 0);
-                    scrollChat();
-                    runTranslationScan();
-                });
-                if (skipBtn) skipBtn.addEventListener('click', () => {
-                    [confirmBtn, skipBtn].forEach(b => { if(b) { b.disabled = true; b.style.opacity = '0.4'; b.style.pointerEvents = 'none'; }});
-                    confirmStep('subtitle', false);
-                });
-            }, 100);
+                runTranslationScan();
+            }, 800);
         }
 
         /* ===== Subtitle Step: Phase 2B-2 — Run Translation ===== */
@@ -5150,13 +5104,6 @@
                 </div>
                 <div class="chat-sub-list-inline">
                     ${subListHtml}
-                </div>
-                <div class="chat-step-actions">
-                    <button class="chat-step-ft-entry" data-step="${step}">
-                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M2 4H14M2 8H10M2 12H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                        去精调
-                    </button>
-                    <button class="chat-step-confirm" data-step="${step}">✓ 确认，继续</button>
                 </div>`;
                 scrollChat();
 
@@ -5176,13 +5123,8 @@
                 }
                 syncTimelineSegments(step);
 
-                // Bind buttons + subtitle line clicks
+                // Bind subtitle line clicks
                 setTimeout(() => {
-                    const confirmBtn = chatFlow.querySelector(`.chat-step-confirm[data-step="${step}"]:not([data-phase])`);
-                    const ftEntryBtn = chatFlow.querySelector(`.chat-step-ft-entry[data-step="${step}"]:not([data-phase])`);
-                    if (confirmBtn) confirmBtn.addEventListener('click', () => confirmStep(step, true));
-                    if (ftEntryBtn) ftEntryBtn.addEventListener('click', () => confirmAndFinetune(step));
-
                     transScanEl.querySelectorAll('.chat-trans-line').forEach(line => {
                         line.addEventListener('click', () => {
                             const idx = parseInt(line.dataset.transIdx);
@@ -5195,6 +5137,9 @@
                         });
                     });
                 }, 50);
+
+                // Auto-confirm and advance to next step
+                setTimeout(() => confirmStep(step, true), 1200);
             }, 1800);
         }
 
@@ -5267,14 +5212,7 @@
             const meta = stepMeta[step];
 
             const bubbleHtml = `
-                ${resultHtml || ''}
-                <div class="chat-step-actions">
-                    <button class="chat-step-ft-entry" data-step="${step}">
-                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M2 4H14M2 8H10M2 12H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                        去精调
-                    </button>
-                    <button class="chat-step-confirm" data-step="${step}">✓ 确认，继续</button>
-                </div>`;
+                ${resultHtml || ''}`;
             appendBubble('ai', bubbleHtml, 0);
             scrollChat();
 
@@ -5299,13 +5237,8 @@
 
             if (step === 'erase') renderEraseOverlays();
 
-            // Bind action buttons
-            setTimeout(() => {
-                const confirmBtn = chatFlow.querySelector(`.chat-step-confirm[data-step="${step}"]:not([data-phase])`);
-                const ftEntryBtn = chatFlow.querySelector(`.chat-step-ft-entry[data-step="${step}"]:not([data-phase])`);
-                if (confirmBtn) confirmBtn.addEventListener('click', () => confirmStep(step, true));
-                if (ftEntryBtn) ftEntryBtn.addEventListener('click', () => confirmAndFinetune(step));
-            }, 50);
+            // Auto-confirm and advance to next step
+            setTimeout(() => confirmStep(step, true), 1200);
         }
 
         function confirmStep(step, enabled) {
@@ -5322,9 +5255,8 @@
             btns.forEach(b => { b.disabled = true; b.style.opacity = '0.4'; b.style.pointerEvents = 'none'; });
 
             if (enabled) {
-                // User confirms
+                // Auto-confirmed
                 const labelMap = { erase: '擦除', subtitle: '字幕', voice: '配音' };
-                appendBubble('user', `已确认${labelMap[step]} ✓`, 0);
 
                 // ===== Unlock the corresponding Tab =====
                 unlockTab(step);
@@ -5341,8 +5273,18 @@
                 // Render erase overlays so they preview in chat mode
                 if (step === 'erase') renderEraseOverlays();
 
-                // AI confirms and mentions tab navigation
-                appendBubble('ai', `${labelMap[step]}设置已确认！继续下一步配置吧。`, 0);
+                // Build transition message: what's done + what's next
+                const nextIdx = currentStep + 1;
+                const nextStep = nextIdx < activeSteps.length ? activeSteps[nextIdx] : null;
+                const nextLabelMap = { erase: '擦除原字幕', subtitle: '文案识别与翻译', voice: 'AI 配音生成' };
+                const doneLabelMap = { erase: '字幕擦除区域检测', subtitle: '文案翻译', voice: '配音生成' };
+                let transitionMsg = `<strong>${doneLabelMap[step]}</strong>已就绪 ✓`;
+                if (nextStep) {
+                    transitionMsg += `<br>接下来自动执行 <strong>${nextLabelMap[nextStep]}</strong>...`;
+                } else {
+                    transitionMsg += `<br>全部步骤已完成，即将自动开始处理...`;
+                }
+                appendBubble('ai', transitionMsg, 0);
                 scrollChat();
 
                 // Auto-advance after delay
@@ -5719,37 +5661,11 @@
                 return;
             }
 
-            appendBubble('ai', `${activeSteps.length > 1 ? '全部配置完成！' : '配置完成！'}将为你执行：<strong>${enabledFeats.join(' → ')}</strong>。可以直接开始，也可以先精调细节。`, 0);
-
-            const startEl = document.createElement('div');
-            startEl.className = 'chat-start-wrap';
-            startEl.style.opacity = '0';
-            startEl.style.animation = 'bubbleIn 0.35s ease-out 0.2s forwards';
-
-            // Build finetune button — only show for enabled features
-            const firstEnabledStep = configSteps.find(s => features[s]);
-            startEl.innerHTML = `
-                <div class="chat-start-actions">
-                    <button class="chat-start-ft" id="chatFinetuneBtn">
-                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 4H14M2 8H10M2 12H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                        去精调
-                    </button>
-                    <button class="chat-start-btn" id="chatStartBtn">
-                        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M6 4L16 10L6 16V4Z" fill="currentColor"/></svg>
-                        开始处理
-                    </button>
-                </div>`;
-            chatFlow.appendChild(startEl);
+            appendBubble('ai', `${activeSteps.length > 1 ? '全部配置完成！' : '配置完成！'}将执行：<strong>${enabledFeats.join(' → ')}</strong>，正在自动开始处理...`, 0);
             scrollChat();
 
-            setTimeout(() => {
-                const btn = document.getElementById('chatStartBtn');
-                if (btn) btn.addEventListener('click', startProcessing);
-                const ftBtn = document.getElementById('chatFinetuneBtn');
-                if (ftBtn && firstEnabledStep) {
-                    ftBtn.addEventListener('click', () => enterFinetune(firstEnabledStep));
-                }
-            }, 100);
+            // Auto-start processing after brief delay
+            setTimeout(() => startProcessing(), 1200);
         }
 
         function appendBubble(type, html, delay) {
@@ -5783,13 +5699,13 @@
             const stepsEl = document.getElementById('processingSteps');
             stepsEl.classList.add('active');
 
-            // User bubble
-            appendBubble('user', '开始处理！', 0);
+            // AI bubble — auto-start
+            appendBubble('ai', '全部就绪，自动开始处理...', 0);
             scrollChat();
 
             // AI bubble
             setTimeout(() => {
-                appendBubble('ai', '好的，正在处理中...你可以在左侧看到实时进度 ✨', 0);
+                appendBubble('ai', '正在处理中，你可以在左侧看到实时进度 ✨', 0);
                 scrollChat();
             }, 400);
 
@@ -6575,9 +6491,14 @@
             }
         }
 
-        // === 全局方法：供 VOD picker 调用 ===
+        // === 全局方法：供 VOD picker 调用（保留兼容） ===
         window._tv2ShowSelected = function(name, meta, source) {
             showSelected(name, meta, source);
+        };
+
+        // === 全局方法：供 VOD picker 直接进入编辑器 ===
+        window._tv2EnterEditor = function(name, source) {
+            enterEditorWithFile(null, name);
         };
 
         // === 移除选择，恢复上传框 ===
@@ -6592,7 +6513,7 @@
         if (removeBtn) removeBtn.addEventListener('click', clearSelected);
 
         // === 进入编辑器 ===
-        function enterEditorWithFile(file) {
+        function enterEditorWithFile(file, vodFileName) {
             landing.style.transition = 'opacity 0.35s, transform 0.35s';
             landing.style.opacity = '0';
             landing.style.transform = 'translateY(-20px)';
@@ -6600,9 +6521,14 @@
                 landing.style.display = 'none';
                 if (topbar) topbar.style.display = '';
                 if (main) main.style.display = '';
+                // 进入沉浸式模式 — 隐藏侧边导航和顶部 topbar
+                document.body.classList.add('tv2-immersive');
                 // Call the editor's handleFile to skip upload overlay
                 if (file && typeof window.handleFile === 'function') {
                     window.handleFile(file);
+                } else if (vodFileName && typeof window.handleFile === 'function') {
+                    // VOD 来源：创建模拟文件对象传入 handleFile
+                    window.handleFile({ name: vodFileName });
                 }
             }, 350);
         }
@@ -6622,17 +6548,15 @@
             landingFileInput.click();
         });
 
-        // File selected → 显示已选状态
+        // File selected → 直接进入编辑器
         landingFileInput.addEventListener('change', function() {
             if (landingFileInput.files.length) {
                 pendingFile = landingFileInput.files[0];
-                var f = pendingFile;
-                var sizeMB = (f.size / (1024 * 1024)).toFixed(1);
-                showSelected(f.name, sizeMB + ' MB · 本地文件', 'local');
+                enterEditorWithFile(pendingFile);
             }
         });
 
-        // Drag & drop → 显示已选状态
+        // Drag & drop → 直接进入编辑器
         uploadZone.addEventListener('dragover', function(e) {
             e.preventDefault();
             uploadZone.classList.add('dragover');
@@ -6646,9 +6570,7 @@
             var files = e.dataTransfer.files;
             if (files.length) {
                 pendingFile = files[0];
-                var f = pendingFile;
-                var sizeMB = (f.size / (1024 * 1024)).toFixed(1);
-                showSelected(f.name, sizeMB + ' MB · 本地文件', 'local');
+                enterEditorWithFile(pendingFile);
             }
         });
     })();

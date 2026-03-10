@@ -439,23 +439,23 @@ function updatePlayerUI() {
 
         // 点击切换展开/收起
         item.addEventListener('click', function(e) {
-            // 如果当前就在 create.html（href 目标），不阻止跳转，只展开
             const href = item.getAttribute('href');
             const hrefPage = href ? href.split('?')[0] : '';
-            if (hrefPage === currentPage) {
-                e.preventDefault();
-            }
-            // 如果菜单已收起，展开它（不跳转）
+            // 在子页面中（如 translate-v4.html），点击一级菜单"生成"不应跳转
+            const isOnSubPage = isSubPage && hrefPage === 'create.html';
+
             if (!sub.classList.contains('expanded')) {
+                // 菜单已收起 → 展开（不跳转）
                 e.preventDefault();
                 sub.classList.add('expanded');
                 item.classList.add('expanded');
-            } else if (hrefPage === currentPage) {
-                // 已展开且已在本页，收起
+            } else if (hrefPage === currentPage || isOnSubPage) {
+                // 已展开且在本页或子页面 → 收起（不跳转）
+                e.preventDefault();
                 sub.classList.remove('expanded');
                 item.classList.remove('expanded');
             }
-            // 已展开且不在本页，正常跳转
+            // 已展开且不在本页也不在子页面 → 正常跳转
         });
     });
 })();
