@@ -2794,6 +2794,139 @@
         font-size: 0.8rem;
         color: var(--text-faint);
     }
+    /* 上传框内分隔线 */
+    .tv2-upload-divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        max-width: 320px;
+    }
+    .tv2-upload-divider-line {
+        flex: 1;
+        height: 1px;
+        background: rgba(255,255,255,0.08);
+    }
+    .tv2-upload-divider-text {
+        font-size: 0.72rem;
+        color: var(--text-dim);
+        font-weight: 500;
+    }
+    /* 云点播内联按钮 */
+    .tv2-vod-pick-inline {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: var(--text-secondary);
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.25s;
+        font-family: inherit;
+    }
+    .tv2-vod-pick-inline:hover {
+        color: #818cf8;
+        border-color: rgba(99,102,241,0.35);
+        background: rgba(99,102,241,0.08);
+    }
+    /* 已选视频状态 */
+    .tv2-upload-selected {
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 14px 20px;
+        background: rgba(99,102,241,0.06);
+        border: 1px solid rgba(99,102,241,0.2);
+        border-radius: 14px;
+        animation: tv2FadeInUp 0.35s ease;
+    }
+    @keyframes tv2FadeInUp {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .tv2-upload-selected-info {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+    }
+    .tv2-upload-selected-icon {
+        flex-shrink: 0;
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: rgba(168,85,247,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .tv2-upload-selected-text {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+    .tv2-upload-selected-name {
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .tv2-upload-selected-meta {
+        font-size: 0.72rem;
+        color: var(--text-muted);
+    }
+    .tv2-upload-selected-remove {
+        flex-shrink: 0;
+        width: 28px;
+        height: 28px;
+        border-radius: 7px;
+        background: transparent;
+        border: 1px solid rgba(255,255,255,0.08);
+        color: var(--text-muted);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+    }
+    .tv2-upload-selected-remove:hover {
+        color: #ef4444;
+        border-color: rgba(239,68,68,0.3);
+        background: rgba(239,68,68,0.06);
+    }
+    .tv2-upload-start-btn {
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 28px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: #fff;
+        background: linear-gradient(135deg, #a855f7, #6366f1);
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.25s;
+        box-shadow: 0 0 20px rgba(99,102,241,0.2);
+    }
+    .tv2-upload-start-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 0 32px rgba(99,102,241,0.35);
+    }
 
     /* ===== Three Steps Section ===== */
     .tv2-steps-section {
@@ -3397,12 +3530,37 @@
                                 <span class="tv2-upload-main" id="tv2UploadMain">拖拽视频到此处，或 <em>点击上传</em></span>
                                 <span class="tv2-upload-hint" id="tv2UploadHint">支持 MP4 / MOV / AVI / MKV 格式，最大 2GB</span>
                             </div>
+                            <!-- 分隔线 -->
+                            <div class="tv2-upload-divider">
+                                <span class="tv2-upload-divider-line"></span>
+                                <span class="tv2-upload-divider-text">或</span>
+                                <span class="tv2-upload-divider-line"></span>
+                            </div>
+                            <!-- 从云点播选择（框内） -->
+                            <button class="tv2-vod-pick-inline" id="tv2VodPickBtn" type="button">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 6C3 4.89543 3.89543 4 5 4H9L11 6H19C20.1046 6 21 6.89543 21 8V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V6Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 12L15 15L10 18V12Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                                从腾讯云点播选择
+                            </button>
                         </div>
-                        <!-- 从云点播选择 -->
-                        <button class="tv2-vod-pick-btn" id="tv2VodPickBtn" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;padding:10px 24px;font-size:0.85rem;font-weight:600;color:var(--text-secondary);background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;cursor:pointer;transition:all 0.25s;font-family:inherit;width:100%;max-width:480px;">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 6C3 4.89543 3.89543 4 5 4H9L11 6H19C20.1046 6 21 6.89543 21 8V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V6Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 12L15 15L10 18V12Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
-                            或从腾讯云点播选择
-                        </button>
+                        <!-- 已选视频信息 + 开始按钮（初始隐藏） -->
+                        <div class="tv2-upload-selected" id="tv2UploadSelected" style="display:none;">
+                            <div class="tv2-upload-selected-info">
+                                <div class="tv2-upload-selected-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z" stroke="#a855f7" stroke-width="1.5" stroke-linejoin="round"/><path d="M14 2V8H20" stroke="#a855f7" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 13L15 16L10 19V13Z" fill="#a855f7" opacity="0.4"/></svg>
+                                </div>
+                                <div class="tv2-upload-selected-text">
+                                    <span class="tv2-upload-selected-name" id="tv2SelectedName">video.mp4</span>
+                                    <span class="tv2-upload-selected-meta" id="tv2SelectedMeta">准备就绪</span>
+                                </div>
+                                <button class="tv2-upload-selected-remove" id="tv2SelectedRemove" title="移除">
+                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3L11 11M11 3L3 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                                </button>
+                            </div>
+                            <button class="tv2-upload-start-btn" id="tv2StartBtn">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4L12 8L6 12V4Z" fill="currentColor"/></svg>
+                                开始处理
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -4136,9 +4294,7 @@
         function openModal() { modal.style.display = 'flex'; selected.clear(); renderList(); }
         function closeModal() { modal.style.display = 'none'; }
 
-        openBtn.addEventListener('click', openModal);
-        openBtn.addEventListener('mouseenter', () => { openBtn.style.borderColor='rgba(99,102,241,0.35)'; openBtn.style.color='#818cf8'; });
-        openBtn.addEventListener('mouseleave', () => { openBtn.style.borderColor='rgba(255,255,255,0.08)'; openBtn.style.color='var(--text-secondary)'; });
+        openBtn.addEventListener('click', function(e) { e.stopPropagation(); openModal(); });
         closeBtn.addEventListener('click', closeModal);
         cancelBtn.addEventListener('click', closeModal);
         modal.addEventListener('click', e => { if(e.target === modal) closeModal(); });
@@ -4148,11 +4304,8 @@
             if (selected.size === 0) return;
             const name = vodVideos.find(v => selected.has(v.fileId))?.name || '云点播视频';
             closeModal();
-            // 模拟选中视频效果
-            const uploadMain = document.getElementById('tv2UploadMain');
-            const uploadHint = document.getElementById('tv2UploadHint');
-            if (uploadMain) uploadMain.innerHTML = `<em>☁️ ${name}</em>`;
-            if (uploadHint) uploadHint.textContent = `已从云点播选择 ${selected.size} 个视频`;
+            // 显示已选状态 + 开始按钮
+            window._tv2ShowSelected(name, '☁️ 来自云点播 · ' + selected.size + ' 个视频', 'vod');
         });
     })();
     </script>
@@ -6338,7 +6491,16 @@
         const main = document.getElementById('tv2Main');
         const uploadZone = document.getElementById('tv2UploadZone');
         const landingFileInput = document.getElementById('tv2LandingFileInput');
+        const selectedPanel = document.getElementById('tv2UploadSelected');
+        const selectedName = document.getElementById('tv2SelectedName');
+        const selectedMeta = document.getElementById('tv2SelectedMeta');
+        const removeBtn = document.getElementById('tv2SelectedRemove');
+        const startBtn = document.getElementById('tv2StartBtn');
         if (!landing || !uploadZone) return;
+
+        // 暂存选中的文件或来源
+        let pendingFile = null;
+        let pendingSource = null; // 'local' | 'vod'
 
         // Workflow mode: 'full' | 'erase' | 'subtitle' | 'voice'
         window.workflowMode = 'full';
@@ -6402,7 +6564,34 @@
             switchMode(urlMode);
         }
 
-        // Transition to editor, then trigger handleFile if a file was selected
+        // === 显示已选状态 ===
+        function showSelected(name, meta, source) {
+            pendingSource = source;
+            uploadZone.style.display = 'none';
+            if (selectedPanel) {
+                selectedPanel.style.display = '';
+                selectedName.textContent = name;
+                selectedMeta.textContent = meta;
+            }
+        }
+
+        // === 全局方法：供 VOD picker 调用 ===
+        window._tv2ShowSelected = function(name, meta, source) {
+            showSelected(name, meta, source);
+        };
+
+        // === 移除选择，恢复上传框 ===
+        function clearSelected() {
+            pendingFile = null;
+            pendingSource = null;
+            landingFileInput.value = '';
+            uploadZone.style.display = '';
+            if (selectedPanel) selectedPanel.style.display = 'none';
+        }
+
+        if (removeBtn) removeBtn.addEventListener('click', clearSelected);
+
+        // === 进入编辑器 ===
         function enterEditorWithFile(file) {
             landing.style.transition = 'opacity 0.35s, transform 0.35s';
             landing.style.opacity = '0';
@@ -6418,20 +6607,32 @@
             }, 350);
         }
 
-        // Click upload zone → use current workflowMode → open file picker
+        // === 开始按钮 → 进入编辑器 ===
+        if (startBtn) {
+            startBtn.addEventListener('click', function() {
+                enterEditorWithFile(pendingFile);
+            });
+        }
+
+        // Click upload zone → open file picker (不再直接进编辑器)
         uploadZone.addEventListener('click', function(e) {
             if (e.target === landingFileInput) return;
+            // 点击云点播按钮时不触发文件选择
+            if (e.target.closest('.tv2-vod-pick-inline')) return;
             landingFileInput.click();
         });
 
-        // File selected → enter editor with file
+        // File selected → 显示已选状态
         landingFileInput.addEventListener('change', function() {
             if (landingFileInput.files.length) {
-                enterEditorWithFile(landingFileInput.files[0]);
+                pendingFile = landingFileInput.files[0];
+                var f = pendingFile;
+                var sizeMB = (f.size / (1024 * 1024)).toFixed(1);
+                showSelected(f.name, sizeMB + ' MB · 本地文件', 'local');
             }
         });
 
-        // Drag & drop
+        // Drag & drop → 显示已选状态
         uploadZone.addEventListener('dragover', function(e) {
             e.preventDefault();
             uploadZone.classList.add('dragover');
@@ -6444,7 +6645,10 @@
             uploadZone.classList.remove('dragover');
             var files = e.dataTransfer.files;
             if (files.length) {
-                enterEditorWithFile(files[0]);
+                pendingFile = files[0];
+                var f = pendingFile;
+                var sizeMB = (f.size / (1024 * 1024)).toFixed(1);
+                showSelected(f.name, sizeMB + ' MB · 本地文件', 'local');
             }
         });
     })();
