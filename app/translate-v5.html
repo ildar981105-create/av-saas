@@ -2709,23 +2709,23 @@
     }
     .tv2-landing-hero {
         text-align: center;
-        padding: 32px 0 24px;
+        padding: 48px 0 36px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: flex-start;
     }
     .tv2-landing-hero h1 {
-        font-size: 1.9rem;
+        font-size: 2.2rem;
         font-weight: 800;
         line-height: 1.3;
-        margin-bottom: 8px;
+        margin-bottom: 10px;
     }
     .tv2-landing-hero p {
-        font-size: 0.9rem;
+        font-size: 0.95rem;
         color: var(--text-muted);
         max-width: 640px;
-        margin: 0 auto 20px;
+        margin: 0 auto 28px;
     }
     /* Primary Action Area */
     .tv2-landing-primary-action {
@@ -2743,14 +2743,14 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 16px;
-        padding: 36px 40px;
+        gap: 20px;
+        padding: 64px 40px;
         background: rgba(99,102,241,0.04);
         border: 2px dashed rgba(99,102,241,0.25);
         border-radius: 18px;
         cursor: pointer;
         transition: all 0.3s;
-        min-height: 180px;
+        min-height: 320px;
     }
     .tv2-upload-zone:hover {
         border-color: rgba(99,102,241,0.5);
@@ -2772,7 +2772,7 @@
         background: rgba(255,255,255,0.03);
         border: 1px solid rgba(255,255,255,0.06);
         border-radius: 12px;
-        margin-bottom: 20px;
+        margin-bottom: 28px;
     }
     .tv2-mode-tab {
         display: inline-flex;
@@ -2974,287 +2974,6 @@
         flex-shrink: 0;
         color: var(--text-dim);
         transition: all 0.3s;
-    }
-
-    /* ===== V5: 三卡片视频源选择 ===== */
-    .tv2-source-cards {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 12px;
-        width: 100%;
-        max-width: 900px;
-        margin: 0 auto 0;
-    }
-    .tv2-source-card {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 16px 18px;
-        background: rgba(255,255,255,0.02);
-        border: 1px solid rgba(255,255,255,0.08);
-        border-radius: 14px;
-        cursor: pointer;
-        transition: all 0.3s cubic-bezier(.4,0,.2,1);
-        font-family: inherit;
-        color: var(--text-secondary);
-        text-align: left;
-    }
-    .tv2-source-card:hover {
-        background: rgba(99,102,241,0.06);
-        border-color: rgba(99,102,241,0.25);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 20px rgba(99,102,241,0.08);
-    }
-    .tv2-source-card.active {
-        background: rgba(99,102,241,0.08);
-        border-color: rgba(99,102,241,0.35);
-        box-shadow: 0 4px 24px rgba(99,102,241,0.12);
-    }
-    .tv2-source-card-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-        font-size: 1.3rem;
-        background: rgba(99,102,241,0.08);
-        transition: all 0.3s;
-    }
-    .tv2-source-card.active .tv2-source-card-icon {
-        background: rgba(99,102,241,0.15);
-    }
-    .tv2-source-card-text {
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-        min-width: 0;
-    }
-    .tv2-source-card-title {
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: var(--text-primary);
-        white-space: nowrap;
-    }
-    .tv2-source-card-desc {
-        font-size: 0.68rem;
-        color: var(--text-dim);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    @media (max-width: 640px) {
-        .tv2-source-cards {
-            grid-template-columns: 1fr;
-        }
-    }
-
-    /* 展开内容区 */
-    .tv2-source-expand {
-        width: 100%;
-        max-width: 900px;
-        margin: 12px auto 0;
-        overflow: hidden;
-        transition: max-height 0.4s cubic-bezier(.4,0,.2,1), opacity 0.3s;
-        max-height: 0;
-        opacity: 0;
-    }
-    .tv2-source-expand.open {
-        max-height: 500px;
-        opacity: 1;
-    }
-    .tv2-source-expand-inner {
-        padding: 0;
-    }
-
-    /* ===== V5: 默认配置面板 ===== */
-    .tv2-config-panel {
-        width: 100%;
-        max-width: 900px;
-        margin: 20px auto 0;
-        border: 1px solid rgba(255,255,255,0.06);
-        border-radius: 14px;
-        background: rgba(255,255,255,0.02);
-        overflow: hidden;
-        transition: all 0.3s;
-    }
-    .tv2-config-toggle {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 14px 20px;
-        cursor: pointer;
-        transition: background 0.2s;
-        user-select: none;
-    }
-    .tv2-config-toggle:hover {
-        background: rgba(255,255,255,0.03);
-    }
-    .tv2-config-toggle-left {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-    .tv2-config-toggle-icon {
-        width: 28px;
-        height: 28px;
-        border-radius: 8px;
-        background: rgba(99,102,241,0.1);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #a855f7;
-        font-size: 0.85rem;
-    }
-    .tv2-config-toggle-text {
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: var(--text-primary);
-    }
-    .tv2-config-toggle-hint {
-        font-size: 0.7rem;
-        color: var(--text-dim);
-        margin-left: 8px;
-    }
-    .tv2-config-toggle-arrow {
-        width: 20px;
-        height: 20px;
-        color: var(--text-muted);
-        transition: transform 0.3s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .tv2-config-panel.open .tv2-config-toggle-arrow {
-        transform: rotate(180deg);
-    }
-    .tv2-config-body {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.4s cubic-bezier(.4,0,.2,1), padding 0.3s;
-        padding: 0 20px;
-    }
-    .tv2-config-panel.open .tv2-config-body {
-        max-height: 600px;
-        padding: 0 20px 20px;
-    }
-
-    /* 配置表单行 */
-    .tv2-config-group {
-        display: none;
-    }
-    .tv2-config-group.active {
-        display: block;
-    }
-    .tv2-config-group-title {
-        font-size: 0.75rem;
-        font-weight: 600;
-        color: var(--text-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin-bottom: 12px;
-        padding-bottom: 6px;
-        border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-    .tv2-config-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 10px 0;
-        border-bottom: 1px solid rgba(255,255,255,0.03);
-    }
-    .tv2-config-row:last-child {
-        border-bottom: none;
-    }
-    .tv2-config-label {
-        font-size: 0.82rem;
-        color: var(--text-secondary);
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-    .tv2-config-label-icon {
-        opacity: 0.5;
-        font-size: 0.9rem;
-    }
-    .tv2-config-value {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
-    .tv2-config-value select {
-        padding: 6px 28px 6px 10px;
-        font-size: 0.78rem;
-        color: var(--text-primary);
-        background: rgba(255,255,255,0.04);
-        border: 1px solid rgba(255,255,255,0.1);
-        border-radius: 8px;
-        font-family: inherit;
-        appearance: none;
-        -webkit-appearance: none;
-        cursor: pointer;
-        outline: none;
-        transition: border-color 0.2s;
-        background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%2394a3b8' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 8px center;
-    }
-    .tv2-config-value select:focus {
-        border-color: rgba(99,102,241,0.4);
-    }
-    .tv2-config-value input[type="text"] {
-        padding: 6px 10px;
-        font-size: 0.78rem;
-        color: var(--text-primary);
-        background: rgba(255,255,255,0.04);
-        border: 1px solid rgba(255,255,255,0.1);
-        border-radius: 8px;
-        font-family: inherit;
-        outline: none;
-        transition: border-color 0.2s;
-        width: 160px;
-    }
-    .tv2-config-value input[type="text"]:focus {
-        border-color: rgba(99,102,241,0.4);
-    }
-    .tv2-config-switch {
-        position: relative;
-        width: 36px;
-        height: 20px;
-        background: rgba(255,255,255,0.1);
-        border-radius: 10px;
-        cursor: pointer;
-        transition: background 0.3s;
-    }
-    .tv2-config-switch.on {
-        background: rgba(99,102,241,0.6);
-    }
-    .tv2-config-switch::after {
-        content: '';
-        position: absolute;
-        left: 2px;
-        top: 2px;
-        width: 16px;
-        height: 16px;
-        background: white;
-        border-radius: 50%;
-        transition: transform 0.3s;
-    }
-    .tv2-config-switch.on::after {
-        transform: translateX(16px);
-    }
-
-    /* 两列配置布局 */
-    .tv2-config-cols {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 0 32px;
-    }
-    @media (max-width: 640px) {
-        .tv2-config-cols {
-            grid-template-columns: 1fr;
-        }
     }
 
     /* ===== 任务导入弹窗 ===== */
@@ -4249,262 +3968,72 @@
                         </button>
                     </div>
 
-                    <!-- V5: 三卡片视频源选择 -->
-                    <input type="file" id="tv2LandingFileInput" accept="video/*" hidden>
-                    <div class="tv2-source-cards" id="tv2SourceCards">
-                        <div class="tv2-source-card active" data-source="local" id="tv2SourceLocal">
-                            <div class="tv2-source-card-icon">📤</div>
-                            <div class="tv2-source-card-text">
-                                <span class="tv2-source-card-title">本地上传</span>
-                                <span class="tv2-source-card-desc">拖拽或选择本地视频文件</span>
+                    <!-- 主操作区：上传 -->
+                    <div class="tv2-landing-primary-action">
+                        <div class="tv2-upload-zone" id="tv2UploadZone">
+                            <input type="file" id="tv2LandingFileInput" accept="video/*" hidden>
+                            <div class="tv2-upload-icon">
+                                <svg width="56" height="56" viewBox="0 0 36 36" fill="none"><path d="M18 6V22M18 6L24 12M18 6L12 12" stroke="url(#upGrad)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 24V28C6 29.1046 6.89543 30 8 30H28C29.1046 30 30 29.1046 30 28V24" stroke="url(#upGrad)" stroke-width="2.2" stroke-linecap="round"/><defs><linearGradient id="upGrad" x1="6" y1="6" x2="30" y2="30"><stop stop-color="#a855f7"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs></svg>
                             </div>
+                            <div class="tv2-upload-text">
+                                <span class="tv2-upload-main" id="tv2UploadMain">拖拽视频到此处，或 <em>点击上传</em></span>
+                                <span class="tv2-upload-hint" id="tv2UploadHint">支持 MP4 / MOV / AVI / MKV 格式，最大 2GB</span>
+                            </div>
+                            <!-- 分隔线 -->
+                            <div class="tv2-upload-divider">
+                                <span class="tv2-upload-divider-line"></span>
+                                <span class="tv2-upload-divider-text">或</span>
+                                <span class="tv2-upload-divider-line"></span>
+                            </div>
+                            <!-- 从云点播选择（框内） -->
+                            <button class="tv2-vod-pick-inline" id="tv2VodPickBtn" type="button">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 6C3 4.89543 3.89543 4 5 4H9L11 6H19C20.1046 6 21 6.89543 21 8V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V6Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 12L15 15L10 18V12Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                                从腾讯云点播选择
+                            </button>
                         </div>
-                        <div class="tv2-source-card" data-source="vod" id="tv2SourceVod">
-                            <div class="tv2-source-card-icon">☁️</div>
-                            <div class="tv2-source-card-text">
-                                <span class="tv2-source-card-title">云点播</span>
-                                <span class="tv2-source-card-desc">从腾讯云点播选择视频</span>
+                        <!-- 已选视频信息 + 开始按钮（初始隐藏） -->
+                        <div class="tv2-upload-selected" id="tv2UploadSelected" style="display:none;">
+                            <div class="tv2-upload-selected-info">
+                                <div class="tv2-upload-selected-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z" stroke="#a855f7" stroke-width="1.5" stroke-linejoin="round"/><path d="M14 2V8H20" stroke="#a855f7" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 13L15 16L10 19V13Z" fill="#a855f7" opacity="0.4"/></svg>
+                                </div>
+                                <div class="tv2-upload-selected-text">
+                                    <span class="tv2-upload-selected-name" id="tv2SelectedName">video.mp4</span>
+                                    <span class="tv2-upload-selected-meta" id="tv2SelectedMeta">准备就绪</span>
+                                </div>
+                                <button class="tv2-upload-selected-remove" id="tv2SelectedRemove" title="移除">
+                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3L11 11M11 3L3 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                                </button>
                             </div>
-                        </div>
-                        <div class="tv2-source-card" data-source="import" id="tv2SourceImport">
-                            <div class="tv2-source-card-icon">🔄</div>
-                            <div class="tv2-source-card-text">
-                                <span class="tv2-source-card-title">导入任务</span>
-                                <span class="tv2-source-card-desc">导入已完成的译制任务</span>
-                            </div>
+                            <button class="tv2-upload-start-btn" id="tv2StartBtn">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4L12 8L6 12V4Z" fill="currentColor"/></svg>
+                                开始处理
+                            </button>
                         </div>
                     </div>
 
-                    <!-- V5: 可切换的展开内容区 -->
-                    <div class="tv2-source-expand open" id="tv2SourceExpand">
-                        <div class="tv2-source-expand-inner">
-                            <!-- 本地上传区域（默认展开） -->
-                            <div class="tv2-landing-primary-action" id="tv2SourceContentLocal">
-                                <div class="tv2-upload-zone" id="tv2UploadZone">
-                                    <div class="tv2-upload-icon">
-                                        <svg width="44" height="44" viewBox="0 0 36 36" fill="none"><path d="M18 6V22M18 6L24 12M18 6L12 12" stroke="url(#upGrad)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 24V28C6 29.1046 6.89543 30 8 30H28C29.1046 30 30 29.1046 30 28V24" stroke="url(#upGrad)" stroke-width="2.2" stroke-linecap="round"/><defs><linearGradient id="upGrad" x1="6" y1="6" x2="30" y2="30"><stop stop-color="#a855f7"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs></svg>
-                                    </div>
-                                    <div class="tv2-upload-text">
-                                        <span class="tv2-upload-main" id="tv2UploadMain">拖拽视频到此处，或 <em>点击上传</em></span>
-                                        <span class="tv2-upload-hint" id="tv2UploadHint">支持 MP4 / MOV / AVI / MKV 格式，最大 2GB</span>
-                                    </div>
-                                </div>
-                                <!-- 已选视频信息 + 开始按钮（初始隐藏） -->
-                                <div class="tv2-upload-selected" id="tv2UploadSelected" style="display:none;">
-                                    <div class="tv2-upload-selected-info">
-                                        <div class="tv2-upload-selected-icon">
-                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z" stroke="#a855f7" stroke-width="1.5" stroke-linejoin="round"/><path d="M14 2V8H20" stroke="#a855f7" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 13L15 16L10 19V13Z" fill="#a855f7" opacity="0.4"/></svg>
-                                        </div>
-                                        <div class="tv2-upload-selected-text">
-                                            <span class="tv2-upload-selected-name" id="tv2SelectedName">video.mp4</span>
-                                            <span class="tv2-upload-selected-meta" id="tv2SelectedMeta">准备就绪</span>
-                                        </div>
-                                        <button class="tv2-upload-selected-remove" id="tv2SelectedRemove" title="移除">
-                                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3L11 11M11 3L3 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                                        </button>
-                                    </div>
-                                    <button class="tv2-upload-start-btn" id="tv2StartBtn">
-                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4L12 8L6 12V4Z" fill="currentColor"/></svg>
-                                        开始处理
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- 云点播提示区域（初始隐藏） -->
-                            <div class="tv2-landing-primary-action" id="tv2SourceContentVod" style="display:none;">
-                                <button class="tv2-import-task-btn" id="tv2VodPickBtn" type="button">
-                                    <div class="tv2-import-task-icon" style="background:rgba(99,102,241,0.1);color:#818cf8;">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 6C3 4.89543 3.89543 4 5 4H9L11 6H19C20.1046 6 21 6.89543 21 8V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V6Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 12L15 15L10 18V12Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
-                                    </div>
-                                    <div class="tv2-import-task-text">
-                                        <span class="tv2-import-task-title">从腾讯云点播选择视频</span>
-                                        <span class="tv2-import-task-desc">浏览您的云点播媒资库，选择一个或多个视频</span>
-                                    </div>
-                                    <svg class="tv2-import-task-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                </button>
-                            </div>
-
-                            <!-- 导入任务提示区域（初始隐藏） -->
-                            <div class="tv2-landing-primary-action" id="tv2SourceContentImport" style="display:none;">
-                                <button class="tv2-import-task-btn" id="tv2ImportTaskBtn" type="button">
-                                    <div class="tv2-import-task-icon" style="background:rgba(16,185,129,0.1);color:#34d399;">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                                            <path d="M12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                                            <path d="M16 3V8H21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                            <path d="M21 3L16 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                                            <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </svg>
-                                    </div>
-                                    <div class="tv2-import-task-text">
-                                        <span class="tv2-import-task-title">导入已完成的译制任务</span>
-                                        <span class="tv2-import-task-desc">从云点播 / MPS / FrameX 导入，直接进入精调</span>
-                                    </div>
-                                    <svg class="tv2-import-task-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                </button>
-                            </div>
+                    <!-- 导入已完成任务区域 -->
+                    <div class="tv2-import-section">
+                        <div class="tv2-import-divider">
+                            <span class="tv2-import-divider-line"></span>
+                            <span class="tv2-import-divider-text">或者，导入已完成的任务</span>
+                            <span class="tv2-import-divider-line"></span>
                         </div>
-                    </div>
-
-                    <!-- V5: 默认配置面板（可折叠） -->
-                    <div class="tv2-config-panel" id="tv2ConfigPanel">
-                        <div class="tv2-config-toggle" id="tv2ConfigToggle">
-                            <div class="tv2-config-toggle-left">
-                                <div class="tv2-config-toggle-icon">⚙</div>
-                                <span class="tv2-config-toggle-text">默认配置</span>
-                                <span class="tv2-config-toggle-hint">（可选，不设置则使用默认值）</span>
+                        <button class="tv2-import-task-btn" id="tv2ImportTaskBtn" type="button">
+                            <div class="tv2-import-task-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                    <path d="M16 3V8H21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M21 3L16 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                    <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
                             </div>
-                            <div class="tv2-config-toggle-arrow">
-                                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <div class="tv2-import-task-text">
+                                <span class="tv2-import-task-title">导入已完成的译制任务</span>
+                                <span class="tv2-import-task-desc">从云点播 / MPS / FrameX 导入，直接进入精调</span>
                             </div>
-                        </div>
-                        <div class="tv2-config-body" id="tv2ConfigBody">
-                            <!-- 一键译制 配置 -->
-                            <div class="tv2-config-group active" id="tv2ConfigFull">
-                                <div class="tv2-config-cols">
-                                    <div>
-                                        <div class="tv2-config-group-title">🎙 配音设置</div>
-                                        <div class="tv2-config-row">
-                                            <span class="tv2-config-label"><span class="tv2-config-label-icon">🎤</span>配音类型</span>
-                                            <div class="tv2-config-value">
-                                                <select id="cfgVoiceType"><option value="clone">克隆原声</option><option value="natural-m">自然男声</option><option value="natural-f">自然女声</option><option value="none">不配音</option></select>
-                                            </div>
-                                        </div>
-                                        <div class="tv2-config-row">
-                                            <span class="tv2-config-label"><span class="tv2-config-label-icon">🌐</span>源语言</span>
-                                            <div class="tv2-config-value">
-                                                <select id="cfgSrcLang"><option value="zh">中文</option><option value="en">英语</option><option value="ja">日语</option><option value="ko">韩语</option></select>
-                                            </div>
-                                        </div>
-                                        <div class="tv2-config-row">
-                                            <span class="tv2-config-label"><span class="tv2-config-label-icon">🎯</span>目标语言</span>
-                                            <div class="tv2-config-value">
-                                                <select id="cfgTgtLang"><option value="en">英语</option><option value="ja">日语</option><option value="ko">韩语</option><option value="fr">法语</option><option value="de">德语</option><option value="es">西班牙语</option><option value="th">泰语</option><option value="vi">越南语</option></select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="tv2-config-group-title">📝 字幕设置</div>
-                                        <div class="tv2-config-row">
-                                            <span class="tv2-config-label"><span class="tv2-config-label-icon">📄</span>字幕来源</span>
-                                            <div class="tv2-config-value">
-                                                <select id="cfgSubSource"><option value="asr">AI 语音识别</option><option value="ocr">OCR 识别</option><option value="file">上传字幕文件</option></select>
-                                            </div>
-                                        </div>
-                                        <div class="tv2-config-row">
-                                            <span class="tv2-config-label"><span class="tv2-config-label-icon">🧹</span>擦除原字幕</span>
-                                            <div class="tv2-config-value">
-                                                <div class="tv2-config-switch on" id="cfgEraseSwitch" data-key="eraseEnabled"></div>
-                                            </div>
-                                        </div>
-                                        <div class="tv2-config-row">
-                                            <span class="tv2-config-label"><span class="tv2-config-label-icon">🔲</span>擦除区域</span>
-                                            <div class="tv2-config-value">
-                                                <select id="cfgEraseArea"><option value="auto">自动检测</option><option value="bottom">底部区域</option><option value="top">顶部区域</option><option value="custom">自定义</option></select>
-                                            </div>
-                                        </div>
-                                        <div class="tv2-config-row">
-                                            <span class="tv2-config-label"><span class="tv2-config-label-icon">📺</span>压制字幕</span>
-                                            <div class="tv2-config-value">
-                                                <div class="tv2-config-switch on" id="cfgBurnSwitch" data-key="burnEnabled"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 擦除字幕 配置 -->
-                            <div class="tv2-config-group" id="tv2ConfigErase">
-                                <div class="tv2-config-group-title">🧹 擦除字幕配置</div>
-                                <div class="tv2-config-row">
-                                    <span class="tv2-config-label"><span class="tv2-config-label-icon">⚡</span>擦除方式</span>
-                                    <div class="tv2-config-value">
-                                        <select id="cfgEraseMethod"><option value="ai-repair">AI 修复填充</option><option value="blur">高斯模糊</option><option value="solid">纯色填充</option></select>
-                                    </div>
-                                </div>
-                                <div class="tv2-config-row">
-                                    <span class="tv2-config-label"><span class="tv2-config-label-icon">🤖</span>去字幕模型</span>
-                                    <div class="tv2-config-value">
-                                        <select id="cfgEraseModel"><option value="high">高质量（推荐）</option><option value="standard">标准</option><option value="fast">快速</option></select>
-                                    </div>
-                                </div>
-                                <div class="tv2-config-row">
-                                    <span class="tv2-config-label"><span class="tv2-config-label-icon">🔲</span>自动擦除区域</span>
-                                    <div class="tv2-config-value">
-                                        <select id="cfgEraseAutoArea"><option value="auto">AI 自动检测</option><option value="bottom">底部 20%</option><option value="top">顶部 20%</option><option value="full">全画面</option></select>
-                                    </div>
-                                </div>
-                                <div class="tv2-config-row">
-                                    <span class="tv2-config-label"><span class="tv2-config-label-icon">➕</span>添加擦除区域</span>
-                                    <div class="tv2-config-value">
-                                        <select id="cfgEraseAddArea"><option value="none">不添加</option><option value="watermark">水印区域</option><option value="custom">自定义坐标</option></select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 字幕提取 配置 -->
-                            <div class="tv2-config-group" id="tv2ConfigSubtitle">
-                                <div class="tv2-config-group-title">📝 字幕提取配置</div>
-                                <div class="tv2-config-row">
-                                    <span class="tv2-config-label"><span class="tv2-config-label-icon">📄</span>字幕来源</span>
-                                    <div class="tv2-config-value">
-                                        <select id="cfgSubExtractSource"><option value="ocr">OCR 画面识别</option><option value="asr">ASR 语音识别</option><option value="file">上传字幕文件</option></select>
-                                    </div>
-                                </div>
-                                <div class="tv2-config-row">
-                                    <span class="tv2-config-label"><span class="tv2-config-label-icon">🌐</span>源语言</span>
-                                    <div class="tv2-config-value">
-                                        <select id="cfgSubSrcLang"><option value="zh">中文</option><option value="en">英语</option><option value="ja">日语</option><option value="ko">韩语</option><option value="auto">自动检测</option></select>
-                                    </div>
-                                </div>
-                                <div class="tv2-config-row">
-                                    <span class="tv2-config-label"><span class="tv2-config-label-icon">🎯</span>翻译目标语言</span>
-                                    <div class="tv2-config-value">
-                                        <select id="cfgSubTgtLang"><option value="en">英语</option><option value="ja">日语</option><option value="ko">韩语</option><option value="fr">法语</option><option value="es">西班牙语</option><option value="none">不翻译（仅提取）</option></select>
-                                    </div>
-                                </div>
-                                <div class="tv2-config-row">
-                                    <span class="tv2-config-label"><span class="tv2-config-label-icon">📃</span>字幕文件格式</span>
-                                    <div class="tv2-config-value">
-                                        <select id="cfgSubFormat"><option value="srt">SRT</option><option value="ass">ASS</option><option value="vtt">VTT</option><option value="txt">纯文本</option></select>
-                                    </div>
-                                </div>
-                                <div class="tv2-config-row">
-                                    <span class="tv2-config-label"><span class="tv2-config-label-icon">🔤</span>字幕类型</span>
-                                    <div class="tv2-config-value">
-                                        <select id="cfgSubType"><option value="bilingual">双语对照</option><option value="target-only">仅译文</option><option value="source-only">仅原文</option></select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 添加字幕 配置 -->
-                            <div class="tv2-config-group" id="tv2ConfigVoiceMode">
-                                <div class="tv2-config-group-title">📺 添加字幕配置</div>
-                                <div class="tv2-config-row">
-                                    <span class="tv2-config-label"><span class="tv2-config-label-icon">🎬</span>字幕模式</span>
-                                    <div class="tv2-config-value">
-                                        <select id="cfgAddSubMode"><option value="burn">压制（硬字幕）</option><option value="external">外挂（软字幕）</option></select>
-                                    </div>
-                                </div>
-                                <div class="tv2-config-row">
-                                    <span class="tv2-config-label"><span class="tv2-config-label-icon">📄</span>字幕来源</span>
-                                    <div class="tv2-config-value">
-                                        <select id="cfgAddSubSource"><option value="asr">AI 语音识别</option><option value="file">上传字幕文件</option><option value="input">手动输入</option></select>
-                                    </div>
-                                </div>
-                                <div class="tv2-config-row">
-                                    <span class="tv2-config-label"><span class="tv2-config-label-icon">📂</span>字幕路径</span>
-                                    <div class="tv2-config-value">
-                                        <input type="text" id="cfgAddSubPath" placeholder="可选，如 /path/subtitle.srt">
-                                    </div>
-                                </div>
-                                <div class="tv2-config-row">
-                                    <span class="tv2-config-label"><span class="tv2-config-label-icon">🎨</span>字幕样式</span>
-                                    <div class="tv2-config-value">
-                                        <select id="cfgAddSubStyle"><option value="default">默认白底黑字</option><option value="outline">描边样式</option><option value="shadow">阴影样式</option><option value="box">方框背景</option></select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            <svg class="tv2-import-task-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </button>
                     </div>
                 </div>
 
@@ -5843,8 +5372,6 @@
 
         function buildConfigChat() {
             chatFlow.innerHTML = '';
-            const preset = window.presetConfig;
-            const mode = window.workflowMode || 'full';
 
             // User bubble: uploaded
             appendBubble('user', `已上传 <strong>${uploadedFileName}</strong>`, 0);
@@ -5859,15 +5386,14 @@
                     </div>
                 </div>
                 视频分析完成！检测到语言: <strong>中文</strong> | 时长: <strong>01:30</strong><br>
-                ${mode === 'full'
+                ${(window.workflowMode || 'full') === 'full'
                     ? '即将自动完成 <strong>擦除字幕 → 文案翻译 → AI 配音</strong> 全流程，完成后可在精调面板中微调细节。'
-                    : (mode === 'erase'
+                    : (window.workflowMode === 'erase'
                         ? '即将自动执行 <strong>擦除字幕</strong>，完成后可在精调面板中微调细节。'
-                        : mode === 'subtitle'
+                        : window.workflowMode === 'subtitle'
                             ? '即将自动执行 <strong>添加字幕</strong>，完成后可在精调面板中微调细节。'
                             : '即将自动执行 <strong>克隆配音</strong>，完成后可在精调面板中微调细节。')
-                }
-                ${preset ? '<div style="margin-top:8px;padding:8px 12px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);border-radius:8px;font-size:0.78rem;color:#34d399;display:flex;align-items:center;gap:6px;"><span>✓</span> 已应用预设配置</div>' : ''}`;
+                }`;
             appendBubble('ai', analysisHtml, 0.3);
 
             // Set thumb to a representative frame
@@ -5879,6 +5405,7 @@
             }, 100);
 
             // Set active steps based on workflow mode
+            const mode = window.workflowMode || 'full';
             if (mode === 'full') {
                 activeSteps = ['erase', 'subtitle', 'voice'];
             } else {
@@ -5982,7 +5509,6 @@
             const meta = stepMeta[step];
             const stepNum = currentStep + 1;
             const totalSteps = activeSteps.length;
-            const preset = window.presetConfig;
 
             // Hide previous step previews when entering a new step
             const stepOrder = ['erase', 'subtitle', 'voice'];
@@ -5995,13 +5521,12 @@
             });
 
             // Show a brief step header bubble, then auto-start AI scan
-            const descText = preset ? meta.preDesc : meta.autoDesc;
             const bubbleHtml = `
                 <div class="chat-step-badge ${meta.badgeClass}">步骤 ${stepNum} / ${totalSteps}</div>
                 <div class="chat-features">
                     <div class="chat-feature-card selected" style="pointer-events:none;">
                         <div class="chat-feature-icon ${meta.iconClass}">${meta.icon}</div>
-                        <div class="chat-feature-info"><h4>${meta.title}</h4><p>${descText}</p></div>
+                        <div class="chat-feature-info"><h4>${meta.title}</h4><p>${meta.autoDesc}</p></div>
                     </div>
                 </div>`;
             appendBubble('ai', bubbleHtml, 0);
@@ -6320,15 +5845,6 @@
 
         /* ===== Subtitle Step: Phase 2B — Translation Config ===== */
         function startTranslationPhase() {
-            const preset = window.presetConfig;
-            if (preset) {
-                // 有预设配置时，跳过翻译配置显示，直接开始翻译
-                appendBubble('ai', `文案已就绪，使用预设配置自动翻译中...`, 0);
-                scrollChat();
-                setTimeout(() => runTranslationScan(), 600);
-                return;
-            }
-
             const translateConfigHtml = `
                 <div class="chat-translate-config">
                     <div class="ctc-title">
@@ -6640,11 +6156,8 @@
             });
 
             // Chat: tell user processing is happening
-            const preset = window.presetConfig;
-            if (!preset) {
-                appendBubble('ai', `正在左侧执行 <strong>${{erase:'字幕擦除',subtitle:'字幕生成',voice:'配音生成'}[step]}</strong>，请稍候...`, 0);
-                scrollChat();
-            }
+            appendBubble('ai', `正在左侧执行 <strong>${{erase:'字幕擦除',subtitle:'字幕生成',voice:'配音生成'}[step]}</strong>，请稍候...`, 0);
+            scrollChat();
 
             // Step-specific: erase → trigger burntSub erasing animation
             if (step === 'erase') {
@@ -6715,19 +6228,13 @@
                     const nextStep = nextIdx < activeSteps.length ? activeSteps[nextIdx] : null;
                     const nextLabelMap = { erase: '擦除原字幕', subtitle: '文案识别与翻译', voice: 'AI 配音生成' };
                     const doneLabelMap = { erase: '字幕擦除', subtitle: '字幕生成', voice: '配音生成' };
-                    const preset2 = window.presetConfig;
-                    if (preset2 && nextStep) {
-                        // 有预设时合并完成+下一步为单条消息
-                        appendBubble('ai', `<div style="display:flex;align-items:center;gap:8px;"><span style="color:#34d399;">✓</span> <strong>${doneLabelMap[step]}</strong>已完成，自动继续 <strong>${nextLabelMap[nextStep]}</strong>...</div>`, 0);
+                    let transitionMsg = `<div style="display:flex;align-items:center;gap:8px;"><span style="color:#34d399;">✓</span> <strong>${doneLabelMap[step]}</strong>已完成</div>`;
+                    if (nextStep) {
+                        transitionMsg += `<br>接下来自动执行 <strong>${nextLabelMap[nextStep]}</strong>...`;
                     } else {
-                        let transitionMsg = `<div style="display:flex;align-items:center;gap:8px;"><span style="color:#34d399;">✓</span> <strong>${doneLabelMap[step]}</strong>已完成</div>`;
-                        if (nextStep) {
-                            transitionMsg += `<br>接下来自动执行 <strong>${nextLabelMap[nextStep]}</strong>...`;
-                        } else {
-                            transitionMsg += `<br>全部步骤已完成！`;
-                        }
-                        appendBubble('ai', transitionMsg, 0);
+                        transitionMsg += `<br>全部步骤已完成！`;
                     }
+                    appendBubble('ai', transitionMsg, 0);
                     scrollChat();
 
                     // Auto-advance after delay
@@ -7846,7 +7353,7 @@
     })();
     </script>
     <script>
-    // Landing → Editor transition (file-first) + V5 Source Cards + Config Panel
+    // Landing → Editor transition (file-first)
     (function() {
         const landing = document.getElementById('tv2Landing');
         const topbar = document.getElementById('tv2Topbar');
@@ -7866,103 +7373,6 @@
 
         // Workflow mode: 'full' | 'erase' | 'subtitle' | 'voice'
         window.workflowMode = 'full';
-
-        // ===== V5: Source Card Switching =====
-        const sourceCards = document.querySelectorAll('.tv2-source-card');
-        const sourceExpand = document.getElementById('tv2SourceExpand');
-        const sourceContents = {
-            local: document.getElementById('tv2SourceContentLocal'),
-            vod: document.getElementById('tv2SourceContentVod'),
-            import: document.getElementById('tv2SourceContentImport')
-        };
-        let currentSource = 'local';
-
-        function switchSource(source) {
-            currentSource = source;
-            sourceCards.forEach(c => c.classList.toggle('active', c.dataset.source === source));
-            Object.keys(sourceContents).forEach(key => {
-                if (sourceContents[key]) {
-                    sourceContents[key].style.display = key === source ? '' : 'none';
-                }
-            });
-            sourceExpand.classList.add('open');
-        }
-
-        sourceCards.forEach(card => {
-            card.addEventListener('click', () => switchSource(card.dataset.source));
-        });
-
-        // ===== V5: Config Panel Toggle =====
-        const configPanel = document.getElementById('tv2ConfigPanel');
-        const configToggle = document.getElementById('tv2ConfigToggle');
-        if (configToggle) {
-            configToggle.addEventListener('click', () => {
-                configPanel.classList.toggle('open');
-            });
-        }
-
-        // Config group switching based on mode tabs
-        const modeToConfigMap = {
-            full: 'tv2ConfigFull',
-            erase: 'tv2ConfigErase',
-            subtitle: 'tv2ConfigSubtitle',
-            voice: 'tv2ConfigVoiceMode'
-        };
-
-        function switchConfigGroup(mode) {
-            document.querySelectorAll('.tv2-config-group').forEach(g => g.classList.remove('active'));
-            const targetId = modeToConfigMap[mode];
-            if (targetId) {
-                const target = document.getElementById(targetId);
-                if (target) target.classList.add('active');
-            }
-        }
-
-        // Config switch (toggle) buttons
-        document.querySelectorAll('.tv2-config-switch').forEach(sw => {
-            sw.addEventListener('click', () => sw.classList.toggle('on'));
-        });
-
-        // ===== V5: Collect preset config before entering editor =====
-        function collectPresetConfig() {
-            const mode = window.workflowMode || 'full';
-            const config = { mode: mode };
-
-            if (mode === 'full') {
-                config.voiceType = document.getElementById('cfgVoiceType')?.value || 'clone';
-                config.srcLang = document.getElementById('cfgSrcLang')?.value || 'zh';
-                config.tgtLang = document.getElementById('cfgTgtLang')?.value || 'en';
-                config.subSource = document.getElementById('cfgSubSource')?.value || 'asr';
-                config.eraseEnabled = document.getElementById('cfgEraseSwitch')?.classList.contains('on') ?? true;
-                config.eraseArea = document.getElementById('cfgEraseArea')?.value || 'auto';
-                config.burnEnabled = document.getElementById('cfgBurnSwitch')?.classList.contains('on') ?? true;
-            } else if (mode === 'erase') {
-                config.eraseMethod = document.getElementById('cfgEraseMethod')?.value || 'ai-repair';
-                config.eraseModel = document.getElementById('cfgEraseModel')?.value || 'high';
-                config.eraseAutoArea = document.getElementById('cfgEraseAutoArea')?.value || 'auto';
-                config.eraseAddArea = document.getElementById('cfgEraseAddArea')?.value || 'none';
-            } else if (mode === 'subtitle') {
-                config.subExtractSource = document.getElementById('cfgSubExtractSource')?.value || 'ocr';
-                config.subSrcLang = document.getElementById('cfgSubSrcLang')?.value || 'zh';
-                config.subTgtLang = document.getElementById('cfgSubTgtLang')?.value || 'en';
-                config.subFormat = document.getElementById('cfgSubFormat')?.value || 'srt';
-                config.subType = document.getElementById('cfgSubType')?.value || 'bilingual';
-            } else if (mode === 'voice') {
-                config.addSubMode = document.getElementById('cfgAddSubMode')?.value || 'burn';
-                config.addSubSource = document.getElementById('cfgAddSubSource')?.value || 'asr';
-                config.addSubPath = document.getElementById('cfgAddSubPath')?.value || '';
-                config.addSubStyle = document.getElementById('cfgAddSubStyle')?.value || 'default';
-            }
-
-            // Only store if config panel was opened (user made changes)
-            const panelWasOpened = configPanel && configPanel.classList.contains('open');
-            if (panelWasOpened) {
-                window.presetConfig = config;
-            } else {
-                window.presetConfig = null;
-            }
-            return config;
-        }
 
         // === Mode Tab Copy Data ===
         var modeCopy = {
@@ -8007,8 +7417,6 @@
             document.querySelectorAll('.tv2-mode-tab').forEach(function(tab) {
                 tab.classList.toggle('active', tab.dataset.mode === mode);
             });
-            // V5: Switch config group
-            switchConfigGroup(mode);
         }
 
         // Tab click → switch mode (does NOT open file picker immediately)
@@ -8043,7 +7451,6 @@
 
         // === 全局方法：供 VOD picker 直接进入编辑器 ===
         window._tv2EnterEditor = function(name, source) {
-            collectPresetConfig();
             enterEditorWithFile(null, name);
         };
 
@@ -8079,7 +7486,6 @@
 
         // === 进入编辑器 ===
         function enterEditorWithFile(file, vodFileName) {
-            collectPresetConfig();
             landing.style.transition = 'opacity 0.35s, transform 0.35s';
             landing.style.opacity = '0';
             landing.style.transform = 'translateY(-20px)';
@@ -8102,7 +7508,6 @@
         // === 开始按钮 → 进入编辑器 ===
         if (startBtn) {
             startBtn.addEventListener('click', function() {
-                collectPresetConfig();
                 enterEditorWithFile(pendingFile);
             });
         }
@@ -8110,6 +7515,8 @@
         // Click upload zone → open file picker (不再直接进编辑器)
         uploadZone.addEventListener('click', function(e) {
             if (e.target === landingFileInput) return;
+            // 点击云点播按钮时不触发文件选择
+            if (e.target.closest('.tv2-vod-pick-inline')) return;
             landingFileInput.click();
         });
 
@@ -8117,7 +7524,6 @@
         landingFileInput.addEventListener('change', function() {
             if (landingFileInput.files.length) {
                 pendingFile = landingFileInput.files[0];
-                collectPresetConfig();
                 enterEditorWithFile(pendingFile);
             }
         });
@@ -8136,7 +7542,6 @@
             var files = e.dataTransfer.files;
             if (files.length) {
                 pendingFile = files[0];
-                collectPresetConfig();
                 enterEditorWithFile(pendingFile);
             }
         });
